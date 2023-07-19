@@ -1,0 +1,98 @@
+:root {
+    --gray-text-color: #6A6A6A;
+    --primary-dark-color: #292929;
+    --vine-color: #6A1E1E;
+    --alternative-gray: #9C9C9C;
+    --background-color: #E1E1E1;
+    --background-alternative-color: #FFFFE0;
+}
+
+h1 {
+    color: var(--primary-dark-color);
+}
+
+h2,
+p {
+    color: var(--primary-dark-color);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+
+input {
+    outline: none;
+}
+
+.linear-gradient {
+    background: linear-gradient(180deg, #C55300, #D4AA3C);
+}
+
+.inset-shadow {
+    box-shadow: inset 3px 3px 3px #00000020, 1px 1px 3px #00000010;
+}
+
+.inputsBase {
+    height: 2.5rem;
+    padding-top: 1rem;
+    padding-left: 6px;
+    width: 250px;
+    border-radius: 6px;
+    background-color: #00000090;
+    box-shadow: 5px 5px 5px #000;
+    opacity: .8;
+    position: relative;
+}
+
+.inputSelected {
+    border-bottom: 6px solid #C55300;
+}
+
+.labelBase {
+    font-size: 12px;
+    color: #FFF;
+    position: relative;
+    top: 1rem;
+    left: 1rem;
+}
+
+/* ANIMAÇÃO DO LOADING */
+.loadingAnimate {
+    animation: animateLoading 2s infinite linear backwards;
+}
+
+@keyframes animateLoading {
+    0% {
+        transform: rotate(0deg);
+        top: -90px;
+    }
+
+    25% {
+        transform: rotate(6deg);
+        top: 85px;
+    }
+
+    50% {
+        transform: rotate(33deg);
+        top: 190px;
+    }
+
+    75% {
+        top: 270px;
+    }
+
+    100% {
+        transform: rotate(90deg);
+        bottom: 300px;
+    }
+}
+
+.shadowToCart {
+    box-shadow: 0px 3px 2px #29292940;
+}
+
+.selectedCard {
+    border: 3px solid #98FB98 ;
+}

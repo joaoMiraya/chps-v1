@@ -16,7 +16,7 @@ import { setCloseMenu, setOpenMenu } from './services/redux/app-state/appSlice';
 import Header from "./components/partials/Header";
 import Footer from "./components/partials/Footer";
 import MenuHamb from "./components/utils/menus/MenuHamb";
-import MenuFixed from "./components/utils/menus/menuFixed";
+import MenuFixed from "./components/utils/menus/MenuFixed";
 
 
 function App() {

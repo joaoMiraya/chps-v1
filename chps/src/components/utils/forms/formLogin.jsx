@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import SpinnerLoading from '../spinnerLoading';
+
 import { userLogin, authGoogle } from '../../../services/redux/users/authSlice';
 
 
@@ -88,7 +88,11 @@ function LoginForm({ handleFocusInput, handleChangeForm }) {
                         <span className="text-sm cursor-pointer text-center">Esqueci minha senha!</span>
 
                         <button className="bg-black py-2 px-16 rounded-md " type="submit">
-                            {isSubmitting ? <SpinnerLoading /> : 'Enviar'}
+                            {isSubmitting ?
+                                <div className="spinner-border h-6 w-6" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                                : 'Enviar'}
                         </button>
 
                         <span onClick={handleChangeForm} className="text-sm cursor-pointer underline">Não possuí cadastro? Crie sua conta! </span>

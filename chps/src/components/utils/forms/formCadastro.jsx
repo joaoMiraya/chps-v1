@@ -7,7 +7,6 @@ import * as yup from "yup";
 
 import { userRegister } from '../../../services/redux/users/registerSlice';
 
-import SpinnerLoading from '../spinnerLoading';
 
 
 
@@ -181,7 +180,11 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="submit"
                         disabled={formState.isSubmitting}
                     >
-                        {formState.isSubmitting ? <SpinnerLoading /> : 'Enviar'}
+                        {formState.isSubmitting ?
+                            <div className="spinner-border h-6 w-6" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                            : 'Enviar'}
                     </button>
                 </div>
             </form>

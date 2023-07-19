@@ -7,9 +7,7 @@ import { CgProfile } from 'react-icons/cg';
 
 function MenuFixed({ menuFixedRef }) {
     MenuFixed.propTypes = {
-        menuFixedRef: PropTypes.shape({
-            current: PropTypes.instanceOf(Element).isRequired
-        }).isRequired
+        menuFixedRef: PropTypes.instanceOf(Object).isRequired,
     };
     return (
         <nav ref={menuFixedRef}>

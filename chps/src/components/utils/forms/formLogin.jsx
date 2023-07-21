@@ -56,7 +56,7 @@ function LoginForm({ handleFocusInput, handleChangeForm }) {
             </Helmet>
             <h1 className="text-3xl font-semibold bg-gradient-to-r from-red-900 to-[#D4AA3C] bg-clip-text text-transparent">Faça seu Login</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="container flex flex-col ">
+                <div className="container flex flex-col  ">
                     <label className="labelBase" htmlFor="emailToLogin">Seu e-mail:</label>
                     <input
                         ref={emailLoginRef}
@@ -68,8 +68,8 @@ function LoginForm({ handleFocusInput, handleChangeForm }) {
                         onBlur={() => handleFocusInput(emailLoginRef)}
                         {...register("emailToLogin")}
                     />
-                    <p className=' text-sm text-center mt-2'>{errors.emailToLogin?.message}</p>
-                    <p className=' text-sm text-center mt-2 '>{error}</p>
+                    <p className=' text-sm text-center mt-2 text-white'>{errors.emailToLogin?.message}</p>
+                    <p className=' text-sm text-center mt-2 text-white'>{error}</p>
 
                     <label className="labelBase" htmlFor="passwordToLogin">Sua senha: </label>
                     <input
@@ -82,7 +82,7 @@ function LoginForm({ handleFocusInput, handleChangeForm }) {
                         onBlur={() => handleFocusInput(passwordLoginRef)}
                         {...register("passwordToLogin")}
                     />
-                    <p className=' text-sm text-center mt-2'>{errors.passwordToLogin?.message}</p>
+                    <p className=' text-sm text-center mt-2 text-white'>{errors.passwordToLogin?.message}</p>
 
                     <div className="gap-6 mt-2 flex flex-col text-center  ">
                         <span className="text-sm cursor-pointer text-center">Esqueci minha senha!</span>

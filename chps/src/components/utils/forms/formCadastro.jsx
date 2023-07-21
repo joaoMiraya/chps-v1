@@ -20,11 +20,9 @@ const schema = yup.object().shape({
     tel: yup.string().min(8, "Telefone inválido").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
-function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
+function FormCadastro({ handleChangeForm }) {
     FormCadastro.propTypes = {
-        handleFocusInput: PropTypes.func.isRequired,
         handleChangeForm: PropTypes.func.isRequired,
-        handleBlur: PropTypes.func.isRequired,
     };
     /*  const navigate = useNavigate(); */
     const dispatch = useDispatch();
@@ -84,7 +82,7 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
         <div className=" z-20 flex flex-col w-screen items-center text-white mt-16">
             <h1 className="text-3xl font-semibold bg-gradient-to-r from-red-900 to-[#D4AA3C] bg-clip-text text-transparent">Crie sua conta</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="container flex flex-col">
+                <div className="container flex flex-col text-white">
                     <label className="labelBase" htmlFor="name">Nome: </label>
                     <input
                         ref={name}
@@ -94,8 +92,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="text"
                         id="name"
                         name="name"
-                        onFocus={() => handleFocusInput(name)}
-                        onBlur={() => handleBlur(name)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.name?.message}</p>
 
@@ -108,8 +104,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="email"
                         id="email"
                         name="email"
-                        onFocus={() => handleFocusInput(email)}
-                        onBlur={() => handleBlur(email)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.email?.message}</p>
                     <p className=' text-sm text-center mt-2 '>{error}</p>
@@ -123,8 +117,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="email"
                         id="confirmEmail"
                         name="confirmEmail"
-                        onFocus={() => handleFocusInput(ConfirmEmail)}
-                        onBlur={() => handleBlur(ConfirmEmail)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.confirmEmail?.message}</p>
 
@@ -137,8 +129,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="password"
                         id="password"
                         name="password"
-                        onFocus={() => handleFocusInput(passwordRef)}
-                        onBlur={() => handleBlur(passwordRef)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.password?.message}</p>
 
@@ -151,8 +141,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
-                        onFocus={() => handleFocusInput(confirmPassword)}
-                        onBlur={() => handleBlur(confirmPassword)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.confirmPassword?.message}</p>
 
@@ -165,8 +153,6 @@ function FormCadastro({ handleFocusInput, handleChangeForm, handleBlur }) {
                         type="text"
                         id="tel"
                         name="tel"
-                        onFocus={() => handleFocusInput(telRef)}
-                        onBlur={() => handleBlur(telRef)}
                     />
                     <p className=' text-sm text-center w-2/3 '>{errors.tel?.message}</p>
 

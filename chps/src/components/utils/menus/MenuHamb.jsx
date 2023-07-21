@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
-function MenuHamb({ menu }) {
+function MenuHamb({ menu, menuHambRef }) {
     MenuHamb.propTypes = {
-        menu: PropTypes.bool.isRequired
+        menu: PropTypes.bool.isRequired,
+        menuHambRef: PropTypes.instanceOf(Object).isRequired,
     };
 
     return (
-        <div className={` bg-gradient-to-b from-[#D4AA3C] to-[#C55300]
+        <div ref={menuHambRef} className={` bg-gradient-to-b from-[#D4AA3C] to-[#C55300]
          h-screen z-30 flex flex-col items-center justify-between absolute ${menu ? 'right-0' : 'right-full'} min-w-[200px]`}
         >
             <nav>

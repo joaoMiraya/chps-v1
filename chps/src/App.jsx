@@ -61,6 +61,7 @@ function App() {
   const { bgHeader, logoHeader } = useSelector((state) => state.images);
 
   /* FUNÇÃO PARA ABRIR/FECHAR O MENU HAMB */
+  const menuHambRef = useRef();
   const handleOpenMenu = () => {
     dispatch(setOpenMenu())
   };
@@ -104,7 +105,7 @@ function App() {
         bgHeader={bgHeader}
         logoHeader={logoHeader}
       />
-      <MenuHamb menu={menu} />
+      <MenuHamb menu={menu} menuHambRef={menuHambRef} />
 
       <Outlet> </Outlet>
 

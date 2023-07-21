@@ -51,10 +51,21 @@ export const userLogin = createAsyncThunk(
         }
     }
 );
+//Fazer botão de logout no perfil para excluir o storage do adm
+const getAdm = (email) => {
+    const emailAdm = "joao@adm.com"
+    if (email == emailAdm) {
+        localStorage.setItem("isAdm", true)
+        return true
+    } else {
+        return false
+    }
+};
 
 const initialState = {
     loading: false,
     isLogged: localStorage.getItem("User") ? true : false,
+    isAdm: localStorage.getItem("isAdm") ? true : false,
     error: null,
     success: false,
 };
@@ -70,8 +81,10 @@ const authSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(userLogin.fulfilled, (state, action) => {
+                const { email } = action.payload;
                 localStorage.setItem("User", JSON.stringify(action.payload))
                 state.isLogged = true
+                state.isAdm = getAdm(email)
                 state.error = null
                 state.success = true
                 console.log(action.payload);

@@ -38,13 +38,11 @@ function Home() {
     return (
 
         isLogged ? <HomeLogged /> :
-            < div className=' flex h-screen ' >
+            < div className='' >
                 {/*  <img src={bgHome} className='h-full sm:hidden absolute' alt="background-image" /> */}
                 {
                     formChange ?
-                       /*  <LoginForm
-                            handleChangeForm={handleChangeForm}
-                        /> */  <LoginComp
+                        <LoginComp
                             handleChangeForm={handleChangeForm}
                         /> :
                         <RegisterComp

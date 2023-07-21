@@ -22,7 +22,8 @@ button {
     background-color: transparent;
 }
 
-input {
+input,
+textarea {
     outline: none;
 }
 

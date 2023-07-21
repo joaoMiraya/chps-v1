@@ -17,7 +17,7 @@ import Header from "./components/partials/Header";
 import Footer from "./components/partials/Footer";
 import MenuHamb from "./components/utils/menus/MenuHamb";
 import MenuFixed from "./components/utils/menus/MenuFixed";
-
+import FormFinal from "./components/partials/FormFinal";
 
 function App() {
 
@@ -110,6 +110,8 @@ function App() {
       <Outlet> </Outlet>
 
       <MenuFixed menuFixedRef={menuFixedRef} />
+
+      <FormFinal />
       <Footer />
     </div>
   )

@@ -18,7 +18,12 @@ import Loading from '../components/partials/Loading';
 import Teste from '../pages/Teste';
 
 import Home from '../pages/home/Home';
+
 import Menu from '../pages/menu/Menu';
+import Lanche from '../pages/lanche/Lanche';
+import Pizza from '../pages/pizza/Pizza';
+import Porcao from '../pages/porcao/Porcao';
+
 import Cart from '../pages/cart/Cart';
 import Profile from '../pages/profile/Profile';
 
@@ -39,6 +44,10 @@ root.render(
 
             <Route path='/' element={<Home />} />
             <Route path='/menu' element={<Menu />} />
+            <Route path='/menu/lanches' element={<Lanche />} />
+            <Route path='/menu/pizzas' element={<Pizza />} />
+            <Route path='/menu/porcoes' element={<Porcao />} />
+
 
 
             <Route path='/carrinho' element={<Cart />} />

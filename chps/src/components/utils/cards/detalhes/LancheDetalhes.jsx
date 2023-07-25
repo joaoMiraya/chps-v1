@@ -3,7 +3,7 @@ import { AiOutlineInfoCircle} from 'react-icons/ai';
 import BebidasSection from "../BebidasSection";
 import AcrescimoSection from "../AcrescimoSection";
 import IncresDecresBtn from "../../buttons/IncresDecresBtn";
-import GoBackBtn from "../../buttons/GoBackBtn";
+
 
 function LancheDetalhes() {
 
@@ -11,7 +11,7 @@ function LancheDetalhes() {
     return (
         <>
             <div className="p-4 w-full overflow-hidden">
-                <GoBackBtn />
+             
                 <div className="my-4">
                     <h1 className="text-3xl font-semibold">X-Calabresa Especial</h1>
                     <span>Valor und: 20,00</span>

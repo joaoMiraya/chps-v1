@@ -15,7 +15,7 @@ function Menu() {
             </main>
             <section className="bg-[#FFFFE0] py-16">
                 <p className="text-center text-lg px-4">
-                    Bem-vindo ao Chapa's! Experimente nossos lanches, lanches artesanais,
+                    Bem-vindo ao Chapas! Experimente nossos lanches, lanches artesanais,
                     pizzas e porções deliciosas. Cada prato é preparado com carinho para tornar sua refeição única.
                     Peça agora mesmo direto do seu celular e aproveite! Bom apetite!
                 </p>

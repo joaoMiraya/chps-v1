@@ -16,6 +16,7 @@ const Header = lazy(() => import("./components/partials/Header"));
 const Footer = lazy(() => import("./components/partials/Footer"));
 const MenuHamb = lazy(() => import("./components/utils/menus/MenuHamb"));
 const MenuFixed = lazy(() => import("./components/utils/menus/MenuFixed"));
+const GoBackBtn = lazy(() => import("./components/utils/buttons/GoBackBtn"));
 const FormFinal = lazy(() => import("./components/partials/FormFinal"));
 
 
@@ -83,23 +84,25 @@ function App() {
 
 
   return (
-
-    <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
+    <>
       <Header
         handleOpenMenu={handleOpenMenu}
         handleCloseMenu={handleCloseMenu}
         menu={menu}
       />
-      <MenuHamb menu={menu} menuHambRef={menuHambRef} />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="relative" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
+        <MenuHamb menu={menu} menuHambRef={menuHambRef} />
+        <ToastContainer position="top-right" autoClose={3000} />
+        <GoBackBtn />
 
-      <Outlet> </Outlet>
+        <Outlet> </Outlet>
 
-      <MenuFixed menuFixedRef={menuFixedRef} />
+        <MenuFixed menuFixedRef={menuFixedRef} />
 
-      <FormFinal />
-      <Footer />
-    </div>
+        <FormFinal />
+        <Footer />
+      </div>
+    </>
   )
 }
 

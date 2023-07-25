@@ -1,11 +1,37 @@
 import { Link } from 'react-router-dom';
 
+import { storage } from '../../services/firebase/firebase';
+
+import { set404ImageUrl } from '../../services/redux/images/imageSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { useEffect } from 'react';
+
 
 function NotFound() {
+
+    const dispatch = useDispatch();
+    const { image404 } = useSelector((state) => state.images);
+
+    useEffect(() => {
+        const fetchImageUrl = async () => {
+            const image404Reference = ref(storage, 'images-app/image404.png');
+            /* REQUISIÇÃO DA IMAGEM DE FUNDO */
+            try {
+                const image404 = await getDownloadURL(image404Reference);
+                dispatch(set404ImageUrl(image404));
+            } catch (error) {
+                console.error('Erro ao obter a URL da imagem:', error);
+            }
+        };
+        fetchImageUrl();
+    }, [dispatch]);
+
+
     return (
         <>
             <div className="flex h-screen bg-[#FDF9EE] absolute">
-                <img src={''} alt="404" className=" object-contain" />
+                <img src={image404} alt="404" className=" object-contain" />
             </div>
             <h1 className="absolute top-20 text-center text-3xl font-light text-amber-900">O caminho que você está tentando chegar não leva a nada</h1>
             <div className=" absolute bottom-20 left-1/2">

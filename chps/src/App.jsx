@@ -1,35 +1,33 @@
 import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-import Loading from './components/partials/Loading'
+import { lazy, useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from './services/firebase/firebase'
 
 import { useDispatch } from 'react-redux';
-import { setBgHeaderUrl, setLogoHeaderUrl, setBgHomeUrl } from './services/redux/images/imageSlice';
+import { setBgHeaderUrl, setLogoHeaderUrl } from './services/redux/images/imageSlice';
 import { setCloseMenu, setOpenMenu } from './services/redux/app-state/appSlice';
 
 
+const Header = lazy(() => import("./components/partials/Header"));
+const Footer = lazy(() => import("./components/partials/Footer"));
+const MenuHamb = lazy(() => import("./components/utils/menus/MenuHamb"));
+const MenuFixed = lazy(() => import("./components/utils/menus/MenuFixed"));
+const FormFinal = lazy(() => import("./components/partials/FormFinal"));
 
-import Header from "./components/partials/Header";
-import Footer from "./components/partials/Footer";
-import MenuHamb from "./components/utils/menus/MenuHamb";
-import MenuFixed from "./components/utils/menus/MenuFixed";
-import FormFinal from "./components/partials/FormFinal";
 
 function App() {
 
-  const [imageLoaded, setImageLoaded] = useState(false);
   const dispatch = useDispatch();
-
   /* REQUISIÇÕES DAS IMAGENS ESTÁTICAS DA APLICAÇÃO */
   useEffect(() => {
     const fetchImageUrls = async () => {
       const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
       const logoHeaderReference = ref(storage, 'images-app/logomarcahamburgueria.png');
-      const bgHomeReference = ref(storage, 'images-app/imageBgHome.jpg');
+
       /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
       try {
         const headerBgUrl = await getDownloadURL(bgHeaderReference);
@@ -44,21 +42,13 @@ function App() {
       } catch (error) {
         console.error('Erro ao obter a URL da imagem:', error);
       }
-      /* REQUISIÇÃO DA IMAGEM DE FUNDO DA HOME */
-      try {
-        const homeBgUrl = await getDownloadURL(bgHomeReference);
-        dispatch(setBgHomeUrl(homeBgUrl));
-        setImageLoaded(true);
-      } catch (error) {
-        console.error('Erro ao obter a URL da imagem:', error);
-      }
     };
     fetchImageUrls();
   }, [dispatch]);
 
   // STATE DA APLICAÇÃO, IMAGENS STATICAS E STATE DOS MENUS
   const menu = useSelector((state) => state.appState.openMenu);
-  const { bgHeader, logoHeader } = useSelector((state) => state.images);
+
 
   /* FUNÇÃO PARA ABRIR/FECHAR O MENU HAMB */
   const menuHambRef = useRef();
@@ -92,9 +82,6 @@ function App() {
   };
 
 
-  if (!imageLoaded) {
-    return <Loading />;
-  }
   return (
 
     <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
@@ -102,10 +89,9 @@ function App() {
         handleOpenMenu={handleOpenMenu}
         handleCloseMenu={handleCloseMenu}
         menu={menu}
-        bgHeader={bgHeader}
-        logoHeader={logoHeader}
       />
       <MenuHamb menu={menu} menuHambRef={menuHambRef} />
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <Outlet> </Outlet>
 

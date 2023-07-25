@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../../firebase/firebase";
 
 
@@ -60,6 +60,20 @@ const getAdm = (email) => {
     } else {
         return false
     }
+};
+export const logout = () => {
+    signOut(auth).then(() => {
+        if (localStorage.getItem("isAdm")) {
+            localStorage.removeItem("isAdm")
+            localStorage.removeItem("User")
+        } else {
+            localStorage.removeItem("User")
+        }
+        window.location.reload();
+    }).catch((error) => {
+        alert("Ocorreu um erro" + error)
+        console.log("Ocorreu um erro" + error);
+    });
 };
 
 const initialState = {

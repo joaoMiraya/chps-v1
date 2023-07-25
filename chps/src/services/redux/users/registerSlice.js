@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { toast } from 'react-toastify';
+
 import { auth, db } from "../../firebase/firebase";
+
+
+
 
 export const userRegister = createAsyncThunk(
     'auth/register',
@@ -9,6 +14,7 @@ export const userRegister = createAsyncThunk(
         try {
             await createUserWithEmailAndPassword(auth, Email, Password)
             const { accessToken, email, uid } = auth.currentUser;
+            //SALVA AS INFORMAÇÕES NO DB DO FIRESTORE
             const docRef = await addDoc(collection(db, "users"), {
                 id: uid,
                 name: Name,
@@ -17,6 +23,11 @@ export const userRegister = createAsyncThunk(
                 tel: Tel,
                 date_register: Date
             });
+            //MANDA EMAIL DE VERIFICAÇÃO NO EMAIL DO USUARIO
+            await sendEmailVerification(auth.currentUser)
+                .then(() => {
+                    toast.success("Registro efetuado, verifique seu email!");
+                });
             console.log("Document written with ID: ", docRef.id);
             return { accessToken: accessToken, email: email, name: Name };
 

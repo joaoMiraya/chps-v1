@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { userLogin, authGoogle } from '../../../../services/redux/users/authSlice';
+import { userLogin, authGoogle } from '../../../services/redux/users/authSlice';
 
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
@@ -92,10 +92,10 @@ function LoginComp({ handleChangeForm }) {
                     <p className=' text-sm text-center mt-2 text-red-400'>{errors.passwordLogin?.message}</p>
 
                     <span className="text-red-400 underline my-4">Esqueceu sua senha?</span>
-                    
+
                     <button aria-label='Botão para fazer o login'
                         type="submit"
-                        className="bg-[#D4AA3C] py-3 font-bold text-xl max-w-[600px]"
+                        className="bg-[#D4AA3C] py-3 font-bold text-xl"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ?
@@ -104,7 +104,7 @@ function LoginComp({ handleChangeForm }) {
                             </div>
                             : 'Enviar'}
                     </button>
-                    <div onClick={handleChangeForm} className='flex items-center font-semibold underline mt-4 justify-center'>
+                    <div aria-label='Botão para ir para a página de cadastro' onClick={handleChangeForm} className='flex items-center font-semibold underline mt-4 justify-center cursor-pointer'>
                         <span>Ainda não tenho registro</span><AiOutlineArrowRight size={20} />
                     </div>
                 </div>

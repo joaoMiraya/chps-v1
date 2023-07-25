@@ -12,13 +12,13 @@ function MenuHamb({ menu, menuHambRef }) {
          h-screen z-30 flex flex-col items-center justify-between absolute ${menu ? 'right-0' : 'right-full'} min-w-[200px]`}
         >
             <nav>
-                <ul className=" text-white text-center mt-20">
-                    <Link to={"/menu"}><li className="py-2 px-6 w-full hover:opacity-75">Cardápio</li></Link>
-                    <Link to={"/"}><li className="py-2 w-full hover:opacity-75">Carrinho</li></Link>
-                    <Link to={"/"}><li className="py-2 w-full hover:opacity-75">Perfil</li></Link>
-                    <Link to={"/"}><li className="py-2 w-full hover:opacity-75">Home</li></Link>
-                    <Link to={"/"}><li className="py-2 w-full hover:opacity-75">Termos e Politicas</li></Link>
-                </ul>
+                <div className=" text-white text-center mt-20 flex flex-col">
+                    <Link aria-label="Navegar para cardápio" to={"/menu"} className="py-2 px-6 w-full hover:opacity-75">Cardápio</Link>
+                    <Link aria-label="Navegar para carrinho" to={"/carrinho"} className="py-2 w-full hover:opacity-75">Carrinho</Link>
+                    <Link aria-label="Navegar para perfil" to={"/perfil"} className="py-2 w-full hover:opacity-75">Perfil</Link>
+                    <Link aria-label="Navegar para home" to={"/"} className="py-2 w-full hover:opacity-75">Home</Link>
+                    <Link aria-label="Navegar para termos e politicas" to={"/termos-e-politicas"} className="py-2 w-full hover:opacity-75">Termos e Politicas</Link>
+                </div>
 
             </nav>
         </div>

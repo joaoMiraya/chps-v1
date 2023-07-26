@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../../firebase/firebase";
-
+import { toast } from 'react-toastify';
 
 //AUTENTICAÇÃO COM O GOOGLE --- REVISAR
 export const authGoogle = () => {
@@ -34,23 +34,6 @@ export const authGoogle = () => {
         })
 }
 
-//AUTENTICAÇÃO COM O EMAIL E SENHA
-export const userLogin = createAsyncThunk(
-    'auth/login',
-    async ({ Email, Password }, { rejectWithValue }) => {
-        try {
-            await signInWithEmailAndPassword(auth, Email, Password)
-            const { email, displayName, accessToken } = auth.currentUser;
-            return { accessToken: accessToken, email: email, name: displayName }
-        } catch (error) {
-            if (error.response && error.response.data.message) {
-                return rejectWithValue(error.response.data.message)
-            } else {
-                return rejectWithValue(error.message)
-            }
-        }
-    }
-);
 //Fazer botão de logout no perfil para excluir o storage do adm
 const getAdm = (email) => {
     const emailAdm = "joao@adm.com"
@@ -75,6 +58,36 @@ export const logout = () => {
         console.log("Ocorreu um erro" + error);
     });
 };
+
+export const redefinePassword = async (email) => {
+    try {
+        await sendPasswordResetEmail(auth, email)
+        console.log(email);
+        return toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
+    }
+    catch (error) {
+        const errorMessage = "Algo deu errado! Atualize a página e tente novamente.";
+        toast.error(errorMessage);
+    }
+};
+
+//AUTENTICAÇÃO COM O EMAIL E SENHA
+export const userLogin = createAsyncThunk(
+    'auth/login',
+    async ({ Email, Password }, { rejectWithValue }) => {
+        try {
+            await signInWithEmailAndPassword(auth, Email, Password)
+            const { email, displayName, accessToken } = auth.currentUser;
+            return { accessToken: accessToken, email: email, name: displayName }
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message)
+            } else {
+                return rejectWithValue(error.message)
+            }
+        }
+    }
+);
 
 const initialState = {
     loading: false,

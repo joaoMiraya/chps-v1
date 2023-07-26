@@ -14,8 +14,10 @@ import { AdminRoute } from './adminRoute';
 import App from '../App';
 import NotFound from '../components/partials/NotFound';
 import Loading from '../components/partials/Loading';
+import Redefine from '../components/utils/components/Redefine';
 
 import Teste from '../pages/Teste';
+
 
 import Home from '../pages/home/Home';
 
@@ -37,6 +39,7 @@ root.render(
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path='/teste' element={<Teste />} />
+          <Route path='/redefinir-senha' element={<Redefine />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/dashboard' element={<AdminRoute><Dashboard /></AdminRoute>} />
 

@@ -13,7 +13,10 @@ export function PrivateRoute({ children }) {
 
     if (!isLogged) {
         const toastMessage = "Você precisa fazer login para acessar esta página.";
-        toast.warn(toastMessage);
+        const customId = "custom-id-yes"
+        toast.warn(toastMessage, {
+            toastId: customId
+        });
         return <Navigate to={"/"} />
     } else {
         return children

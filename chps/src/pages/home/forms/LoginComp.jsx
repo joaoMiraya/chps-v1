@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
+import { Link } from 'react-router-dom';
 import { userLogin, authGoogle } from '../../../services/redux/users/authSlice';
 
 import { AiOutlineArrowRight } from 'react-icons/ai';
@@ -91,7 +91,7 @@ function LoginComp({ handleChangeForm }) {
                     />
                     <p className=' text-sm text-center mt-2 text-red-400'>{errors.passwordLogin?.message}</p>
 
-                    <span className="text-red-400 underline my-4">Esqueceu sua senha?</span>
+                    <Link className='my-4' to={"/redefinir-senha"}><span className="text-red-400 underline ">Esqueceu sua senha?</span></Link>
 
                     <button aria-label='Botão para fazer o login'
                         type="submit"

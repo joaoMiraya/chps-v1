@@ -73,7 +73,7 @@ function RegisterComp({ handleChangeForm }) {
     if (success) {
         setTimeout(() => {
             window.location.reload()
-        }, 2000)
+        }, 3000)
     }
 
     return (

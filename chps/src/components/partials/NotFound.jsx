@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 
 import { storage } from '../../services/firebase/firebase';
 
@@ -7,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useEffect } from 'react';
 
+const handleGoBack = () => {
+    window.history.back();
+}
 
 function NotFound() {
 
@@ -35,7 +37,7 @@ function NotFound() {
             </div>
             <h1 className="absolute top-20 text-center text-3xl font-light text-amber-900">O caminho que você está tentando chegar não leva a nada</h1>
             <div className=" absolute bottom-20 left-1/2">
-                <Link to={"/"} className=" bg-[#FDF9EE] shadow-xl border-[1px] border-[#b6b0a0] px-8 py-2 font-semibold text-amber-900  ">VOLTAR</Link>
+                <div aria-label='Botão para voltar' onClick={handleGoBack} className=" bg-[#FDF9EE] shadow-xl border-[1px] border-[#b6b0a0] px-8 py-2 font-semibold text-amber-900  ">VOLTAR</div>
             </div>
         </>
 

@@ -61,8 +61,9 @@ function App() {
   };
 
 
-  /* FUNÇÃO DO MENU FIXO */
+  /* FUNÇÃO DO ESCONDER/MOSTRAR O MENU FIXO E O BOTÃO DE VOLTAR */
   const menuFixedRef = useRef();
+  const goBackRef = useRef();
   const [startY, setStartY] = useState(null);
   const [endY, setEndY] = useState(null);
   const handleTouchStart = (e) => {
@@ -73,11 +74,12 @@ function App() {
   };
   const handleTouchEnd = () => {
     if (endY > startY) {
-
       menuFixedRef.current.classList.remove('hidden')
+      goBackRef.current.classList.remove('hidden')
     } else if (endY < startY) {
       setTimeout(() => {
         menuFixedRef.current.classList.add('hidden')
+        goBackRef.current.classList.add('hidden')
       }, 300)
     }
   };
@@ -92,7 +94,7 @@ function App() {
       <div className="relative" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
         <MenuHamb menu={menu} menuHambRef={menuHambRef} />
         <ToastContainer position="top-right" autoClose={3000} />
-        <GoBackBtn />
+        <GoBackBtn goBackRef={goBackRef} />
 
         <Outlet> </Outlet>
 

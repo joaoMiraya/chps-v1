@@ -19,7 +19,6 @@ export const userRegister = createAsyncThunk(
                 id: uid,
                 name: Name,
                 email: Email,
-                password: Password,
                 tel: Tel,
                 date_register: Date
             });

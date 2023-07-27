@@ -1,8 +1,6 @@
 import LogoutBtn from "../../components/utils/buttons/LogoutBtn";
 
-
 function Profile() {
-
 
     return (
         <div className=" flex flex-col h-screen">

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { userLogin, authGoogle } from '../../../services/redux/users/authSlice';
 
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import { BiShowAlt, BiHide } from 'react-icons/bi';
 
 const schema = yup.object().shape({
     emailLogin: yup.string().email("Não é um email válido").required("Campo obrigatório"),
@@ -15,9 +16,11 @@ const schema = yup.object().shape({
 });
 
 
-function LoginComp({ handleChangeForm }) {
+function LoginComp({ handleChangeForm, handleShowPassword, showPass }) {
     LoginComp.propTypes = {
         handleChangeForm: PropTypes.func.isRequired,
+        handleShowPassword: PropTypes.func.isRequired,
+        showPass: PropTypes.bool.isRequired,
     };
 
     const dispatch = useDispatch();
@@ -71,6 +74,7 @@ function LoginComp({ handleChangeForm }) {
                     <label htmlFor="emailLogin">Email:</label>
                     <input
                         aria-label='Email para login'
+                        autoComplete='email'
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="email"
                         name="emailLogin"
@@ -81,14 +85,30 @@ function LoginComp({ handleChangeForm }) {
                     <p className=' text-sm text-center mt-2 text-red-400'>{error}</p>
 
                     <label className="mt-4" htmlFor="passwordLogin">Senha:</label>
-                    <input
-                        aria-label='Senha para login'
-                        className=" border-b-[1px] border-solid border-gray-400"
-                        type="password"
-                        name="passwordLogin"
-                        id="passwordLogin"
-                        {...register("passwordLogin")}
-                    />
+                    <div className='w-full flex relative'>
+                        <input
+                            aria-label='Senha para login'
+                            autoComplete='current-password'
+                            className=" border-b-[1px] border-solid border-gray-400 w-full "
+                            type={showPass ? 'text' : 'password'}
+                            name="passwordLogin"
+                            id="passwordLogin"
+                            {...register("passwordLogin")}
+                        />
+                        {!showPass ?
+                            <BiShowAlt
+                                aria-label="Mostrar senha"
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            /> : <BiHide
+                                aria-label="Esconder senha"
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            />
+                        }
+                    </div>
                     <p className=' text-sm text-center mt-2 text-red-400'>{errors.passwordLogin?.message}</p>
 
                     <Link className='my-4' to={"/redefinir-senha"}><span className="text-red-400 underline ">Esqueceu sua senha?</span></Link>

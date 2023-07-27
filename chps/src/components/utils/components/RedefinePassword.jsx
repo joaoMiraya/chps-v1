@@ -4,20 +4,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-function Redefine() {
+function RedefinePassword() {
     const [emailToSend, setEmailToSend] = useState('');
-    
+
     const dispatch = useDispatch();
 
-    const handleSendEmailToRedefine = async (e) => {
-        try {
-            e.preventDefault();
-            dispatch(redefinePassword(emailToSend))
-            return 
-        }
-        catch (error) {
-            console.log(error);
-        }
+    const handleSendEmailToRedefine = (e) => {
+        e.preventDefault();
+        dispatch(redefinePassword(emailToSend))
     };
 
     return (
@@ -29,6 +23,8 @@ function Redefine() {
                     <h1 className="text-2xl font-semibold text-center">Insira o seu email de cadastro</h1>
                     <p>Será enviado um link no seu email para você alterar sua senha</p>
                     <input
+                        aria-label="Digite o email cadastrado"
+                        autoComplete="email"
                         className=" border-[1px] py-2 border-solid border-gray-300"
                         type="email"
                         name="emailToRedefine"
@@ -38,7 +34,7 @@ function Redefine() {
                         value={emailToSend}
                         required
                     />
-                    <button className="bg-black py-2 text-white font-semibold" type="submit">Enviar</button>
+                    <button aria-label="Botão para enviar link de redefinir senha" className="bg-black py-2 text-white font-semibold" type="submit">Enviar</button>
                 </div>
             </form>
             <Link className="ml-6 mt-6 self-start" to={"/"}><span className="underline ">Voltar</span></Link>
@@ -46,4 +42,4 @@ function Redefine() {
     )
 }
 
-export default Redefine;
+export default RedefinePassword;

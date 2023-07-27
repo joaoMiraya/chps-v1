@@ -28,22 +28,16 @@ function App() {
     const fetchImageUrls = async () => {
       const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
       const logoHeaderReference = ref(storage, 'images-app/logomarcahamburgueria.png');
-
       /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
       try {
         const headerBgUrl = await getDownloadURL(bgHeaderReference);
         dispatch(setBgHeaderUrl(headerBgUrl));
-      } catch (error) {
-        console.error('Erro ao obter a URL da imagem:', error);
-      }
-      /* REQUISIÇÃO DA LOGO DO HEADER */
-      try {
         const headerLogoUrl = await getDownloadURL(logoHeaderReference);
         dispatch(setLogoHeaderUrl(headerLogoUrl));
       } catch (error) {
         console.error('Erro ao obter a URL da imagem:', error);
       }
-    };
+          };
     fetchImageUrls();
   }, [dispatch]);
 

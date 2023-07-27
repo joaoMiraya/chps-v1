@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import { BiShowAlt, BiHide } from 'react-icons/bi';
 
 import { userRegister } from '../../../services/redux/users/registerSlice';
 
@@ -20,9 +21,11 @@ const schema = yup.object().shape({
     tel: yup.string().min(8, "Telefone inválido").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
-function RegisterComp({ handleChangeForm }) {
+function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
     RegisterComp.propTypes = {
         handleChangeForm: PropTypes.func.isRequired,
+        showPass: PropTypes.bool.isRequired,
+        handleShowPassword: PropTypes.func.isRequired,
     };
 
     const dispatch = useDispatch();
@@ -101,6 +104,7 @@ function RegisterComp({ handleChangeForm }) {
                     <label htmlFor="nameRegister">Nome:</label>
                     <input
                         aria-label='Seu nome para o cadastro'
+                        autoComplete="name"
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="text"
                         name="nameRegister"
@@ -112,6 +116,7 @@ function RegisterComp({ handleChangeForm }) {
                     <label className='mt-2' htmlFor="emailRegister">Email:</label>
                     <input
                         aria-label='Email para o registro'
+                        autoComplete='email'
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="email"
                         name="emailRegister"
@@ -124,6 +129,7 @@ function RegisterComp({ handleChangeForm }) {
                     <label className='mt-2' htmlFor="confirmEmailRegister">Confirme seu e-mail:</label>
                     <input
                         aria-label='Confirme seu email para o registro'
+                        autoComplete='email'
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="email"
                         name="confirmEmailRegister"
@@ -133,30 +139,61 @@ function RegisterComp({ handleChangeForm }) {
                     <p className=' text-sm text-center  text-red-400'>{errors.confirmEmailRegister?.message}</p>
 
                     <label className="mt-2" htmlFor="passwordRegister">Senha:</label>
-                    <input
-                        aria-label='Sua senha para o registro'
-                        className=" border-b-[1px] border-solid border-gray-400"
-                        type="password"
-                        name="passwordRegister"
-                        id="passwordRegister"
-                        {...register("passwordRegister")}
-                    />
+                    <div className='w-full flex relative'>
+                        <input
+                            aria-label='Sua senha para o registro'
+                            autoComplete='current-password'
+                            className=" border-b-[1px] border-solid border-gray-400 w-full"
+                            type={showPass ? 'text' : 'password'}
+                            name="passwordRegister"
+                            id="passwordRegister"
+                            {...register("passwordRegister")}
+                        />
+                        {!showPass ?
+                            <BiShowAlt
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            /> : <BiHide
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            />
+                        }
+                    </div>
                     <p className=' text-sm text-center  text-red-400'>{errors.passwordRegister?.message}</p>
 
                     <label className='mt-2' htmlFor="confirmPasswordRegister">Confirme sua senha:</label>
-                    <input
-                        aria-label='Confirme sua senha para o registro'
-                        className=" border-b-[1px] border-solid border-gray-400"
-                        type="password"
-                        name="confirmPasswordRegister"
-                        id="confirmPasswordRegister"
-                        {...register("confirmPasswordRegister")}
-                    />
+                    <div className='w-full flex relative'>
+                        <input
+                            aria-label='Confirme sua senha para o registro'
+                            autoComplete='current-password'
+                            className=" border-b-[1px] border-solid border-gray-400 w-full"
+                            type={showPass ? 'text' : 'password'}
+                            name="confirmPasswordRegister"
+                            id="confirmPasswordRegister"
+                            {...register("confirmPasswordRegister")}
+                        />
+                        {!showPass ?
+                            <BiShowAlt
+                                aria-label="Mostrar senha"
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            /> : <BiHide
+                                aria-label="Esconder senha"
+                                onClick={handleShowPassword}
+                                size={30}
+                                className='absolute text-gray-400 right-1 bottom-1'
+                            />
+                        }
+                    </div>
                     <p className=' text-sm text-center  text-red-400'>{errors.confirmPasswordRegister?.message}</p>
 
                     <label className='mt-2' htmlFor="tel">Telefone:</label>
                     <input
                         aria-label='Confirme sua senha para o registro'
+                        autoComplete='tel'
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="text"
                         name="tel"
@@ -178,9 +215,9 @@ function RegisterComp({ handleChangeForm }) {
                             : 'Registrar-se'}
                     </button>
 
-                    <div aria-label='Botão para ir para a página de login' onClick={handleChangeForm} className='flex items-center font-semibold underline cursor-pointer justify-center'>
+                    <button aria-label='Botão para ir para a página de login' onClick={handleChangeForm} className='flex items-center font-semibold underline cursor-pointer justify-center'>
                         <span>Já possuo registro</span><AiOutlineArrowRight size={20} />
-                    </div>
+                    </button>
                 </div>
             </form>
         </div>

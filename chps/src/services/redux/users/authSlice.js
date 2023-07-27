@@ -59,17 +59,33 @@ export const logout = () => {
     });
 };
 
-export const redefinePassword = async (email) => {
-    try {
-        await sendPasswordResetEmail(auth, email)
+/* export const redefinePassword = createAsyncThunk(
+    "redefinePassword",
+    async (email) => {
         console.log(email);
-        return toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
-    }
-    catch (error) {
-        const errorMessage = "Algo deu errado! Atualize a página e tente novamente.";
-        toast.error(errorMessage);
-    }
-};
+        try {
+            await sendPasswordResetEmail(auth, email)
+            return toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
+        }
+        catch (error) {
+            const errorMessage = "Algo deu errado! Atualize a página e tente novamente.";
+            toast.error(errorMessage);
+        }
+    }); */
+
+export const redefinePassword = createAsyncThunk(
+    "redefinePassword",
+    async (email) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
+            })
+            .catch((err) => {
+                toast.error("Ocorreu algum erro, atualize a pagína e tente novamente")
+                console.log(err);
+            })
+    });
+
 
 //AUTENTICAÇÃO COM O EMAIL E SENHA
 export const userLogin = createAsyncThunk(
@@ -114,7 +130,6 @@ const authSlice = createSlice({
                 state.isAdm = getAdm(email)
                 state.error = null
                 state.success = true
-                console.log(action.payload);
             })
             .addCase(userLogin.rejected, (state) => {
                 let message = "Email ou senha inválidos"

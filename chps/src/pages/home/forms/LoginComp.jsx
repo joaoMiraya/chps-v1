@@ -16,9 +16,8 @@ const schema = yup.object().shape({
 });
 
 
-function LoginComp({ handleChangeForm, handleShowPassword, showPass }) {
+function LoginComp({ handleShowPassword, showPass }) {
     LoginComp.propTypes = {
-        handleChangeForm: PropTypes.func.isRequired,
         handleShowPassword: PropTypes.func.isRequired,
         showPass: PropTypes.bool.isRequired,
     };
@@ -124,9 +123,9 @@ function LoginComp({ handleChangeForm, handleShowPassword, showPass }) {
                             </div>
                             : 'Enviar'}
                     </button>
-                    <div aria-label='Botão para ir para a página de cadastro' onClick={handleChangeForm} className='flex items-center font-semibold underline mt-4 justify-center cursor-pointer'>
+                    <Link to={"/cadastro"} aria-label='Botão para ir para a página de cadastro' className='flex items-center font-semibold underline mt-4 justify-center cursor-pointer'>
                         <span>Ainda não tenho registro</span><AiOutlineArrowRight size={20} />
-                    </div>
+                    </Link>
                 </div>
             </form>
         </div>

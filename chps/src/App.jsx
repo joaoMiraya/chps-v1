@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { lazy, useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
@@ -9,7 +8,6 @@ import { storage } from './services/firebase/firebase'
 
 import { useDispatch } from 'react-redux';
 import { setBgHeaderUrl, setLogoHeaderUrl } from './services/redux/images/imageSlice';
-import { setCloseMenu, setOpenMenu } from './services/redux/app-state/appSlice';
 
 
 const Header = lazy(() => import("./components/partials/Header"));
@@ -27,7 +25,7 @@ function App() {
   useEffect(() => {
     const fetchImageUrls = async () => {
       const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
-      const logoHeaderReference = ref(storage, 'images-app/logomarcahamburgueria.png');
+      const logoHeaderReference = ref(storage, 'images-app/icon192x192.png');
       /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
       try {
         const headerBgUrl = await getDownloadURL(bgHeaderReference);
@@ -37,23 +35,26 @@ function App() {
       } catch (error) {
         console.error('Erro ao obter a URL da imagem:', error);
       }
-          };
+    };
     fetchImageUrls();
   }, [dispatch]);
 
-  // STATE DA APLICAÇÃO, IMAGENS STATICAS E STATE DOS MENUS
-  const menu = useSelector((state) => state.appState.openMenu);
-
-
   /* FUNÇÃO PARA ABRIR/FECHAR O MENU HAMB */
   const menuHambRef = useRef();
-  const handleOpenMenu = () => {
-    dispatch(setOpenMenu())
+  const openMenuHambRef = useRef();
+  const closeMenuHambRef = useRef();
+  const handleOpen = () => {
+    menuHambRef.current.classList.add('openMenu')
+    menuHambRef.current.classList.remove('hiddeMenu')
+    openMenuHambRef.current.classList.add('hidden')
+    closeMenuHambRef.current.classList.remove('hidden')
   };
-  const handleCloseMenu = () => {
-    dispatch(setCloseMenu())
+  const handleClose = () => {
+    menuHambRef.current.classList.remove('openMenu')
+    menuHambRef.current.classList.add('hiddeMenu')
+    closeMenuHambRef.current.classList.add('hidden')
+    openMenuHambRef.current.classList.remove('hidden')
   };
-
 
   /* FUNÇÃO DO ESCONDER/MOSTRAR O MENU FIXO E O BOTÃO DE VOLTAR */
   const menuFixedRef = useRef();
@@ -81,12 +82,16 @@ function App() {
   return (
     <>
       <Header
-        handleOpenMenu={handleOpenMenu}
-        handleCloseMenu={handleCloseMenu}
-        menu={menu}
+        /*  handleOpenMenu={handleOpenMenu}
+         handleCloseMenu={handleCloseMenu} */
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+        menuHambRef={menuHambRef}
+        openMenuHambRef={openMenuHambRef}
+        closeMenuHambRef={closeMenuHambRef}
       />
       <div className="relative" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
-        <MenuHamb menu={menu} menuHambRef={menuHambRef} />
+        <MenuHamb menuHambRef={menuHambRef} />
         <ToastContainer position="top-right" autoClose={3000} />
         <GoBackBtn goBackRef={goBackRef} />
 

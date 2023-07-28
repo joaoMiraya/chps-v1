@@ -20,6 +20,7 @@ import Teste from '../pages/Teste';
 
 
 import Home from '../pages/home/Home';
+import Cadastro from '../pages/cadastro/Cadastro';
 
 import Menu from '../pages/menu/Menu';
 import Lanche from '../pages/lanche/Lanche';
@@ -43,9 +44,10 @@ root.render(
           <Route path='/dashboard' element={<AdminRoute><Dashboard /></AdminRoute>} />
 
           <Route path='/' element={<App />}>
-          <Route path='/redefinir-senha' element={<RedefinePassword />} />
+            <Route path='/redefinir-senha' element={<RedefinePassword />} />
 
             <Route path='/' element={<Home />} />
+            <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/menu' element={<Menu />} />
             <Route path='/menu/lanches' element={<Lanche />} />
             <Route path='/menu/pizzas' element={<Pizza />} />

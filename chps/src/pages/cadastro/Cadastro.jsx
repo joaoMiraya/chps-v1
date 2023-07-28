@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,7 +6,9 @@ import * as yup from "yup";
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 
-import { userRegister } from '../../../services/redux/users/registerSlice';
+import { userRegister } from '../../services/redux/users/registerSlice';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -21,15 +22,23 @@ const schema = yup.object().shape({
     tel: yup.string().min(8, "Telefone inválido").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
-function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
-    RegisterComp.propTypes = {
-        handleChangeForm: PropTypes.func.isRequired,
-        showPass: PropTypes.bool.isRequired,
-        handleShowPassword: PropTypes.func.isRequired,
-    };
+function Cadastro() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { error, success } = useSelector((state) => state.register);
+
+    const [showPass, setShowPass] = useState(false);
+    const [submiting, setSubmiting] = useState(false);
+
+    //FUNÇÃO PARA VER A SENHA
+    const handleShowPassword = () => {
+        if (!showPass) {
+            setShowPass(true)
+        } else {
+            setShowPass(false)
+        }
+    }
 
 
     /* PEGAR A DATA ATUAL */
@@ -50,6 +59,7 @@ function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
     });
 
     const onSubmit = async (data) => {
+        setSubmiting(true)
         try {
             const values = {
                 Name: data.nameRegister,
@@ -73,9 +83,16 @@ function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
             console.error("Ocorreu um erro ao criar o usuário:", error);
         }
     };
+    useEffect(() => {
+        if (success || error) {
+            setSubmiting(false)
+        }
+    }, [success, error])
+
     if (success) {
         setTimeout(() => {
-            window.location.reload()
+            navigate("/")
+            window.location.reload();
         }, 3000)
     }
 
@@ -208,16 +225,16 @@ function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
                         className={`bg-[#D4AA3C] py-3 w-full font-bold text-xl my-4 ${formState.isSubmitting ? 'opacity-70' : ''} `}
                         disabled={formState.isSubmitting}
                     >
-                        {formState.isSubmitting ?
+                        {submiting ?
                             <div className="spinner-border h-6 w-6" role="status">
                                 <span className="visually-hidden">Loading...</span>
                             </div>
                             : 'Registrar-se'}
                     </button>
 
-                    <button aria-label='Botão para ir para a página de login' onClick={handleChangeForm} className='flex items-center font-semibold underline cursor-pointer justify-center'>
+                    <Link to={"/"} aria-label='Botão para ir para a página de login' className='flex items-center font-semibold underline cursor-pointer justify-center'>
                         <span>Já possuo registro</span><AiOutlineArrowRight size={20} />
-                    </button>
+                    </Link>
                 </div>
             </form>
         </div>
@@ -225,4 +242,4 @@ function RegisterComp({ handleChangeForm, showPass, handleShowPassword }) {
 }
 
 
-export default RegisterComp;
+export default Cadastro;

@@ -31,6 +31,20 @@ textarea {
     background: linear-gradient(180deg, #C55300, #D4AA3C);
 }
 
+.openMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: ease .5s;
+}
+
+.hiddeMenu {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    transition: ease .5s;
+}
+
 .inset-shadow {
     box-shadow: inset 3px 3px 3px #00000020, 1px 1px 3px #00000010;
 }
@@ -44,6 +58,6 @@ textarea {
     border: 3px solid #98FB98;
 }
 
-.shadowToLogout{
+.shadowToLogout {
     box-shadow: inset 1px 2px 4px #00000020, 1px 2px 4px #00000020;
 }

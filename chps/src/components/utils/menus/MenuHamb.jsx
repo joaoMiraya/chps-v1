@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
-function MenuHamb({ menu, menuHambRef }) {
+function MenuHamb({ menuHambRef }) {
     MenuHamb.propTypes = {
-        menu: PropTypes.bool.isRequired,
         menuHambRef: PropTypes.instanceOf(Object).isRequired,
     };
 
     return (
-        <div ref={menuHambRef} className={` bg-gradient-to-b from-[#D4AA3C] to-[#C55300]
-         h-screen z-30 flex flex-col items-center justify-between absolute ${menu ? 'right-0' : 'right-full'} min-w-[200px]`}
-        >
+        <aside aria-label="Menu lateral" ref={menuHambRef} className="bg-gradient-to-b from-[#D4AA3C] to-[#C55300] h-screen z-30 flex flex-col items-center justify-between absolute hiddeMenu min-w-[200px]">
             <nav>
                 <div className=" text-white text-center mt-20 flex flex-col">
                     <Link aria-label="Navegar para cardápio" to={"/menu"} className="py-2 px-6 w-full hover:opacity-75">Cardápio</Link>
@@ -21,7 +18,7 @@ function MenuHamb({ menu, menuHambRef }) {
                 </div>
 
             </nav>
-        </div>
+        </aside>
     )
 }
 

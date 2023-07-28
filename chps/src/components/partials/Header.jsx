@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { AiOutlineMenu, AiOutlineMenuUnfold } from 'react-icons/ai';
 
-function Header({ menu, handleOpenMenu, handleCloseMenu }) {
+function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) {
     Header.propTypes = {
-        menu: PropTypes.bool.isRequired,
-        handleOpenMenu: PropTypes.func.isRequired,
-        handleCloseMenu: PropTypes.func.isRequired,
+        handleOpen: PropTypes.func.isRequired,
+        handleClose: PropTypes.func.isRequired,
+        closeMenuHambRef: PropTypes.object.isRequired,
+        openMenuHambRef: PropTypes.object.isRequired,
     };
 
     /* RECEBENDO IMAGENS ESTÁTICAS DO HEADER */
@@ -20,7 +21,7 @@ function Header({ menu, handleOpenMenu, handleCloseMenu }) {
                 <div className=" relative flex justify-between items-center">
                     <img rel="preconnect" src={bgHeader} className=' md:hidden object-none w-full h-full absolute top-4 overflow-visible z-40' alt="Imagem de fundo" />
                     <div>
-                        <Link aria-label="Início" tabIndex={1} to={"/"}><img src={logoHeader} className=' z-50 absolute left-2 top-0 cursor-pointer hover:opacity-80' height={60} width={60} alt="Chapa's Logo" /></Link>
+                        <Link aria-label="Início" tabIndex={0} to={"/"}><img src={logoHeader} className=' z-50 absolute left-2 top-0 cursor-pointer hover:opacity-80' height={80} width={80} alt="Chapa's Logo" /></Link>
                     </div>
                     <div className=" hidden gap-4 relative top-14 md:flex md:items-end text-white mr-4 ">
                         <Link aria-label='Navegar para menu' className='hover:opacity-80' to={"/menu"}>Cardápio</Link>
@@ -30,11 +31,17 @@ function Header({ menu, handleOpenMenu, handleCloseMenu }) {
                         <Link aria-label='Navegar para termos' className='hover:opacity-80' to={"/termos-e-politicas"}>Termos e Políticas</Link>
                         {isAdm ? <Link aria-label='Navegar para termos' to={"/dashboard"}>Dashboard</Link> : ''}
                     </div>
-                    <div className=" md:hidden relative top-8 right-2 text-white">
-                        {
+                    <div className=" md:hidden relative top-8 text-white">
+                        <button ref={openMenuHambRef} className='p-2 relative z-40' onClick={handleOpen} aria-label='Botão para abrir menu' >
+                            <AiOutlineMenu size={30} />
+                        </button>
+                        <button ref={closeMenuHambRef} className='p-2 relative z-40 hidden' onClick={handleClose} aria-label='Botão para fechar menu'>
+                            <AiOutlineMenuUnfold size={30} />
+                        </button>
+                        {/*   {
                             menu ? <AiOutlineMenuUnfold aria-label='Fechar menu' size={25} onClick={handleCloseMenu} />
-                                : <AiOutlineMenu tabIndex={2} aria-label='Abrir menu' size={25} onClick={handleOpenMenu} />
-                        }
+                                : <AiOutlineMenu tabIndex={0} aria-label='Abrir menu' size={25} onClick={handleOpenMenu} />
+                        } */}
                     </div>
                 </div>
             </nav>

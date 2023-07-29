@@ -1,9 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+    'display': 'popup'
+});
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -21,4 +24,15 @@ const storage = getStorage(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export { app, storage, db, auth, firebaseConfig, provider };
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const { email, displayName, accessToken } = auth.currentUser;
+        const userCred = { token: accessToken, email: email, name: displayName }
+        localStorage.setItem("User", JSON.stringify(userCred))
+    } else {
+        localStorage.removeItem("User")
+    }
+});
+
+export { app, storage, db, auth, firebaseConfig, googleProvider };

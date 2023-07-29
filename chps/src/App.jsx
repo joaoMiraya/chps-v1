@@ -7,7 +7,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from './services/firebase/firebase'
 
 import { useDispatch } from 'react-redux';
-import { setBgHeaderUrl, setLogoHeaderUrl } from './services/redux/images/imageSlice';
+import { setBgHeaderUrl } from './services/redux/images/imageSlice';
 
 
 const Header = lazy(() => import("./components/partials/Header"));
@@ -25,13 +25,10 @@ function App() {
   useEffect(() => {
     const fetchImageUrls = async () => {
       const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
-      const logoHeaderReference = ref(storage, 'images-app/icon192x192.png');
       /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
       try {
         const headerBgUrl = await getDownloadURL(bgHeaderReference);
         dispatch(setBgHeaderUrl(headerBgUrl));
-        const headerLogoUrl = await getDownloadURL(logoHeaderReference);
-        dispatch(setLogoHeaderUrl(headerLogoUrl));
       } catch (error) {
         console.error('Erro ao obter a URL da imagem:', error);
       }

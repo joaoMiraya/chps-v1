@@ -15,7 +15,7 @@ import App from '../App';
 import NotFound from '../components/partials/NotFound';
 import Loading from '../components/partials/Loading';
 import RedefinePassword from '../components/utils/components/RedefinePassword';
-
+import TermosEPoliticas from '../components/partials/TermosEPoliticas';
 import Teste from '../pages/Teste';
 
 
@@ -45,6 +45,7 @@ root.render(
 
           <Route path='/' element={<App />}>
             <Route path='/redefinir-senha' element={<RedefinePassword />} />
+            <Route path='/termos-e-politicas' element={<TermosEPoliticas />} />
 
             <Route path='/' element={<Home />} />
             <Route path='/cadastro' element={<Cadastro />} />

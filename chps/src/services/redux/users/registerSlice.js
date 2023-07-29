@@ -55,8 +55,7 @@ const registerSlice = createSlice({
     },
     extraReducers: builder => {
         builder
-            .addCase(userRegister.fulfilled, (state, action) => {
-                localStorage.setItem("User", JSON.stringify(action.payload))
+            .addCase(userRegister.fulfilled, (state) => {
                 state.success = true
                 state.error = ''
             })

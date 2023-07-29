@@ -1,40 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { auth, provider } from "../../firebase/firebase";
+import { auth, googleProvider } from "../../firebase/firebase";
 import { toast } from 'react-toastify';
 
-//AUTENTICAÇÃO COM O GOOGLE --- REVISAR
-export const authGoogle = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            const { displayName, email } = user;
-            const userToLocalStorage = { token: token, name: displayName, email: email }
-            localStorage.setItem("User", JSON.stringify(userToLocalStorage))
-
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-        }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            console.log(errorCode);
-            const errorMessage = error.message;
-            console.log(errorMessage);
-            // The email of the user's account used.
-            const email = error.customData.email;
-            console.log(email);
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(credential);
-            // ...
-        })
-}
-
-//Fazer botão de logout no perfil para excluir o storage do adm
+//FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = (email) => {
     const emailAdm = "joao@adm.com"
     if (email == emailAdm) {
@@ -44,6 +13,8 @@ const getAdm = (email) => {
         return false
     }
 };
+
+//FUNÇÃO PARA FAZER O LOGOUT DA APP
 export const logout = () => {
     signOut(auth).then(() => {
         if (localStorage.getItem("isAdm")) {
@@ -59,20 +30,7 @@ export const logout = () => {
     });
 };
 
-/* export const redefinePassword = createAsyncThunk(
-    "redefinePassword",
-    async (email) => {
-        console.log(email);
-        try {
-            await sendPasswordResetEmail(auth, email)
-            return toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
-        }
-        catch (error) {
-            const errorMessage = "Algo deu errado! Atualize a página e tente novamente.";
-            toast.error(errorMessage);
-        }
-    }); */
-
+//FUNÇÃO PARA ENVIAR EMAIL PARA REDEFINIR A SENHA
 export const redefinePassword = createAsyncThunk(
     "redefinePassword",
     async (email) => {
@@ -81,11 +39,10 @@ export const redefinePassword = createAsyncThunk(
                 toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
             })
             .catch((err) => {
-                toast.error("Ocorreu algum erro, atualize a pagína e tente novamente")
+                toast.error("Email inserido não foi encontrado em nossa base de dados, tente criar uma conta!")
                 console.log(err);
             })
     });
-
 
 //AUTENTICAÇÃO COM O EMAIL E SENHA
 export const userLogin = createAsyncThunk(
@@ -104,6 +61,30 @@ export const userLogin = createAsyncThunk(
         }
     }
 );
+
+//AUTENTICAÇÃO COM O GOOGLE --- REVISAR
+export const authGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            const { displayName, email } = user;
+            const userToLocalStorage = { token: token, name: displayName, email: email }
+            localStorage.setItem("User", JSON.stringify(userToLocalStorage))
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            alert(error)
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(credential);
+            // ...
+        })
+};
 
 const initialState = {
     loading: false,
@@ -125,7 +106,7 @@ const authSlice = createSlice({
         builder
             .addCase(userLogin.fulfilled, (state, action) => {
                 const { email } = action.payload;
-                localStorage.setItem("User", JSON.stringify(action.payload))
+                /* localStorage.setItem("User", JSON.stringify(action.payload)) */
                 state.isLogged = true
                 state.isAdm = getAdm(email)
                 state.error = null

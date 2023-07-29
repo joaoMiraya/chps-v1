@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { AiOutlineMenu, AiOutlineMenuUnfold } from 'react-icons/ai';
+import logoHeader from '/icon192x192.png';
 
 function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) {
     Header.propTypes = {
@@ -12,7 +13,7 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
     };
 
     /* RECEBENDO IMAGENS ESTÁTICAS DO HEADER */
-    const { bgHeader, logoHeader } = useSelector((state) => state.images);
+    const { bgHeader } = useSelector((state) => state.images);
     const { isAdm } = useSelector((state) => state.auth);
 
     return (

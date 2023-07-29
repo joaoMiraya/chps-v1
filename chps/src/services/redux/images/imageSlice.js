@@ -14,10 +14,6 @@ const imageSlice = createSlice({
       state.bgHeader = action.payload;
       localStorage.setItem('headerBgImageUrl', JSON.stringify(action.payload));
     },
-    setLogoHeaderUrl(state, action) {
-      state.logoHeader = action.payload;
-      localStorage.setItem('headerLogoUrl', JSON.stringify(action.payload));
-    },
     set404ImageUrl(state, action) {
       state.logoHeader = action.payload;
       localStorage.setItem('404ImageUrl', JSON.stringify(action.payload));

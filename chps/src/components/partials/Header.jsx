@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { AiOutlineMenu, AiOutlineMenuUnfold } from 'react-icons/ai';
-import logoHeader from '/icon192x192.png';
+import logoHeader from '/windows11/SmallTile.scale-200.png'
 
 function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) {
     Header.propTypes = {

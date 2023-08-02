@@ -106,7 +106,6 @@ const authSlice = createSlice({
         builder
             .addCase(userLogin.fulfilled, (state, action) => {
                 const { email } = action.payload;
-                /* localStorage.setItem("User", JSON.stringify(action.payload)) */
                 state.isLogged = true
                 state.isAdm = getAdm(email)
                 state.error = null

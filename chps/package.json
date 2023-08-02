@@ -28,6 +28,7 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "scrollreveal": "^4.0.9",
+    "workbox-build": "^4.3.1",
     "yup": "^1.2.0"
   },
   "devDependencies": {

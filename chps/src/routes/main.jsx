@@ -31,6 +31,9 @@ import Cart from '../pages/cart/Cart';
 import Profile from '../pages/profile/Profile';
 
 import Dashboard from '../pages/dashboard/Dashboard';
+import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
+import DashApp from '../pages/dashboard/DashApp';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -41,7 +44,11 @@ root.render(
         <Routes>
           <Route path='/teste' element={<Teste />} />
           <Route path='*' element={<NotFound />} />
-          <Route path='/dashboard' element={<AdminRoute><Dashboard /></AdminRoute>} />
+
+          <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/dashboard/lanches' element={<LanchesDash />} />
+          </Route>
 
           <Route path='/' element={<App />}>
             <Route path='/redefinir-senha' element={<RedefinePassword />} />

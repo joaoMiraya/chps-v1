@@ -49,7 +49,7 @@ function LoginComp({ handleShowPassword, showPass }) {
                 <meta name="referrer" content="no-referrer-when-downgrade" />
             </Helmet>
 
-            <h1 className="mt-20 text-2xl font-bold">Entrar em Chapas</h1>
+            <h1 className="mt-16 text-2xl font-bold">Entrar em Chapas</h1>
             <p className="font-semibold">Entrar com:  </p>
             <div className="flex gap-4 mt-4 ">
                 <div className="flex xl:flex-col xl:-w xl:flex-grow- gap-4 mt-4 ">

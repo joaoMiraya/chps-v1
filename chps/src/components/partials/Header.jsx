@@ -19,8 +19,8 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
     return (
         <header className="linear-gradient min-h-[80px]">
             <nav>
-                <div className=" relative flex justify-between items-center">
-                    <img rel="preconnect" src={bgHeader} className=' md:hidden object-none w-full h-full absolute top-4 overflow-visible z-40' alt="Imagem de fundo" />
+                <div className=" flex justify-between items-center">
+                    <img rel="preconnect" src={bgHeader} className=' md:hidden object-contain z-40 bg-center absolute' alt="Imagem de fundo" />
                     <div>
                         <Link aria-label="Início" tabIndex={0} to={"/"}><img src={logoHeader} className=' z-50 absolute left-2 top-0 cursor-pointer hover:opacity-80' height={80} width={80} alt="Chapa's Logo" /></Link>
                     </div>

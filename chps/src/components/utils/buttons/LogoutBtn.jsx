@@ -13,7 +13,7 @@ function LogoutBtn() {
 
 
     return (
-        <div onClick={handleLogout} aria-label='Botão para sair da conta' className='shadowToLogout cursor-pointer flex justify-center items-center text-gray-400 border-[1px] border-solid border-gray-200 rounded-full p-2'>
+        <div onClick={handleLogout} aria-label='Botão para sair da conta' className='shadowToLogout z-40 cursor-pointer flex justify-center items-center text-gray-400 border-[1px] border-solid border-gray-200 rounded-full p-2'>
             <AiOutlineLogout size={30} />
         </div>
     )

@@ -16,7 +16,7 @@ function PedidoRapido() {
             <h2 className="text-2xl font-semibold">Está com muita fome?!</h2>
             <p>Faça seu pedido sem se cadastrar</p>
             <div>
-                <button className="bg-[#FFBC0D] py-2 px-16 rounded-md font-semibold mt-2" onClick={handleAuthAnonymously}>Pedido Rápido</button>
+                <button aria-label="Botão para fazer pedido sem cadastro" className="bg-[#FFBC0D] py-2 px-16 rounded-md font-semibold mt-2" onClick={handleAuthAnonymously}>Pedido Rápido</button>
             </div>
         </div>
     )

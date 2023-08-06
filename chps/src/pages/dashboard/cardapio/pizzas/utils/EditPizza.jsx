@@ -1,37 +1,37 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { editLanche } from '../../../../../services/redux/items/lanchesSlice';
+import { editPizza } from '../../../../../services/redux/items/pizzasSlice';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../../services/firebase/firebase';
 
 
-function EditLanche({ id }) {
-    EditLanche.propTypes = {
+function EditPizza({ id }) {
+    EditPizza.propTypes = {
         id: PropTypes.string.isRequired,
     };
 
     const dispatch = useDispatch();
-    const { lanches } = useSelector(state => state.lanches);
-    const snack = lanches.find((lanche) => lanche.id === id);
-    const { caminhoImagem } = snack;
+    const { pizzas } = useSelector(state => state.pizzas);
+    const pizza = pizzas.find((Pizza) => Pizza.id === id);
+    const { caminhoImagem } = pizza;
 
     const [submitting, setSubmitting] = useState(false);
 
-    const [editImageLanche, setEditImageLanche] = useState('');
-    const [editPathImageLanche, setEditPathImageLanche] = useState('');
-    const [editNomeLanche, setEditNomeLanche] = useState('');
-    const [editCategoryLanche, setEditCategoryLanche] = useState('');
-    const [editIngreLanche, setEditIngreLanche] = useState('');
-    const [editValorLanche, setEditValorLanche] = useState('');
+    const [editImagePizza, setEditImagePizza] = useState('');
+    const [editPathImagePizza, setEditPathImagePizza] = useState('');
+    const [editNomePizza, setEditNomePizza] = useState('');
+    const [editIngrePizza, setEditIngrePizza] = useState('');
+    const [editValorPizzaP, setEditValorPizzaP] = useState('');
+    const [editValorPizzaF, setEditValorPizzaF] = useState('');
 
     const resetForm = () => {
-        setEditImageLanche('');
-        setEditNomeLanche('');
-        setEditCategoryLanche('');
-        setEditIngreLanche('');
-        setEditValorLanche('');
+        setEditImagePizza('');
+        setEditNomePizza('');
+        setEditIngrePizza('');
+        setEditValorPizzaP('');
+        setEditValorPizzaF('');
     };
 
     const handleSubmit = async (e) => {
@@ -39,19 +39,19 @@ function EditLanche({ id }) {
         setSubmitting(true);
         try {
             const values = {
-                id: id, // Replace with the lanche ID you want to edit
-                imagem: editImageLanche,
-                caminhoImagem: editPathImageLanche,
-                nome: editNomeLanche,
-                categoria: editCategoryLanche,
-                ingredientes: editIngreLanche,
-                valor: editValorLanche
+                id: id,
+                imagem: editImagePizza,
+                caminhoImagem: editPathImagePizza,
+                nome: editNomePizza,
+                ingredientes: editIngrePizza,
+                valorP: editValorPizzaP,
+                valorF: editValorPizzaF
             };
-            dispatch(editLanche(values));
+            dispatch(editPizza(values));
             setSubmitting(false);
             resetForm();
         } catch (error) {
-            toast.error("Ocorreu um erro ao editar o lanche: " + error);
+            toast.error("Ocorreu um erro ao editar o Pizza: " + error);
         }
     };
     //FUNÇÃO RESPOSAVEL PELA EXCLUSÃO DA IMAGEM ANTIGA E UPLOAD DA IMAGEM NOVA... 
@@ -65,19 +65,19 @@ function EditLanche({ id }) {
             console.log(error);
         });
         const file = e.target.files[0];
-        const lancheImagesRef = ref(storage, `/items-images/lanche-images/${file.name + Date.now()}`);
-        await uploadBytes(lancheImagesRef, file).then((snapshot) => {
+        const pizzaImagesRef = ref(storage, `/items-images/pizza-images/${file.name + Date.now()}`);
+        await uploadBytes(pizzaImagesRef, file).then((snapshot) => {
             //SALVA O CAMINHO DA IMAGEM PARA EXCLUSÃO FUTURA
-            setEditPathImageLanche(snapshot.metadata.fullPath)
+            setEditPathImagePizza(snapshot.metadata.fullPath)
             const customId = "custom-id-yes"
             toast.success(`${snapshot.metadata.name} adicionada com sucesso`, { toastId: customId })
             console.log(file.name);
         });
         if (file) {
             //BAIXA A URL DA IMAGEM E SETA O VALOR NO STATE
-            await getDownloadURL(lancheImagesRef)
+            await getDownloadURL(pizzaImagesRef)
                 .then((url) => {
-                    setEditImageLanche(url);
+                    setEditImagePizza(url);
                 })
                 .catch((error) => {
                     // A full list of error codes is available at
@@ -101,64 +101,60 @@ function EditLanche({ id }) {
         }
     };
 
-
     return (
 
         <form onSubmit={handleSubmit} >
             <div className="flex flex-col gap-2 mt-6">
-                <label htmlFor="imagemLanche">Escolha a imagem do lanche</label>
+                <label htmlFor="imagemPizza">Escolha a imagem da pizza</label>
                 <input type="file"
-                    name="imagemLanche"
-                    id="imagemLanche"
+                    name="imagemPizza"
+                    id="imagemPizza"
                     onChange={handleImageChange}
                 />
 
 
-                <label htmlFor="nomeLanche">Nome do Lanche</label>
+                <label htmlFor="nomePizza">Nome do Pizza</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="nomeLanche"
-                    id="nomeLanche"
-                    onChange={(e) => setEditNomeLanche(e.target.value)}
+                    name="nomePizza"
+                    id="nomePizza"
+                    onChange={(e) => setEditNomePizza(e.target.value)}
                     required
-                    value={editNomeLanche}
-                    placeholder={snack.nome}
+                    value={editNomePizza}
+                    placeholder={pizza.nome}
                 />
 
-
-                <label htmlFor="categoriaLanche">Categoria do Lanche</label>
+                <label htmlFor="ingredientesPizza">Ingredientes do Pizza</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="categoriaLanche"
-                    id="categoriaLanche"
-                    onChange={(e) => setEditCategoryLanche(e.target.value)}
+                    name="ingredientesPizza"
+                    id="ingredientesPizza"
+                    onChange={(e) => setEditIngrePizza(e.target.value)}
                     required
-                    value={editCategoryLanche}
-                    placeholder={snack.categoria}
+                    value={editIngrePizza}
+                    placeholder={pizza.ingredientes}
                 />
 
-
-                <label htmlFor="ingredientesLanche">Ingredientes do Lanche</label>
+                <label htmlFor="valorPizza">Valor do Pizza Individual</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="ingredientesLanche"
-                    id="ingredientesLanche"
-                    onChange={(e) => setEditIngreLanche(e.target.value)}
+                    name="valorPizza"
+                    id="nomePizza"
+                    onChange={(e) => setEditValorPizzaP(e.target.value)}
                     required
-                    value={editIngreLanche}
-                    placeholder={snack.ingredientes}
+                    value={editValorPizzaP}
+                    placeholder={pizza.valorP}
                 />
 
-
-                <label htmlFor="valorLanche">Valor do Lanche</label>
+                <label htmlFor="valorPizza">Valor do Pizza Família</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="valorLanche"
-                    id="nomeLanche"
-                    onChange={(e) => setEditValorLanche(e.target.value)}
+                    name="valorPizza"
+                    id="nomePizza"
+                    onChange={(e) => setEditValorPizzaF(e.target.value)}
                     required
-                    value={editValorLanche}
-                    placeholder={snack.valor}
+                    value={editValorPizzaF}
+                    placeholder={pizza.valorF}
                 />
 
 
@@ -167,7 +163,7 @@ function EditLanche({ id }) {
                         <div className="spinner-border h-6 w-6" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
-                        : 'Alterar Lanche'}
+                        : 'Alterar Pizza'}
                 </button>
             </div>
         </form>
@@ -176,4 +172,4 @@ function EditLanche({ id }) {
 }
 
 
-export default EditLanche;
+export default EditPizza;

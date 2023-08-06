@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 
 export const createLanche = createAsyncThunk(
-    'create/lanche',
+    'create/lanches',
     async ({ imagem, caminhoImagem, nome, categoria, ingredientes, valor }, { rejectWithValue }) => {
         try {
             //SALVA O LANCHE NO FIRESTORE DB
@@ -31,7 +31,7 @@ export const createLanche = createAsyncThunk(
 );
 
 export const editLanche = createAsyncThunk(
-    'edit/lanche',
+    'edit/lanches',
     async ({ id, imagem, caminhoImagem, nome, categoria, ingredientes, valor }, { rejectWithValue }) => {
         try {
             const lancheRef = doc(db, "lanches", id);
@@ -76,7 +76,6 @@ export const fetchLanches = createAsyncThunk(
     }
 );
 
-
 const initialState = {
     loading: false,
     error: '',
@@ -84,8 +83,8 @@ const initialState = {
     lanches: []
 };
 
-const itemsSlice = createSlice({
-    name: 'create',
+const lanchesSlice = createSlice({
+    name: 'lanches',
     initialState,
     reducers: {
 
@@ -120,6 +119,6 @@ const itemsSlice = createSlice({
 });
 
 
-export default itemsSlice.reducer;
+export default lanchesSlice.reducer;
 
 

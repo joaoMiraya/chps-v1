@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { createLanche } from '../../../../../services/redux/items/lanchesSlice';
+import { createPizza } from '../../../../../services/redux/items/pizzasSlice';
 import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../../services/firebase/firebase';
@@ -7,24 +7,24 @@ import { toast } from 'react-toastify';
 
 
 
-function AddLanche() {
+function AddPizza() {
     const dispatch = useDispatch();
 
     const [submiting, setSubmiting] = useState(false);
 
-    const [imageLanche, setImageLanche] = useState('');
-    const [pathImageLanche, setPathImageLanche] = useState('');
-    const [nomeLanche, setNomeLanche] = useState('');
-    const [categoryLanche, setCategoryLanche] = useState('');
-    const [ingreLanche, setIngreLanche] = useState('');
-    const [valorLanche, setValorLanche] = useState('');
+    const [imagePizza, setImagePizza] = useState('');
+    const [pathImagePizza, setPathImagePizza] = useState('');
+    const [nomePizza, setNomePizza] = useState('');
+    const [ingrePizza, setIngrePizza] = useState('');
+    const [valorPizzaP, setValorPizzaP] = useState('');
+    const [valorPizzaF, setValorPizzaF] = useState('');
 
     const resetForm = () => {
-        setImageLanche('');
-        setNomeLanche('');
-        setCategoryLanche('');
-        setIngreLanche('');
-        setValorLanche('');
+        setImagePizza('');
+        setNomePizza('');
+        setIngrePizza('');
+        setValorPizzaP('');
+        setValorPizzaF('');
     };
 
     //FAZ O DISPATCH DOS VALORES PARA O REDUX SALVAR NO FIRESTORE
@@ -33,35 +33,35 @@ function AddLanche() {
         setSubmiting(true)
         try {
             const values = {
-                imagem: imageLanche,
-                caminhoImagem: pathImageLanche,
-                nome: nomeLanche,
-                categoria: categoryLanche,
-                ingredientes: ingreLanche,
-                valor: valorLanche
+                imagem: imagePizza,
+                caminhoImagem: pathImagePizza,
+                nome: nomePizza,
+                ingredientes: ingrePizza,
+                valorP: valorPizzaP,
+                valorF: valorPizzaF
             };
-            dispatch(createLanche(values));
+            dispatch(createPizza(values));
             setSubmiting(false)
             resetForm();
         } catch (error) {
-            toast.error("Ocorreu um erro ao adiconar o lanche:", error);
+            toast.error("Ocorreu um erro ao adiconar a pizza:", error);
         }
     }
     //FUNÇÃO RESPOSAVEL PELO UPLOAD DA IMAGEM... PASSAR A LÓGICA PARA O REDUX
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        const lancheImagesRef = ref(storage, `/items-images/lanche-images/${file.name + Date.now()}`);
-        await uploadBytes(lancheImagesRef, file).then((snapshot) => {
+        const pizzaImagesRef = ref(storage, `/items-images/pizza-images/${file.name + Date.now()}`);
+        await uploadBytes(pizzaImagesRef, file).then((snapshot) => {
             //SALVA O CAMINHO DA IMAGEM PARA EXCLUSÃO FUTURA
-            setPathImageLanche(snapshot.metadata.fullPath)
+            setPathImagePizza(snapshot.metadata.fullPath)
             const customId = "custom-id-yes"
             toast.success(`${snapshot.metadata.name} adicionada com sucesso`, { toastId: customId })
         });
         if (file) {
             //BAIXA A URL DA IMAGEM E SETA O VALOR NO STATE
-            await getDownloadURL(lancheImagesRef)
+            await getDownloadURL(pizzaImagesRef)
                 .then((url) => {
-                    setImageLanche(url);
+                    setImagePizza(url);
                 })
                 .catch((error) => {
                     // A full list of error codes is available at
@@ -89,56 +89,53 @@ function AddLanche() {
 
         <form onSubmit={handleSubmit} >
             <div className="flex flex-col gap-2 mt-6">
-                <label htmlFor="imagemLanche">Escolha a imagem do lanche</label>
+                <label htmlFor="imagemPizza">Escolha a imagem da Pizza</label>
                 <input type="file"
-                    name="imagemLanche"
-                    id="imagemLanche"
+                    name="imagemPizza"
+                    id="imagemPizza"
                     onChange={handleImageChange}
                     required
                 />
 
 
-                <label htmlFor="nomeLanche">Nome do Lanche</label>
+                <label htmlFor="nomePizza">Nome da Pizza</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="nomeLanche"
-                    id="nomeLanche"
-                    onChange={(e) => setNomeLanche(e.target.value)}
+                    name="nomePizza"
+                    id="nomePizza"
+                    onChange={(e) => setNomePizza(e.target.value)}
                     required
-                    value={nomeLanche}
+                    value={nomePizza}
                 />
 
-
-                <label htmlFor="categoriaLanche">Categoria do Lanche</label>
+                <label htmlFor="ingredientesPizza">Ingredientes da Pizza</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="categoriaLanche"
-                    id="categoriaLanche"
-                    onChange={(e) => setCategoryLanche(e.target.value)}
+                    name="ingredientesPizza"
+                    id="ingredientesPizza"
+                    onChange={(e) => setIngrePizza(e.target.value)}
                     required
-                    value={categoryLanche}
+                    value={ingrePizza}
                 />
 
-
-                <label htmlFor="ingredientesLanche">Ingredientes do Lanche</label>
+                <label htmlFor="valorPizzaP">Valor da Pizza Individual</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="ingredientesLanche"
-                    id="ingredientesLanche"
-                    onChange={(e) => setIngreLanche(e.target.value)}
+                    name="valorPizzaP"
+                    id="valorPizzaP"
+                    onChange={(e) => setValorPizzaP(e.target.value)}
                     required
-                    value={ingreLanche}
+                    value={valorPizzaP}
                 />
 
-
-                <label htmlFor="valorLanche">Valor do Lanche</label>
+                <label htmlFor="valorPizzaF">Valor da Pizza Família</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
-                    name="valorLanche"
-                    id="nomeLanche"
-                    onChange={(e) => setValorLanche(e.target.value)}
+                    name="valorPizzaF"
+                    id="valorPizzaF"
+                    onChange={(e) => setValorPizzaF(e.target.value)}
                     required
-                    value={valorLanche}
+                    value={valorPizzaF}
                 />
 
 
@@ -147,7 +144,7 @@ function AddLanche() {
                         <div className="spinner-border h-6 w-6" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
-                        : 'Adicionar Lanche'}
+                        : 'Adicionar Pizza'}
                 </button>
             </div>
         </form>
@@ -156,4 +153,4 @@ function AddLanche() {
 }
 
 
-export default AddLanche;
+export default AddPizza;

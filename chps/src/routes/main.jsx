@@ -34,7 +34,8 @@ import DashApp from '../pages/dashboard/DashApp';
 import Dashboard from '../pages/dashboard/Dashboard';
 import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
 import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDetail';
-
+import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
+import PizzaDashDetail from '../pages/dashboard/cardapio/pizzas/PizzaDashDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -48,8 +49,12 @@ root.render(
 
           <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
+            
             <Route path='/dashboard/lanches' element={<LanchesDash />} />
             <Route path='/dashboard/lanches/:id' element={<LancheDashDetail />} />
+
+            <Route path='/dashboard/pizzas' element={<PizzasDash />} />
+            <Route path='/dashboard/pizzas/:id' element={<PizzaDashDetail />} />
           </Route>
 
           <Route path='/' element={<App />}>

@@ -1,5 +1,5 @@
 import AddLanche from "./utils/AddLanche";
-import Lanches from "./utils/Lanches";
+import Lanches from "../../../../components/utils/components/Lanches";
 
 
 function LanchesDash() {

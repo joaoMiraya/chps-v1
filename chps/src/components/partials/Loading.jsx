@@ -1,4 +1,4 @@
-import logo from '/windows11/SmallTile.scale-200.png'
+import logo from '/windows11/SmallTile.scale-400.png'
 function Loading() {
 
     return (

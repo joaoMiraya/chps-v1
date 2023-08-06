@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchLanches } from "../../../../../services/redux/items/itemsSlice";
+import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../../../../components/partials/Loading";
+import Loading from "../../partials/Loading";
 
 function Lanches() {
 
     const dispatch = useDispatch();
-    const { lanches } = useSelector(state => state.items);
+    const { lanches } = useSelector(state => state.lanches);
 
     useEffect(() => {
         dispatch(fetchLanches());

@@ -1,5 +1,5 @@
 import LancheCard from "../components/utils/cards/LancheCard";
-import LancheDetalhes from "../components/utils/cards/detalhes/LancheDetalhes";
+import LancheDetalhes from "./lanche/LancheDetalhes";
 
 
 

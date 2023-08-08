@@ -133,7 +133,7 @@ function AddLanche() {
 
                 <label htmlFor="valorLanche">Valor do Lanche</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
-                    type="text"
+                    type="number"
                     name="valorLanche"
                     id="nomeLanche"
                     onChange={(e) => setValorLanche(e.target.value)}

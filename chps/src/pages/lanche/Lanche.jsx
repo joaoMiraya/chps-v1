@@ -1,4 +1,4 @@
-
+import Lanches from './Lanches';
 
 function Lanche() {
 
@@ -6,7 +6,9 @@ function Lanche() {
     return (
         <div>
 
-<h1>lanches</h1>
+            <h1>lanches</h1>
+
+            <Lanches />
         </div>
     )
 }

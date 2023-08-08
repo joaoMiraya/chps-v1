@@ -24,6 +24,8 @@ import Cadastro from '../pages/cadastro/Cadastro';
 
 import Menu from '../pages/menu/Menu';
 import Lanche from '../pages/lanche/Lanche';
+import LancheDetalhes from '../pages/lanche/LancheDetalhes';
+
 import Pizza from '../pages/pizza/Pizza';
 import Porcao from '../pages/porcao/Porcao';
 
@@ -32,6 +34,8 @@ import Profile from '../pages/profile/Profile';
 
 import DashApp from '../pages/dashboard/DashApp';
 import Dashboard from '../pages/dashboard/Dashboard';
+import AcrescimosDash from '../pages/dashboard/cardapio/acrescimos/AcrescimosDash';
+import AcrescimosEdit from '../pages/dashboard/cardapio/acrescimos/EditAcrescimo';
 import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
 import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDetail';
 import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
@@ -50,6 +54,10 @@ root.render(
           <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
             
+            <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
+            <Route path='/dashboard/acrescimo/:id' element={<AcrescimosEdit />} />
+            
+            
             <Route path='/dashboard/lanches' element={<LanchesDash />} />
             <Route path='/dashboard/lanches/:id' element={<LancheDashDetail />} />
 
@@ -65,6 +73,8 @@ root.render(
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/menu' element={<Menu />} />
             <Route path='/menu/lanches' element={<Lanche />} />
+            <Route path='/menu/lanches/:id' element={<LancheDetalhes />} />
+
             <Route path='/menu/pizzas' element={<Pizza />} />
             <Route path='/menu/porcoes' element={<Porcao />} />
 

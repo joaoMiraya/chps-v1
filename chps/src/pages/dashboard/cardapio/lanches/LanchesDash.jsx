@@ -1,5 +1,5 @@
 import AddLanche from "./utils/AddLanche";
-import Lanches from "../../../../components/utils/components/Lanches";
+import LanchesDashComp from "./LanchesDashComp";
 
 
 function LanchesDash() {
@@ -12,7 +12,7 @@ function LanchesDash() {
             </div>
             <div className="flex flex-col w-full">
                 <h1 className="text-2xl font-semibold text-center">Lanches do Cardápio</h1>
-                <Lanches />
+                <LanchesDashComp />
             </div>
         </div>
     )

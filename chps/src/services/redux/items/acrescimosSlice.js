@@ -5,20 +5,16 @@ import { toast } from 'react-toastify';
 
 
 
-export const createLanche = createAsyncThunk(
-    'create/lanches',
-    async ({ imagem, caminhoImagem, nome, categoria, ingredientes, valor }, { rejectWithValue }) => {
+export const createAcrescimo = createAsyncThunk(
+    'create/acrescimos',
+    async ({ nome, valor }, { rejectWithValue }) => {
         try {
             //SALVA O LANCHE NO FIRESTORE DB
-            const docRef = await addDoc(collection(db, "lanches"), {
-                imagem: imagem,
-                caminhoImagem: caminhoImagem,
+            const docRef = await addDoc(collection(db, "acrescimos"), {
                 nome: nome,
-                categoria: categoria,
-                ingredientes: ingredientes,
                 valor: valor
             });
-            toast.success(`Lanche adicionado no caminho ${docRef.path} com sucesso!`)
+            toast.success(`Acréscimo adicionado no caminho ${docRef.path} com sucesso!`)
         } catch (error) {
             // return custom error message from API if any
             if (error.response && error.response.data.message) {
@@ -30,20 +26,16 @@ export const createLanche = createAsyncThunk(
     }
 );
 
-export const editLanche = createAsyncThunk(
-    'edit/lanches',
-    async ({ id, imagem, caminhoImagem, nome, categoria, ingredientes, valor }, { rejectWithValue }) => {
+export const editAcrescimo = createAsyncThunk(
+    'edit/acrescimos',
+    async ({ id, nome, valor }, { rejectWithValue }) => {
         try {
-            const lancheRef = doc(db, "lanches", id);
-            await updateDoc(lancheRef, {
-                imagem: imagem,
-                caminhoImagem: caminhoImagem,
+            const acrescimoRef = doc(db, "acrescimos", id);
+            await updateDoc(acrescimoRef, {
                 nome: nome,
-                categoria: categoria,
-                ingredientes: ingredientes,
                 valor: valor
             });
-            toast.success(`Lanche alterado com sucesso!`);
+            toast.success(`Acrescimo alterado com sucesso!`);
         } catch (error) {
             // return custom error message from API if any
             if (error.response && error.response.data.message) {
@@ -55,17 +47,17 @@ export const editLanche = createAsyncThunk(
     }
 );
 
-export const fetchLanches = createAsyncThunk(
-    'fetch/lanches',
+export const fetchAcrescimo = createAsyncThunk(
+    'fetch/acrescimos',
     async (_, { rejectWithValue }) => {
         try {
-            const q = query(collection(db, "lanches"), orderBy("valor", "asc"));
+            const q = query(collection(db, "acrescimos"), orderBy("valor", "asc"));
             const querySnapshot = await getDocs(q);
-            const lanchesData = [];
+            const acrescimosData = [];
             querySnapshot.forEach((doc) => {
-                lanchesData.push({ id: doc.id, ...doc.data() });
+                acrescimosData.push({ id: doc.id, ...doc.data() });
             });
-            return lanchesData;
+            return acrescimosData;
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
@@ -80,35 +72,35 @@ const initialState = {
     loading: false,
     error: '',
     success: false,
-    lanches: []
+    acrescimos: []
 };
 
-const lanchesSlice = createSlice({
-    name: 'lanches',
+const acrescimosSlice = createSlice({
+    name: 'acrescimos',
     initialState,
     reducers: {
 
     },
     extraReducers: builder => {
         builder
-            .addCase(createLanche.fulfilled, (state) => {
+            .addCase(createAcrescimo.fulfilled, (state) => {
                 state.success = true
                 state.error = ''
             })
-            .addCase(createLanche.rejected, (state, action) => {
+            .addCase(createAcrescimo.rejected, (state, action) => {
                 const message = "Algo deu errado"
                 state.error = message;
                 console.log(action.payload);
             })
-            .addCase(fetchLanches.fulfilled, (state, action) => {
-                state.lanches = action.payload;
+            .addCase(fetchAcrescimo.fulfilled, (state, action) => {
+                state.acrescimos = action.payload;
                 state.loading = false;
                 state.error = '';
             })
-            .addCase(fetchLanches.pending, (state) => {
+            .addCase(fetchAcrescimo.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(fetchLanches.rejected, (state) => {
+            .addCase(fetchAcrescimo.rejected, (state) => {
                 state.loading = false;
                 state.error = 'Falha ao carregar lanches.';
             })
@@ -119,6 +111,6 @@ const lanchesSlice = createSlice({
 });
 
 
-export default lanchesSlice.reducer;
+export default acrescimosSlice.reducer;
 
 

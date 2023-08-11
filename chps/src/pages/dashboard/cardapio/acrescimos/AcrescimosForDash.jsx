@@ -23,7 +23,7 @@ function AcrescimosForDash() {
                 return (
                     <div className="bg-white p-8 border-[1px] border-solid border-gray-200 min-w-[16rem] flex flex-col "
                         key={acrescimo.id}>
-                        <Link to={`/dashboard/acrescimo/${acrescimo.id}`}>
+                        <Link to={`/dashboard/acrescimos/${acrescimo.id}`}>
                             <div className="flex flex-col items-center justify-between">
                                 <p className="font-semibold">{acrescimo.nome}</p>
                                 <p className="font-semibold">Valor: {(acrescimo.valor).replace('.', ',')}</p>

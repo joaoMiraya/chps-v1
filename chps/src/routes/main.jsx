@@ -28,7 +28,7 @@ import LancheDetalhes from '../pages/lanche/LancheDetalhes';
 
 import Pizza from '../pages/pizza/Pizza';
 import Porcao from '../pages/porcao/Porcao';
-
+import BebidasDetalhes from '../components/utils/cards/detalhes/BebidasDetalhes';
 import Cart from '../pages/cart/Cart';
 import Profile from '../pages/profile/Profile';
 
@@ -36,6 +36,10 @@ import DashApp from '../pages/dashboard/DashApp';
 import Dashboard from '../pages/dashboard/Dashboard';
 import AcrescimosDash from '../pages/dashboard/cardapio/acrescimos/AcrescimosDash';
 import AcrescimosEdit from '../pages/dashboard/cardapio/acrescimos/EditAcrescimo';
+
+import BebidasDash from '../pages/dashboard/cardapio/bebidas/BebidasDash';
+import BebidasDashDetail from '../pages/dashboard/cardapio/bebidas/BebidaDashDetail';
+
 import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
 import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDetail';
 import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
@@ -55,7 +59,10 @@ root.render(
             <Route path='/dashboard' element={<Dashboard />} />
             
             <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
-            <Route path='/dashboard/acrescimo/:id' element={<AcrescimosEdit />} />
+            <Route path='/dashboard/acrescimos/:id' element={<AcrescimosEdit />} />
+            
+            <Route path='/dashboard/bebidas' element={<BebidasDash />} />
+            <Route path='/dashboard/bebidas/:id' element={<BebidasDashDetail />} />
             
             
             <Route path='/dashboard/lanches' element={<LanchesDash />} />
@@ -77,6 +84,9 @@ root.render(
 
             <Route path='/menu/pizzas' element={<Pizza />} />
             <Route path='/menu/porcoes' element={<Porcao />} />
+
+            <Route path='/menu/bebidas' element={<Porcao />} />
+            <Route path='/menu/bebidas/:id' element={<BebidasDetalhes />} />
 
 
 

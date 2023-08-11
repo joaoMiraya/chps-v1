@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
-    cartTotalQuantity: 0,
-    cartTotalAmount: 0,
+    /* cartTotalQuantity: 0,
+    cartTotalAmount: 0, */
 };
 
 const cartSlice = createSlice({
@@ -13,19 +13,11 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart(state, action) {
-            const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload.id);
-            if (itemIndex >= 0) {
-                state.cartItems[itemIndex].cartQuantity += 1;
-                toast.info(`Increased ${state.cartItems[itemIndex].name} cart quantity`, {
-                    position: "top-left"
-                });
-            } else {
-                const tempProduct = { ...action.payload, cartQuantity: 1 }
-                state.cartItems.push(tempProduct);
-                toast.success(`${action.payload.name} to cart`, {
-                    position: "top-left"
-                });
-            }
+            const tempProduct = { ...action.payload }
+            state.cartItems.push(tempProduct);
+            toast.success(`${action.payload.nome} adicionado no carrinho`, {
+                position: "top-left"
+            });
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
 
         },
@@ -35,7 +27,7 @@ const cartSlice = createSlice({
             )
             state.cartItems = nextCartItems;
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
-            toast.error(`${action.payload.name} removed from cart`, {
+            toast.error(`${action.payload.nome} removido do carrinho`, {
                 position: "top-left"
             });
         },
@@ -45,7 +37,7 @@ const cartSlice = createSlice({
             )
             if (state.cartItems[itemIndex].cartQuantity > 1) {
                 state.cartItems[itemIndex].cartQuantity -= 1
-                toast.error(`${action.payload.name} decreased quantity`, {
+                toast.error(`${action.payload.name} quantidade decrementada`, {
                     position: "top-left"
                 });
             } else if (state.cartItems[itemIndex].cartQuantity === 1) {
@@ -53,7 +45,7 @@ const cartSlice = createSlice({
                     (cartItem) => cartItem.id !== action.payload.id
                 );
                 state.cartItems = nextCartItems;
-                toast.error(`${action.payload.name} removed from cart`, {
+                toast.error(`${action.payload.nome} removido do carrinho`, {
                     position: "top-left"
                 });
             }

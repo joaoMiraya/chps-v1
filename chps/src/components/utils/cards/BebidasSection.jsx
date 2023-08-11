@@ -1,10 +1,19 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineCheck } from 'react-icons/ai';
+import { fetchBebidas } from "../../../services/redux/items/bebidasSlice";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function BebidasSection() {
+    const dispatch = useDispatch();
 
-    const { bgHeader } = useSelector((state) => state.images);
+    const { bebidas } = useSelector((state) => state.bebidas);
 
+    useEffect(() => {
+        dispatch(fetchBebidas());
+    }, [dispatch]);
+
+   
     return (
 
         <>
@@ -14,23 +23,20 @@ function BebidasSection() {
                 {/* FAZER COMPONENTE PARA BEBIDAS */}
                 <div className="flex gap-2 mb-4">
                     {/* FAZER A FUNÇÃO PARA ADICIONAR A CLASSE selectedCard E O SPAN QUANDO SELECIONADO */}
-                    <div aria-label="Bebidas" className="w-[8rem] md:w-[14rem] md:h-[14rem] rounded-md relative" >
-                        <span className="absolute top-0 right-0"><AiOutlineCheck className="bg-[#98FB98] rounded-md text-white text-xl" /></span>
-                        <img className="selectedCard rounded-md shadow-xl mr-4 " src={bgHeader} alt="nome do lanche" />
-                        <div className=" text-start p-2 ">
-                            <h2 className=" font-medium text-md">Coca-cola 2l</h2>
-                            <h2 className="text-start mt-2 font-semibold">R$ 12,00</h2>
-                        </div>
-                    </div>
-                    <div aria-label="Bebidas" className="w-[8rem] md:w-[14rem] md:h-[14rem] rounded-md relative" >
-                        <span className="hidden absolute top-0 right-0"><AiOutlineCheck className="bg-[#98FB98] rounded-md text-white text-xl" /></span>
-                        <img className="rounded-md shadow-xl border-[1px] mr-4 border-solid border-gray-300" src={bgHeader} alt="nome do lanche" />
-                        <div className=" text-start p-2 ">
-                            <h2 className=" font-medium text-md">Coca-cola 2l</h2>
-                            <h2 className="text-start mt-2 font-semibold">R$ 12,00</h2>
-                        </div>
-                    </div>
+                    {bebidas.map((bebida) => {
+                        return (
 
+                            <Link to={`/menu/bebidas/${bebida.id}`} key={bebida.id} aria-label="Bebidas" className="w-[8rem] md:w-[14rem] md:h-[14rem] rounded-md relative" >
+                                <span className="hidden absolute top-0 right-0"><AiOutlineCheck className="bg-[#98FB98] rounded-md text-white text-xl" /></span>
+                                <img className="rounded-md shadow-xl border-[1px] mr-4 border-solid h-[8rem] border-gray-300" src={bebida.imagem} alt="nome do lanche" />
+                                <div className=" text-start p-2 ">
+                                    <h2 className=" font-medium text-md">{bebida.nome}</h2>
+                                    <h2 className="text-start mt-2 font-semibold">R$ {bebida.valor}</h2>
+                                </div>
+                            </Link>
+
+                        )
+                    })}
                 </div>
             </div>
         </>

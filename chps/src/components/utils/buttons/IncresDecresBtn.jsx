@@ -1,10 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { useState } from 'react';
 
-function IncresDecresBtn() {
 
-    const [qnt, setQnt] = useState(1);
+
+function IncresDecresBtn({qnt, setQnt}) {
+    IncresDecresBtn.propTypes = {
+        qnt: PropTypes.number.isRequired,
+        setQnt: PropTypes.func.isRequired,
+    };
+    
 
 
     const handleDecreaseCart = () => {

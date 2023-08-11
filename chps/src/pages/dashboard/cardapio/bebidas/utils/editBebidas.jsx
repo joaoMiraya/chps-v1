@@ -15,15 +15,15 @@ function EditBebida({ id }) {
     const dispatch = useDispatch();
     const { bebidas } = useSelector(state => state.bebidas);
     const bebida = bebidas.find((bebida) => bebida.id === id);
-    const { caminhoImagem } = bebida;
+    const { caminhoImagem, nome, imagem, categoria, valor } = bebida;
 
     const [submitting, setSubmitting] = useState(false);
 
-    const [editImageBebida, setEditImageBebida] = useState('');
-    const [editPathImageBebida, setEditPathImageBebida] = useState('');
-    const [editNomeBebida, setEditNomeBebida] = useState('');
-    const [editCategoryBebida, setEditCategoryBebida] = useState('');
-    const [editValorBebida, setEditValorBebida] = useState('');
+    const [editImageBebida, setEditImageBebida] = useState(imagem);
+    const [editPathImageBebida, setEditPathImageBebida] = useState(caminhoImagem);
+    const [editNomeBebida, setEditNomeBebida] = useState(nome);
+    const [editCategoryBebida, setEditCategoryBebida] = useState(categoria);
+    const [editValorBebida, setEditValorBebida] = useState(valor);
 
     const resetForm = () => {
         setEditImageBebida('');
@@ -41,6 +41,7 @@ function EditBebida({ id }) {
                 imagem: editImageBebida,
                 caminhoImagem: editPathImageBebida,
                 nome: editNomeBebida,
+                classe: "bebida",
                 categoria: editCategoryBebida,
                 valor: editValorBebida
             };
@@ -95,7 +96,7 @@ function EditBebida({ id }) {
                             break;
                     }
                 });
-        } 
+        }
     };
 
 

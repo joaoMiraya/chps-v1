@@ -18,19 +18,19 @@ function LancheDashDetail() {
     }, [dispatch]);
 
     const { lanches } = useSelector(state => state.lanches);
-    const snack = lanches.find((lanche) => lanche.id === id);
+    const lanche = lanches.find((lanche) => lanche.id === id);
 
     const [oldImagePath, setOldImagePath] = useState('');
 
     //AGUARDA O FETCH DO LANCHE PARA DESESTRUTURAR O CAMINHO DA IMAGEM
     useEffect(() => {
-        if (snack) {
-            const { caminhoImagem } = snack;
+        if (lanche) {
+            const { caminhoImagem } = lanche;
             setOldImagePath(caminhoImagem)
         } else {
             return
         }
-    }, [snack])
+    }, [lanche])
 
     const handleDeleteLanche = async () => {
         const oldImageRef = ref(storage, oldImagePath);
@@ -44,7 +44,7 @@ function LancheDashDetail() {
 
 
 
-    if (!snack) {
+    if (!lanche) {
         return <Loading />
     }
 
@@ -55,14 +55,14 @@ function LancheDashDetail() {
                 <EditLanche id={id} />
             </div>
             <div className="flex flex-col items-center w-full mt-12">
-                <h1 className="text-2xl font-semibold text-center">{snack.nome}</h1>
+                <h1 className="text-2xl font-semibold text-center">{lanche.nome}</h1>
                 <div className="max-w-[20rem]">
-                    <img src={snack.imagem} alt={snack.nome} />
+                    <img src={lanche.imagem} alt={lanche.nome} />
                 </div>
-                <p>{snack.ingredientes}</p>
+                <p>{lanche.ingredientes}</p>
                 <div className="flex justify-around w-full">
                     <p className="font-semibold">Valor:</p>
-                    <p>R${snack.valor}</p>
+                    <p>R${lanche.valor}</p>
                 </div>
                 <button onClick={handleDeleteLanche} className="bg-[#DB0007] w-4/5 mt-6 hover:opacity-75 text-white font-semibold py-2 rounded-md">
                     Excluir Lanche

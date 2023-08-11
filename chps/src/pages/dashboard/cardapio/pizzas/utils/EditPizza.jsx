@@ -15,16 +15,16 @@ function EditPizza({ id }) {
     const dispatch = useDispatch();
     const { pizzas } = useSelector(state => state.pizzas);
     const pizza = pizzas.find((Pizza) => Pizza.id === id);
-    const { caminhoImagem } = pizza;
+    const { caminhoImagem, imagem, nome, valorP, valorF } = pizza;
 
     const [submitting, setSubmitting] = useState(false);
 
-    const [editImagePizza, setEditImagePizza] = useState('');
-    const [editPathImagePizza, setEditPathImagePizza] = useState('');
-    const [editNomePizza, setEditNomePizza] = useState('');
+    const [editImagePizza, setEditImagePizza] = useState(imagem);
+    const [editPathImagePizza, setEditPathImagePizza] = useState(caminhoImagem);
+    const [editNomePizza, setEditNomePizza] = useState(nome);
     const [editIngrePizza, setEditIngrePizza] = useState('');
-    const [editValorPizzaP, setEditValorPizzaP] = useState('');
-    const [editValorPizzaF, setEditValorPizzaF] = useState('');
+    const [editValorPizzaP, setEditValorPizzaP] = useState(valorP);
+    const [editValorPizzaF, setEditValorPizzaF] = useState(valorF);
 
     const resetForm = () => {
         setEditImagePizza('');
@@ -43,6 +43,7 @@ function EditPizza({ id }) {
                 imagem: editImagePizza,
                 caminhoImagem: editPathImagePizza,
                 nome: editNomePizza,
+                classe: "pizza",
                 ingredientes: editIngrePizza,
                 valorP: editValorPizzaP,
                 valorF: editValorPizzaF

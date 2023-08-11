@@ -36,6 +36,7 @@ function AddPizza() {
                 imagem: imagePizza,
                 caminhoImagem: pathImagePizza,
                 nome: nomePizza,
+                classe: 'pizza',
                 ingredientes: ingrePizza,
                 valorP: valorPizzaP,
                 valorF: valorPizzaF

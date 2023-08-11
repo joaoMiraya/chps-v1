@@ -13,7 +13,7 @@ function BebidasSection() {
         dispatch(fetchBebidas());
     }, [dispatch]);
 
-   
+
     return (
 
         <>
@@ -31,7 +31,7 @@ function BebidasSection() {
                                 <img className="rounded-md shadow-xl border-[1px] mr-4 border-solid h-[8rem] border-gray-300" src={bebida.imagem} alt="nome do lanche" />
                                 <div className=" text-start p-2 ">
                                     <h2 className=" font-medium text-md">{bebida.nome}</h2>
-                                    <h2 className="text-start mt-2 font-semibold">R$ {bebida.valor}</h2>
+                                    <h2 className="text-start mt-2 font-semibold">R$ {(bebida.valor.replace(".", ","))}</h2>
                                 </div>
                             </Link>
 

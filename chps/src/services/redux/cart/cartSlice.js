@@ -21,9 +21,33 @@ const cartSlice = createSlice({
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
 
         },
+        editItemInCart(state, action) {
+            const newProduct = { ...action.payload };
+            // Encontre o índice do item a ser editado no carrinho
+            const index = state.cartItems.findIndex(item => item.idPedido === newProduct.idPedido);
+            if (index !== -1) {
+                // Atualize o carrinho com o novo produto na mesma posição
+                state.cartItems[index] = newProduct;
+                toast.success(`${newProduct.nome} foi alterado no carrinho`, {
+                    position: "top-left"
+                });
+                // Atualize o localStorage
+                localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+            } else {
+                // Caso o item não seja encontrado, apenas adicione-o ao carrinho
+                state.cartItems.push(newProduct);
+
+                toast.success(`${newProduct.nome} adicionado no carrinho`, {
+                    position: "top-left"
+                });
+
+                localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+            }
+        },
+
         removeFromCart(state, action) {
             const nextCartItems = state.cartItems.filter(
-                cartItem => cartItem.id !== action.payload.id
+                cartItem => cartItem.idPedido !== action.payload.idPedido
             )
             state.cartItems = nextCartItems;
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
@@ -53,7 +77,7 @@ const cartSlice = createSlice({
         },
         clearCart(state) {
             state.cartItems = [];
-            toast.error(`Cart cleared`, {
+            toast.error(`Seu carrinho está vazio`, {
                 position: "top-left"
             });
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
@@ -61,6 +85,6 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addToCart, removeFromCart, decreaseCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseCart, editItemInCart, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

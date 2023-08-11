@@ -30,6 +30,7 @@ import Pizza from '../pages/pizza/Pizza';
 import Porcao from '../pages/porcao/Porcao';
 import BebidasDetalhes from '../components/utils/cards/detalhes/BebidasDetalhes';
 import Cart from '../pages/cart/Cart';
+import CartDetalhes from '../pages/cart/detalhes/CartDetalhes';
 import Profile from '../pages/profile/Profile';
 
 import DashApp from '../pages/dashboard/DashApp';
@@ -91,6 +92,7 @@ root.render(
 
 
             <Route path='/carrinho' element={<Cart />} />
+            <Route path='/carrinho/:id' element={<CartDetalhes />} />
 
             <Route path='/perfil' element={<PrivateRoute> <Profile /> </PrivateRoute>} />
 

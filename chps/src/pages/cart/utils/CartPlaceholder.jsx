@@ -16,7 +16,7 @@ function CartPlaceholder() {
 
 
             </div>
-            <Link className='text-red-400 underline relative text-md' to={"/menu"}>Seu carrinho está vazio! Mate sua fome</Link>
+            <p>Seu carrinho está vazio!<Link className='text-red-400 underline relative text-md' to={"/menu"}> Peça agora</Link></p>
         </div>
     )
 }

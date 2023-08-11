@@ -1,44 +1,88 @@
 import { useDispatch, useSelector } from 'react-redux';
 import CartPlaceholder from './utils/CartPlaceholder';
-import { CiCircleRemove } from 'react-icons/ci';
-import { removeFromCart } from '../../services/redux/cart/cartSlice';
+import { removeFromCart, clearCart } from '../../services/redux/cart/cartSlice';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import NextStepForm from './utils/NextStepForm';
 
 function Cart() {
 
     const cart = useSelector((state) => state.cart);
     const cartItems = cart.cartItems
-    console.log(cartItems);
+
+    const [total, setTotal] = useState(0);
+    const [nextStep, setNextStep] = useState(false);
+
+    const handleNextStep = () => {
+        setNextStep(true)
+    };
+    const handleBackStep = () => {
+        setNextStep(false)
+    };
+
+    useEffect(() => {
+        // Calcula o total inicial
+        const initialTotal = cartItems.reduce((accumulator, cartItem) => {
+            return accumulator + parseFloat(cartItem.valor.replace(',', '.'));
+        }, 0);
+        setTotal(initialTotal);
+    }, [cartItems]);
 
     const dispatch = useDispatch();
 
     const handleDeleteFromCart = (cartItem) => {
-        console.log(cartItem);
         dispatch(removeFromCart(cartItem))
     };
+    const handleclearCart = () => {
+        dispatch(clearCart())
+    };
+
     return (
 
 
         <div className="flex items-center flex-col h-screen">
             <div className="mt-16 shadow-xl w-[20rem] min-h-[25rem] rounded-lg ">
-                <h1 className="text-2xl font-semibold text-center">carrinho de compras</h1>
-                <div className="flex flex-col items-center  gap-2 h-full mt-4">
+                <h1 className="text-2xl font-semibold text-center">{nextStep ? 'Finalize seu pedido' : 'carrinho de compras'}</h1>
+                <div className="flex flex-col items-center  gap-4 h-full mt-4">
                     <div className={`${cartItems >= 0 ? 'block' : 'hidden'}`}>
                         <CartPlaceholder />
                     </div>
-                    {cartItems.map((cartItem, i) => {
-                        return (
-                            <div className='relative' key={i}>
-                                <span aria-label='Remover do carrinho' onClick={() => handleDeleteFromCart(cartItem)} className='absolute top-[-8px] right-[-8px] text-red-400'><CiCircleRemove size={25} /></span>
-                                <div className="w-[16rem] flex justify-between rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
-                                    <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
-                                    <p>R$ {(cartItem.valor).replace('.', ',')}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    <div className={`${nextStep ? 'flex' : 'hidden'}`}>
+                        <NextStepForm />
+                    </div>
+                    <div className={`${nextStep ? 'hidden' : 'flex'} flex-col`}>
+                        <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
+                            {cartItems.map((cartItem) => {
+                                const { idPedido } = cartItem;
+                                return (
+                                    <div className='relative' key={idPedido}>
+                                        <Link to={`/carrinho/${idPedido}`}>
+                                            <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
+                                                <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
+                                                <p>R$ {(cartItem.valor).replace(".", ",")}</p>
+                                            </div>
+                                        </Link>
+                                        <div className='flex justify-end'>
+                                            <span aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(cartItem)} className='underline text-red-400'>Remover</span>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} justify-between w-full my-12`} >
+                            <span onClick={handleclearCart} className='underline  text-gray-400'>Limpar Carrinho</span>
+                            <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
+                        </div>
+                    </div>
+                    <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-around mb-4`}>
+                        <button onClick={handleBackStep} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
+                        <button onClick={handleNextStep} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
+                            {nextStep ? 'Finalizar' : 'Avançar'}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

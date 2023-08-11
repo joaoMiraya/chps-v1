@@ -34,6 +34,7 @@ function AddBebida() {
                 imagem: imageBebida,
                 caminhoImagem: pathImageBebida,
                 nome: nomeBebida,
+                classe: 'bebida',
                 categoria: categoryBebida,
                 valor: valorBebida
             };

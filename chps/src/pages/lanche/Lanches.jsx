@@ -30,7 +30,7 @@ function Lanches() {
             {Object.keys(categorias).map(categoria => (
                 <div key={categoria}>
                     <h1 className="text-3xl font-semibold pl-8 mt-6">{categoria}</h1>
-                    <div className="flex w-full overflow-x-auto mt-6 px-6 space-x-2">
+                    <div className="flex w-full overflow-x-auto mt-6 mx-6 space-x-2">
                         {categorias[categoria].map(lanche => (
                             <div key={lanche.id} className="p-2 cursor-pointer">
                                 <Link to={`/menu/lanches/${lanche.id}`}>
@@ -39,7 +39,7 @@ function Lanches() {
                                     </div>
                                     <div className="flex flex-col gap-2 mt-2">
                                         <h2 className="text-start">{lanche.nome}</h2>
-                                        <p className="font-semibold text-sm">R${lanche.valor}</p>
+                                        <p className="font-semibold text-sm">R${(lanche.valor.replace(".", ","))}</p>
                                     </div>
                                 </Link>
                             </div>

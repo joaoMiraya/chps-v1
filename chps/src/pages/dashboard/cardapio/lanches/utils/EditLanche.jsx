@@ -14,17 +14,17 @@ function EditLanche({ id }) {
 
     const dispatch = useDispatch();
     const { lanches } = useSelector(state => state.lanches);
-    const snack = lanches.find((lanche) => lanche.id === id);
-    const { caminhoImagem } = snack;
+    const lanche = lanches.find((lanche) => lanche.id === id);
+    const { caminhoImagem, imagem, nome, valor, categoria, ingredientes } = lanche;
 
     const [submitting, setSubmitting] = useState(false);
 
-    const [editImageLanche, setEditImageLanche] = useState('');
-    const [editPathImageLanche, setEditPathImageLanche] = useState('');
-    const [editNomeLanche, setEditNomeLanche] = useState('');
-    const [editCategoryLanche, setEditCategoryLanche] = useState('');
-    const [editIngreLanche, setEditIngreLanche] = useState('');
-    const [editValorLanche, setEditValorLanche] = useState('');
+    const [editImageLanche, setEditImageLanche] = useState(imagem);
+    const [editPathImageLanche, setEditPathImageLanche] = useState(caminhoImagem);
+    const [editNomeLanche, setEditNomeLanche] = useState(nome);
+    const [editCategoryLanche, setEditCategoryLanche] = useState(categoria);
+    const [editIngreLanche, setEditIngreLanche] = useState(ingredientes);
+    const [editValorLanche, setEditValorLanche] = useState(valor);
 
     const resetForm = () => {
         setEditImageLanche('');
@@ -43,6 +43,7 @@ function EditLanche({ id }) {
                 imagem: editImageLanche,
                 caminhoImagem: editPathImageLanche,
                 nome: editNomeLanche,
+                classe: "lanche",
                 categoria: editCategoryLanche,
                 ingredientes: editIngreLanche,
                 valor: editValorLanche
@@ -78,6 +79,7 @@ function EditLanche({ id }) {
             await getDownloadURL(lancheImagesRef)
                 .then((url) => {
                     setEditImageLanche(url);
+                    console.log(url);
                 })
                 .catch((error) => {
                     // A full list of error codes is available at
@@ -122,7 +124,7 @@ function EditLanche({ id }) {
                     onChange={(e) => setEditNomeLanche(e.target.value)}
                     required
                     value={editNomeLanche}
-                    placeholder={snack.nome}
+                    placeholder={lanche.nome}
                 />
 
 
@@ -134,7 +136,7 @@ function EditLanche({ id }) {
                     onChange={(e) => setEditCategoryLanche(e.target.value)}
                     required
                     value={editCategoryLanche}
-                    placeholder={snack.categoria}
+                    placeholder={lanche.categoria}
                 />
 
 
@@ -146,7 +148,7 @@ function EditLanche({ id }) {
                     onChange={(e) => setEditIngreLanche(e.target.value)}
                     required
                     value={editIngreLanche}
-                    placeholder={snack.ingredientes}
+                    placeholder={lanche.ingredientes}
                 />
 
 
@@ -154,11 +156,11 @@ function EditLanche({ id }) {
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="number"
                     name="valorLanche"
-                    id="nomeLanche"
+                    id="valorLanche"
                     onChange={(e) => setEditValorLanche(e.target.value)}
                     required
                     value={editValorLanche}
-                    placeholder={snack.valor}
+                    placeholder={lanche.valor}
                 />
 
 

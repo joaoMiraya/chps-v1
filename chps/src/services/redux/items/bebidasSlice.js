@@ -7,13 +7,14 @@ import { toast } from 'react-toastify';
 
 export const createBebida = createAsyncThunk(
     'create/bebidas',
-    async ({ imagem, caminhoImagem, nome, categoria, valor }, { rejectWithValue }) => {
+    async ({ imagem, caminhoImagem, nome, classe, categoria, valor }, { rejectWithValue }) => {
         try {
             //SALVA A BEBIDA NO FIRESTORE DB
             const docRef = await addDoc(collection(db, "bebidas"), {
                 imagem: imagem,
                 caminhoImagem: caminhoImagem,
                 nome: nome,
+                classe: classe,
                 categoria: categoria,
                 valor: valor
             });
@@ -31,13 +32,14 @@ export const createBebida = createAsyncThunk(
 
 export const editBebida = createAsyncThunk(
     'edit/bebidas',
-    async ({ id, imagem, caminhoImagem, nome, categoria, valor }, { rejectWithValue }) => {
+    async ({ id, imagem, caminhoImagem, nome, classe, categoria, valor }, { rejectWithValue }) => {
         try {
             const bebidaRef = doc(db, "bebidas", id);
             await updateDoc(bebidaRef, {
                 imagem: imagem,
                 caminhoImagem: caminhoImagem,
                 nome: nome,
+                classe: classe,
                 categoria: categoria,
                 valor: valor
             });

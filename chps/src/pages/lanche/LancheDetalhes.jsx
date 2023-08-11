@@ -67,7 +67,9 @@ function LancheDetalhes() {
     const handleAddToCart = () => {
         let values = {
             id: id,
+            idPedido: id + Date.now(),
             nome: lanche.nome,
+            classe: lanche.classe,
             valor: valorTotal,
             qnt: qnt
         };
@@ -98,7 +100,7 @@ function LancheDetalhes() {
 
                 <div className="my-4">
                     <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
-                    <span>Valor und: {String(valorTotal).replace(/\./g, ',')}</span>
+                    <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
                 </div>
                 <div className="">
                     <img src={lanche.imagem} alt={lanche.nome} />

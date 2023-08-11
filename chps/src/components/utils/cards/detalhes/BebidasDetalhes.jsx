@@ -48,7 +48,9 @@ function BebidasDetalhes() {
     const handleAddToCart = () => {
         let values = {
             id: id,
+            idPedido: id + Date.now(),
             nome: bebida.nome,
+            classe: bebida.classe,
             valor: valorTotal,
             qnt: qnt
         };
@@ -65,7 +67,7 @@ function BebidasDetalhes() {
 
                 <div className="my-4">
                     <h1 className="text-3xl font-semibold">{bebida.nome}</h1>
-                    <span>Valor und: {String(valorTotal).replace(/\./g, ',')}</span>
+                    <span>Sub-total: {String(valorTotal).replace(".", ",")}</span>
                 </div>
                 <div className="">
                     <img src={bebida.imagem} alt={bebida.nome} />

@@ -37,6 +37,7 @@ function AddLanche() {
                 caminhoImagem: pathImageLanche,
                 nome: nomeLanche,
                 categoria: categoryLanche,
+                classe: "lanche",
                 ingredientes: ingreLanche,
                 valor: valorLanche
             };
@@ -119,7 +120,6 @@ function AddLanche() {
                     value={categoryLanche}
                 />
 
-
                 <label htmlFor="ingredientesLanche">Ingredientes do Lanche</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
@@ -135,7 +135,7 @@ function AddLanche() {
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="number"
                     name="valorLanche"
-                    id="nomeLanche"
+                    id="valorLanche"
                     onChange={(e) => setValorLanche(e.target.value)}
                     required
                     value={valorLanche}

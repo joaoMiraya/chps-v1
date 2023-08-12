@@ -1,7 +1,12 @@
 import { useState } from "react";
 
+import FormaDePagamento from "./FormaDePagamento";
+
 function NextStepForm() {
 
+    const [selected, setSelected] = useState(false);
+
+    const [troco, setTroco] = useState('');
 
     const [bairro, setBairro] = useState('');
     const [rua, setRua] = useState('');
@@ -14,7 +19,7 @@ function NextStepForm() {
         <div>
             <form >
                 <div className="flex flex-col ">
-                    <label htmlFor="nome">Seu nome</label>
+                    <label className="ml-4" htmlFor="nome">Seu nome</label>
                     <input
                         className="border-b-[1px] border-solid border-gray-300"
                         name="nome"
@@ -24,7 +29,7 @@ function NextStepForm() {
                         onChange={(e) => setNome(e.target.value)}
                         value={nome}
                     />
-                    <label htmlFor="tel">Seu telefone</label>
+                    <label className="ml-4" htmlFor="tel">Seu telefone</label>
                     <input
                         className="border-b-[1px] border-solid border-gray-300"
                         name="tel"
@@ -34,7 +39,7 @@ function NextStepForm() {
                         onChange={(e) => setTel(e.target.value)}
                         value={tel}
                     />
-                    <label htmlFor="bairro">Bairro</label>
+                    <label className="ml-4" htmlFor="bairro">Bairro</label>
                     <input
                         className="border-b-[1px] border-solid border-gray-300"
                         name="bairro"
@@ -44,7 +49,7 @@ function NextStepForm() {
                         onChange={(e) => setBairro(e.target.value)}
                         value={bairro}
                     />
-                    <label htmlFor="rua">Rua</label>
+                    <label className="ml-4" htmlFor="rua">Rua</label>
                     <input
                         className="border-b-[1px] border-solid border-gray-300"
                         name="rua"
@@ -54,7 +59,7 @@ function NextStepForm() {
                         onChange={(e) => setRua(e.target.value)}
                         value={rua}
                     />
-                    <label htmlFor="nmrCasa">Numero Casa</label>
+                    <label className="ml-4" htmlFor="nmrCasa">Numero Casa</label>
                     <input
                         className="border-b-[1px] border-solid border-gray-300"
                         name="nmrCasa"
@@ -64,6 +69,13 @@ function NextStepForm() {
                         onChange={(e) => setNumero(e.target.value)}
                         value={numero}
                     />
+                    <FormaDePagamento
+                        selected={selected}
+                        setSelected={setSelected}
+                        troco={troco}
+                        setTroco={setTroco}
+                    />
+
                 </div>
             </form>
         </div>

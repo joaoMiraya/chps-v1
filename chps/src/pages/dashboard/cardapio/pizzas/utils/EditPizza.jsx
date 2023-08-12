@@ -15,14 +15,14 @@ function EditPizza({ id }) {
     const dispatch = useDispatch();
     const { pizzas } = useSelector(state => state.pizzas);
     const pizza = pizzas.find((Pizza) => Pizza.id === id);
-    const { caminhoImagem, imagem, nome, valorP, valorF } = pizza;
+    const { caminhoImagem, imagem, nome, ingredientes, valorP, valorF } = pizza;
 
     const [submitting, setSubmitting] = useState(false);
 
     const [editImagePizza, setEditImagePizza] = useState(imagem);
     const [editPathImagePizza, setEditPathImagePizza] = useState(caminhoImagem);
     const [editNomePizza, setEditNomePizza] = useState(nome);
-    const [editIngrePizza, setEditIngrePizza] = useState('');
+    const [editIngrePizza, setEditIngrePizza] = useState(ingredientes);
     const [editValorPizzaP, setEditValorPizzaP] = useState(valorP);
     const [editValorPizzaF, setEditValorPizzaF] = useState(valorF);
 
@@ -138,7 +138,7 @@ function EditPizza({ id }) {
 
                 <label htmlFor="valorPizza">Valor do Pizza Individual</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
-                    type="text"
+                    type="number"
                     name="valorPizza"
                     id="nomePizza"
                     onChange={(e) => setEditValorPizzaP(e.target.value)}
@@ -149,7 +149,7 @@ function EditPizza({ id }) {
 
                 <label htmlFor="valorPizza">Valor do Pizza Família</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
-                    type="text"
+                    type="number"
                     name="valorPizza"
                     id="nomePizza"
                     onChange={(e) => setEditValorPizzaF(e.target.value)}

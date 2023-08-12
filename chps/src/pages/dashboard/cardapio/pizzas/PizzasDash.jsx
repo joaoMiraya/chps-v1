@@ -1,5 +1,5 @@
 import AddPizza from "./utils/AddPizza";
-import Pizzas from "../../../../components/utils/components/Pizzas";
+import PizzasDashComp from "./PizzasDashComp";
 
 function PizzasDash() {
 
@@ -11,7 +11,7 @@ function PizzasDash() {
             </div>
             <div className="flex flex-col w-full">
                 <h1 className="text-2xl font-semibold text-center">Pizzas do Cardápio</h1>
-                <Pizzas />
+                <PizzasDashComp />
             </div>
         </div>
     )

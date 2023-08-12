@@ -74,8 +74,8 @@ function Cart() {
                             <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                         </div>
                     </div>
-                    <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-around mb-4`}>
-                        <button onClick={handleBackStep} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
+                    <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 mr-6`}>
+                        <button onClick={handleBackStep} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
                         <button onClick={handleNextStep} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
                             {nextStep ? 'Finalizar' : 'Avançar'}
                         </button>

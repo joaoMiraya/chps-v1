@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchPizzas } from "../../../services/redux/items/pizzasSlice";
+import { fetchPizzas } from "../../../../services/redux/items/pizzasSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../partials/Loading";
+import Loading from "../../../../components/partials/Loading";
 
 function Pizzas() {
 
@@ -24,13 +24,17 @@ function Pizzas() {
                     <div key={pizza.id} className="flex flex-col justify-between max-w-[12rem] border-[1px] border-solid border-gray-300 p-2 rounded-sm shadow-xl cursor-pointer hover:scale-105 transition duration-300">
                         <Link to={`/dashboard/pizzas/${pizza.id}`}>
                             <div>
-                                <h2 className="text-xl font-semibold text-center">{pizza.nome}</h2>
+                                <h2 className="text-xl font-semibold text-center my-2">{pizza.nome}</h2>
                                 <img className="object-contain" src={pizza.imagem} alt={pizza.nome} />
                                 <p className="text-center">{pizza.ingredientes}</p>
                             </div>
                             <div className="flex justify-between mt-4">
-                                <p className="font-semibold">valor:</p>
+                                <p className="font-semibold">Valor P:</p>
                                 <p>R${pizza.valorP}</p>
+                            </div>
+                            <div className="flex justify-between mt-4">
+                                <p className="font-semibold">Valor F:</p>
+                                <p>R${pizza.valorF}</p>
                             </div>
                         </Link>
                     </div>

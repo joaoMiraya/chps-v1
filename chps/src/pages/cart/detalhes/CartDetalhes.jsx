@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CiStickyNote } from 'react-icons/ci';
 import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
 import { fetchBebidas } from "../../../services/redux/items/bebidasSlice";
+import { fetchPizzas } from "../../../services/redux/items/pizzasSlice";
 import { editItemInCart } from "../../../services/redux/cart/cartSlice";
 
 import ButtonAddFixo from "../../../components/utils/cards/detalhes/ButtonAddFixo";
@@ -33,29 +34,31 @@ function CartDetalhes() {
 
     const [item, setItem] = useState('');
 
-    useEffect(() => {
-        dispatch(fetchLanches());
-        dispatch(fetchBebidas());
-    }, [dispatch]);
 
-    
     const { lanches } = useSelector(state => state.lanches);
     const { bebidas } = useSelector(state => state.bebidas);
+    const { pizzas } = useSelector(state => state.pizzas);
 
     useEffect(() => {
         if (itemInCart) {
             if (itemInCart?.classe === "lanche") {
+                dispatch(fetchLanches())
                 setIsLanche(true)
                 setItem(lanches.find((item) => item.id === itemInCart?.id))
             } else if (itemInCart?.classe === "bebida") {
+                dispatch(fetchBebidas())
                 setIsBebida(true)
                 setItem(bebidas.find((item) => item.id === itemInCart?.id))
+            } else if (itemInCart?.classe === "pizza") {
+                dispatch(fetchPizzas())
+                setIsPizza(true)
+                setItem(pizzas.find((item) => item.id === itemInCart?.id))
             }
         } else return
-    }, [itemInCart, lanches, bebidas]);
+    }, [itemInCart, lanches, pizzas, bebidas, dispatch]);
 
 
-    //RESPONSÁVEL POR ENCONTRAR O LANCHE DO PEDIDO E SETAR SUAS INFORMAÇÕES
+    //RESPONSÁVEL POR ENCONTRAR O ITEM DO PEDIDO E SETAR SUAS INFORMAÇÕES
     useEffect(() => {
         const fetchCartItems = async () => {
             const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
@@ -71,7 +74,7 @@ function CartDetalhes() {
         fetchCartItems();
     }, [id]);
 
-    //RESPONSAVEL POR VERIFICAR SE O LANCHE POSSUI ACRESCIMOS OU NÃO
+    //RESPONSAVEL POR VERIFICAR SE O ITEM POSSUI ACRESCIMOS OU NÃO
     useEffect(() => {
         if (itemInCart) {
             const { acrescimos } = itemInCart;
@@ -97,7 +100,7 @@ function CartDetalhes() {
         });
     };
 
-    //RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DO LANCHE
+    //RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DO ITEM
     useEffect(() => {
         if (selectedAcrescimos && item) {
             const selectedAcrescimosTotalValueInCents = selectedAcrescimos.reduce((totalValue, acrescimoId) => {
@@ -167,6 +170,12 @@ function CartDetalhes() {
                     {item.ingredientes}
                 </p>
                 <div className="flex flex-col items-center my-4 ">
+                    <div className={`form-check my-4 ${item?.categoria === "Suco" ? '' : 'hidden'}`}>
+                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                        <label className="form-check-label" htmlFor="defaultCheck1">
+                            Sem Açúcar
+                        </label>
+                    </div>
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <div className={`${isLanche ? 'block' : 'hidden'}`}>
                         <AcrescimoSection

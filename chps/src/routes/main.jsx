@@ -21,12 +21,14 @@ import Teste from '../pages/Teste';
 
 import Home from '../pages/home/Home';
 import Cadastro from '../pages/cadastro/Cadastro';
-
 import Menu from '../pages/menu/Menu';
+
 import Lanche from '../pages/lanche/Lanche';
 import LancheDetalhes from '../pages/lanche/LancheDetalhes';
 
 import Pizza from '../pages/pizza/Pizza';
+import PizzaDetalhes from '../pages/pizza/PizzaDetalhes';
+
 import Porcao from '../pages/porcao/Porcao';
 import BebidasDetalhes from '../components/utils/cards/detalhes/BebidasDetalhes';
 import Cart from '../pages/cart/Cart';
@@ -55,7 +57,7 @@ root.render(
         <Routes>
           <Route path='/teste' element={<Teste />} />
           <Route path='*' element={<NotFound />} />
-
+  
           <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
             
@@ -80,10 +82,14 @@ root.render(
             <Route path='/' element={<Home />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/menu' element={<Menu />} />
+
             <Route path='/menu/lanches' element={<Lanche />} />
             <Route path='/menu/lanches/:id' element={<LancheDetalhes />} />
 
             <Route path='/menu/pizzas' element={<Pizza />} />
+            <Route path='/menu/pizzas/:id' element={<PizzaDetalhes />} />
+
+
             <Route path='/menu/porcoes' element={<Porcao />} />
 
             <Route path='/menu/bebidas' element={<Porcao />} />

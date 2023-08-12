@@ -121,7 +121,7 @@ function AddPizza() {
 
                 <label htmlFor="valorPizzaP">Valor da Pizza Individual</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
-                    type="text"
+                    type="number"
                     name="valorPizzaP"
                     id="valorPizzaP"
                     onChange={(e) => setValorPizzaP(e.target.value)}
@@ -131,7 +131,7 @@ function AddPizza() {
 
                 <label htmlFor="valorPizzaF">Valor da Pizza Família</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
-                    type="text"
+                    type="number"
                     name="valorPizzaF"
                     id="valorPizzaF"
                     onChange={(e) => setValorPizzaF(e.target.value)}

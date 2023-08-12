@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase/firebase";
 import { toast } from 'react-toastify';
 
@@ -86,6 +86,19 @@ export const authGoogle = () => {
         })
 };
 
+const verifyAuth = () => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const { email, displayName, accessToken } = auth.currentUser;
+            const userCred = { token: accessToken, email: email, name: displayName }
+            localStorage.setItem("User", JSON.stringify(userCred))
+        } else {
+            localStorage.removeItem("User")
+        }
+    });
+};
+verifyAuth();
+
 const initialState = {
     loading: false,
     isLogged: localStorage.getItem("User") ? true : false,
@@ -98,8 +111,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setIsLogged: (state, action) => {
-            state.isLogged = action.payload;
+        setIsLogged: (state) => {
+            state.isLogged = true;
         },
     },
     extraReducers: builder => {

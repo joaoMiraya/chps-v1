@@ -79,8 +79,6 @@ function App() {
   return (
     <>
       <Header
-        /*  handleOpenMenu={handleOpenMenu}
-         handleCloseMenu={handleCloseMenu} */
         handleOpen={handleOpen}
         handleClose={handleClose}
         menuHambRef={menuHambRef}

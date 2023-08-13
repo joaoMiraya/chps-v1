@@ -24,6 +24,7 @@ import Cadastro from '../pages/cadastro/Cadastro';
 import Menu from '../pages/menu/Menu';
 
 import Lanche from '../pages/lanche/Lanche';
+import TodosLanches from '../pages/lanche/TodosLanches';
 import LancheDetalhes from '../pages/lanche/LancheDetalhes';
 
 import Pizza from '../pages/pizza/Pizza';
@@ -48,6 +49,7 @@ import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDeta
 import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
 import PizzaDashDetail from '../pages/dashboard/cardapio/pizzas/PizzaDashDetail';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -57,17 +59,17 @@ root.render(
         <Routes>
           <Route path='/teste' element={<Teste />} />
           <Route path='*' element={<NotFound />} />
-  
+
           <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
-            
+
             <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
             <Route path='/dashboard/acrescimos/:id' element={<AcrescimosEdit />} />
-            
+
             <Route path='/dashboard/bebidas' element={<BebidasDash />} />
             <Route path='/dashboard/bebidas/:id' element={<BebidasDashDetail />} />
-            
-            
+
+
             <Route path='/dashboard/lanches' element={<LanchesDash />} />
             <Route path='/dashboard/lanches/:id' element={<LancheDashDetail />} />
 
@@ -84,6 +86,7 @@ root.render(
             <Route path='/menu' element={<Menu />} />
 
             <Route path='/menu/lanches' element={<Lanche />} />
+            <Route path='/menu/lanches/ver-todos/:cat' element={<TodosLanches />} />
             <Route path='/menu/lanches/:id' element={<LancheDetalhes />} />
 
             <Route path='/menu/pizzas' element={<Pizza />} />

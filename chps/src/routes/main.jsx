@@ -21,6 +21,7 @@ import Teste from '../pages/Teste';
 
 import Home from '../pages/home/Home';
 import Cadastro from '../pages/cadastro/Cadastro';
+import Profile from '../pages/profile/Profile';
 import Menu from '../pages/menu/Menu';
 
 import Lanche from '../pages/lanche/Lanche';
@@ -31,10 +32,13 @@ import Pizza from '../pages/pizza/Pizza';
 import PizzaDetalhes from '../pages/pizza/PizzaDetalhes';
 
 import Porcao from '../pages/porcao/Porcao';
-import BebidasDetalhes from '../components/utils/cards/detalhes/BebidasDetalhes';
+
+import Bebidas from '../pages/bebidas/Bebidas';
+import BebidasDetalhes from '../pages/bebidas/BebidasDetalhes';
+
 import Cart from '../pages/cart/Cart';
 import CartDetalhes from '../pages/cart/detalhes/CartDetalhes';
-import Profile from '../pages/profile/Profile';
+
 
 import DashApp from '../pages/dashboard/DashApp';
 import Dashboard from '../pages/dashboard/Dashboard';
@@ -95,13 +99,18 @@ root.render(
 
             <Route path='/menu/porcoes' element={<Porcao />} />
 
-            <Route path='/menu/bebidas' element={<Porcao />} />
+            <Route path='/menu/bebidas' element={<Bebidas />} />
             <Route path='/menu/bebidas/:id' element={<BebidasDetalhes />} />
 
 
 
             <Route path='/carrinho' element={<Cart />} />
             <Route path='/carrinho/:id' element={<CartDetalhes />} />
+            <Route path='/carrinho/lanche/:id' element={<CartDetalhes />} />
+            <Route path='/carrinho/pizza/:id' element={<CartDetalhes />} />
+            <Route path='/carrinho/porcao/:id' element={<CartDetalhes />} />
+            <Route path='/carrinho/pratos/:id' element={<CartDetalhes />} />
+            <Route path='/carrinho/bebida/:id' element={<CartDetalhes />} />
 
             <Route path='/perfil' element={<PrivateRoute> <Profile /> </PrivateRoute>} />
 

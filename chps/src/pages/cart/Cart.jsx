@@ -42,7 +42,7 @@ function Cart() {
 
         <div className="flex items-center flex-col h-screen">
             <div className="mt-16 shadow-xl w-[20rem] min-h-[25rem] rounded-lg ">
-                <h1 className="text-2xl font-semibold text-center">{nextStep ? 'Finalize seu pedido' : 'carrinho de compras'}</h1>
+                <h1 className="text-2xl font-semibold text-center">{nextStep ? 'Finalize seu pedido' : 'Carrinho de compras'}</h1>
                 <div className="flex flex-col items-center  gap-4 h-full mt-4">
                     <div className={`${cartItems >= 0 ? 'block' : 'hidden'}`}>
                         <CartPlaceholder />
@@ -53,30 +53,30 @@ function Cart() {
                     <div className={`${nextStep ? 'hidden' : 'flex'} flex-col`}>
                         <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
                             {cartItems.map((cartItem) => {
-                                const { idPedido } = cartItem;
+                                const { idPedido, classe } = cartItem;
                                 return (
                                     <div className='relative' key={idPedido}>
-                                        <Link to={`/carrinho/${idPedido}`}>
+                                        <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/carrinho/${classe + '/' + idPedido}`}>
                                             <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
                                                 <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
                                                 <p>R$ {(cartItem.valor).replace(".", ",")}</p>
                                             </div>
                                         </Link>
                                         <div className='flex justify-end'>
-                                            <span aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(cartItem)} className='underline text-red-400'>Remover</span>
+                                            <span tabIndex={0} aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(cartItem)} className='underline text-red-400'>Remover</span>
                                         </div>
                                     </div>
                                 )
                             })}
                         </div>
                         <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} justify-between w-full my-12`} >
-                            <span onClick={handleclearCart} className='underline  text-gray-400'>Limpar Carrinho</span>
+                            <span onClick={handleclearCart} aria-label='Limpar o carrinho' tabIndex={0} className='underline  text-gray-400'>Limpar Carrinho</span>
                             <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                         </div>
                     </div>
                     <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 mr-6`}>
-                        <button onClick={handleBackStep} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
-                        <button onClick={handleNextStep} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
+                        <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
+                        <button onClick={handleNextStep} aria-label='Avançar/Finalizar o pedido' tabIndex={0} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
                             {nextStep ? 'Finalizar' : 'Avançar'}
                         </button>
                     </div>

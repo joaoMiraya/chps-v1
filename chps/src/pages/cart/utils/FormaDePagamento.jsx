@@ -19,6 +19,7 @@ function FormaDePagamento({ setSelected, troco, setTroco, selected }) {
                     <div className={`${selected ? 'hidden' : 'flex'} flex-col`}>
                         <label htmlFor="troco">Troco?</label>
                         <input required
+                            aria-label="Insira seu troco"
                             className="w-20 border-[1px] border-solid border-gray-300"
                             type="text"
                             name="troco"

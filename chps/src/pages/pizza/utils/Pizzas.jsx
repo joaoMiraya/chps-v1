@@ -23,7 +23,7 @@ function Pizzas() {
             {pizzas.map((pizza) => {
 
                 return (
-                    <Link to={`/menu/pizzas/${pizza.id}`} key={pizza.id} className=" w-[10rem] rounded-b-xl shadow-2xl">
+                    <Link aria-label={pizza.nome} tabIndex={0} to={`/menu/pizzas/${pizza.id}`} key={pizza.id} className=" w-[10rem] cursor-pointer rounded-b-xl shadow-2xl">
                         <img className="h-[8rem] min-w-[10rem] rounded-t-xl" src={pizza.imagem} alt={pizza.nome} />
                         <p className="text-center font-semibold my-2">{pizza.nome}</p>
                     </Link>

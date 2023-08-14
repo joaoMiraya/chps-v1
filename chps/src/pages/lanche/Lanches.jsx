@@ -33,14 +33,14 @@ function Lanches() {
                     <div className="flex justify-between items-end">
                         <h1 className="text-3xl font-semibold pl-8 mt-6">{categoria}</h1>
                         <span className="flex items-center mr-6  z-40">
-                            <Link to={`/menu/lanches/ver-todos/${(categoria)}`} className="text-end font-semibold">Ver todos</Link>
+                            <Link aria-label={`Ver todos os lanches de ${categoria}`} tabIndex={0} to={`/menu/lanches/ver-todos/${(categoria)}`} className="text-end font-semibold">Ver todos</Link>
                             <AiOutlineArrowRight />
                         </span>
                     </div>
-                    <div className="flex w-full overflow-x-auto mt-6 mx-6 space-x-2">
+                    <div className="flex w-full overflow-x-auto mt-6 mx-6 ml-6 pr-12 space-x-2">
                         {categorias[categoria].map(lanche => (
                             <div key={lanche.id} className="p-2 cursor-pointer">
-                                <Link to={`/menu/lanches/${lanche.id}`}>
+                                <Link tabIndex={0} aria-label={lanche.nome} to={`/menu/lanches/${lanche.id}`}>
                                     <div className="rounded-xl shadow-xl border-[1px] w-[10rem] border-solid border-gray-300">
                                         <img className="object-contain" src={lanche.imagem} alt={lanche.nome} />
                                     </div>

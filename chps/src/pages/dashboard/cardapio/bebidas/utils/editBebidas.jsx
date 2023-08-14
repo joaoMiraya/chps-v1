@@ -112,7 +112,7 @@ function EditBebida({ id }) {
                 />
 
 
-                <label htmlFor="nomeLanche">Nome do Lanche</label>
+                <label htmlFor="nomeLanche">Nome da Bebida</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
                     name="nomeLanche"
@@ -124,7 +124,7 @@ function EditBebida({ id }) {
                 />
 
 
-                <label htmlFor="categoriaLanche">Categoria do Lanche</label>
+                <label htmlFor="categoriaLanche">Categoria da Bebida</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="text"
                     name="categoriaLanche"
@@ -135,7 +135,7 @@ function EditBebida({ id }) {
                     placeholder={bebida.categoria}
                 />
 
-                <label htmlFor="valorLanche">Valor do Lanche</label>
+                <label htmlFor="valorLanche">Valor da Bebida</label>
                 <input className="border-b-[1px] border-gray-400 border-solid"
                     type="number"
                     name="valorLanche"

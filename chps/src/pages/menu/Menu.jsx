@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Carousel from "./utils/Carousel";
 import MainComp from "./utils/MainComp";
 import { CiBeerMugFull } from 'react-icons/ci';
@@ -11,10 +12,10 @@ function Menu() {
                 <MainComp />
                 <h2 className="text-2xl font-semibold text-start ml-6 mt-6">E para beber?</h2>
                 <div className='flex justify-center px-4 my-6'>
-                    <div aria-label='Botão para ir ao cardápio de bebidas' className='hover:bg-[#eeeeee60] cursor-pointer flex items-center w-full border-[1px] border-solid py-2 px-6 border-gray-300 rounded-lg'>
+                    <Link to={"/menu/bebidas"} tabIndex={0} aria-label='Ir para bebidas' className='hover:bg-[#eeeeee60] cursor-pointer flex items-center w-full border-[1px] border-solid py-2 px-6 border-gray-300 rounded-lg'>
                         <CiBeerMugFull size={50} />
                         <h2 className='text-xl font-bold text-center w-full'>Bebidas</h2>
-                    </div>
+                    </Link>
                 </div>
             </main>
             <section className="bg-[#FFFFE0] py-16">

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import { fetchBebidas } from "../../../../services/redux/items/bebidasSlice";
-import { addToCart } from "../../../../services/redux/cart/cartSlice";
+import { fetchBebidas } from "../../services/redux/items/bebidasSlice";
+import { addToCart } from "../../services/redux/cart/cartSlice";
 
-import Loading from "../../../partials/Loading";
-import IncresDecresBtn from "../../buttons/IncresDecresBtn";
-import BebidasSection from "../BebidasSection";
-import ButtonAddFixo from "./ButtonAddFixo";
+import Loading from "../../components/partials/Loading";
+import IncresDecresBtn from "../../components/utils/buttons/IncresDecresBtn";
+import BebidasSection from "../../components/utils/cards/BebidasSection";
+import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
 
 
 

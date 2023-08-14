@@ -21,6 +21,7 @@ function NextStepForm() {
                 <div className="flex flex-col ">
                     <label className="ml-4" htmlFor="nome">Seu nome</label>
                     <input
+                        aria-label="Insira seu nome"
                         className="border-b-[1px] border-solid border-gray-300"
                         name="nome"
                         id="nome"
@@ -31,6 +32,7 @@ function NextStepForm() {
                     />
                     <label className="ml-4" htmlFor="tel">Seu telefone</label>
                     <input
+                        aria-label="Insira seu telefone"
                         className="border-b-[1px] border-solid border-gray-300"
                         name="tel"
                         id="tel"
@@ -41,6 +43,7 @@ function NextStepForm() {
                     />
                     <label className="ml-4" htmlFor="bairro">Bairro</label>
                     <input
+                        aria-label="Insira seu bairro"
                         className="border-b-[1px] border-solid border-gray-300"
                         name="bairro"
                         id="bairro"
@@ -51,6 +54,7 @@ function NextStepForm() {
                     />
                     <label className="ml-4" htmlFor="rua">Rua</label>
                     <input
+                        aria-label="Insira sua rua"
                         className="border-b-[1px] border-solid border-gray-300"
                         name="rua"
                         id="rua"
@@ -61,6 +65,7 @@ function NextStepForm() {
                     />
                     <label className="ml-4" htmlFor="nmrCasa">Numero Casa</label>
                     <input
+                        aria-label="Insira seu numero da casa"
                         className="border-b-[1px] border-solid border-gray-300"
                         name="nmrCasa"
                         id="nmrCasa"

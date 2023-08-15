@@ -20,8 +20,11 @@ export const logout = () => {
         if (localStorage.getItem("isAdm")) {
             localStorage.removeItem("isAdm")
             localStorage.removeItem("User")
+            sessionStorage.removeItem("User")
         } else {
             localStorage.removeItem("User")
+            sessionStorage.removeItem("User")
+
         }
         window.location.reload();
     }).catch((error) => {

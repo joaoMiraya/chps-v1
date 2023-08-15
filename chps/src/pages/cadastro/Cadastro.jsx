@@ -68,7 +68,7 @@ function Cadastro() {
             };
             // Faça a chamada assíncrona para criar o usuário
             dispatch(userRegister(values));
-            // Resete o formulário se a submissão for bem-sucedida
+                        // Resete o formulário se a submissão for bem-sucedida
             reset({
                 nameRegister: "",
                 emailRegister: "",
@@ -159,11 +159,15 @@ function Cadastro() {
                         {!showPass ?
                             <BiShowAlt
                                 onClick={handleShowPassword}
+                                aria-label='Mostrar senha'
+                                tabIndex={0}
                                 size={30}
                                 className='absolute text-gray-400 right-1 bottom-1'
                             /> : <BiHide
                                 onClick={handleShowPassword}
+                                aria-label='Esconder senha'
                                 size={30}
+                                tabIndex={0}
                                 className='absolute text-gray-400 right-1 bottom-1'
                             />
                         }
@@ -211,6 +215,7 @@ function Cadastro() {
                     <p className=' text-sm text-center  text-red-400'>{errors.tel?.message}</p>
 
                     <button
+                        tabIndex={0}
                         aria-label='Botão para fazer o registro'
                         type="submit"
                         className={`bg-[#D4AA3C] py-3 w-full font-bold text-xl my-4 ${formState.isSubmitting ? 'opacity-70' : ''} `}
@@ -223,7 +228,7 @@ function Cadastro() {
                             : 'Registrar-se'}
                     </button>
 
-                    <Link to={"/"} aria-label='Botão para ir para a página de login' className='flex items-center font-semibold underline cursor-pointer justify-center'>
+                    <Link to={"/"} tabIndex={0} aria-label='Botão para ir para a página de login' className='flex items-center font-semibold underline cursor-pointer justify-center'>
                         <span>Já possuo registro</span><AiOutlineArrowRight size={20} />
                     </Link>
                 </div>

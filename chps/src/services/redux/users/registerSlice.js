@@ -22,12 +22,12 @@ export const userRegister = createAsyncThunk(
                 tel: Tel,
                 date_register: Date
             });
+            sessionStorage.setItem("User", JSON.stringify({ name: Name, telefone: Tel, email: Email }))
             //MANDA EMAIL DE VERIFICAÇÃO NO EMAIL DO USUARIO
             await sendEmailVerification(auth.currentUser)
                 .then(() => {
                     toast.success("Registro efetuado, verifique seu email!");
                 });
-            console.log("Document written with ID: ", docRef.id);
             return { accessToken: accessToken, email: email, name: Name };
 
         } catch (error) {
@@ -60,7 +60,7 @@ const registerSlice = createSlice({
                 state.error = ''
             })
             .addCase(userRegister.rejected, (state, action) => {
-                const message = "Email já está cadastrado"  //COLOCAR LINK PARA REDEFINIR SENHA
+                const message = "Email já está cadastrado"
                 state.error = message;
                 console.log(action.payload);
             })

@@ -2,12 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase/firebase";
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = (email) => {
     const emailAdm = "joao@adm.com"
     if (email == emailAdm) {
-        localStorage.setItem("isAdm", true)
+        Cookies.set("isAdm", true)
         return true
     } else {
         return false
@@ -17,14 +18,11 @@ const getAdm = (email) => {
 //FUNÇÃO PARA FAZER O LOGOUT DA APP
 export const logout = () => {
     signOut(auth).then(() => {
-        if (localStorage.getItem("isAdm")) {
-            localStorage.removeItem("isAdm")
-            localStorage.removeItem("User")
-            sessionStorage.removeItem("User")
+        if (Cookies.get("isAdm")) {
+            Cookies.remove("isAdm")
+            Cookies.remove("User")
         } else {
-            localStorage.removeItem("User")
-            sessionStorage.removeItem("User")
-
+            Cookies.remove("User")
         }
         window.location.reload();
     }).catch((error) => {
@@ -53,8 +51,8 @@ export const userLogin = createAsyncThunk(
     async ({ Email, Password }, { rejectWithValue }) => {
         try {
             await signInWithEmailAndPassword(auth, Email, Password)
-            const { email, displayName, accessToken } = auth.currentUser;
-            return { accessToken: accessToken, email: email, name: displayName }
+            const {  displayName, accessToken } = auth.currentUser;
+            return { accessToken: accessToken, name: displayName }
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
@@ -74,9 +72,9 @@ export const authGoogle = () => {
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
-            const { displayName, email } = user;
-            const userToLocalStorage = { token: token, name: displayName, email: email }
-            localStorage.setItem("User", JSON.stringify(userToLocalStorage))
+            const { displayName } = user;
+            const userInfoCookie = { token: token, name: displayName }
+            Cookies.set("User", JSON.stringify(userInfoCookie))
             // IdP data available using getAdditionalUserInfo(result)
             // ...
         }).catch((error) => {
@@ -88,15 +86,15 @@ export const authGoogle = () => {
             // ...
         })
 };
-
+//VERIFICA SE O USUARIO ESTA AUTENTICADO
 const verifyAuth = () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            const { email, displayName, accessToken } = auth.currentUser;
-            const userCred = { token: accessToken, email: email, name: displayName }
-            localStorage.setItem("User", JSON.stringify(userCred))
+            const { displayName, accessToken } = auth.currentUser;
+            const userCred = { token: accessToken, name: displayName }
+            Cookies.set("User", JSON.stringify(userCred))
         } else {
-            localStorage.removeItem("User")
+            Cookies.remove("User")
         }
     });
 };
@@ -104,8 +102,8 @@ verifyAuth();
 
 const initialState = {
     loading: false,
-    isLogged: localStorage.getItem("User") ? true : false,
-    isAdm: localStorage.getItem("isAdm") ? true : false,
+    isLogged: Cookies.get("User") ? true : false,
+    isAdm: Cookies.get("isAdm") ? true : false,
     error: null,
     success: false,
 };

@@ -27,6 +27,9 @@ function PizzaDetalhes() {
         dispatch(fetchPizzas())
     }, [dispatch])
 
+    const [disabled, setDisabled] = useState(false);
+
+
 
 
     const { pizzas } = useSelector(state => state.pizzas);
@@ -78,7 +81,17 @@ function PizzaDetalhes() {
         }
     }, [pizza, qnt, sizeF, segundoSabor, umSabor]);
 
+    //RESPONSÁVEL POR DESABILITAR O BOTÃO DE ADICIONAR ENQUANTO NÃO SELECIONAR O SEGUNDO SABOR
+    useEffect(() => {
+        if (!umSabor && segundoSabor.length == 0) {
+            setDisabled(true)
+        } else {
+            setDisabled(false)
+        }
+    }, [umSabor, segundoSabor])
 
+
+    //FUNÇÃO PARA ADICIONAR O ITEM AO CARRINHO
     const handleAddToCart = () => {
         let values = {
             id: id,
@@ -88,7 +101,19 @@ function PizzaDetalhes() {
             valor: valorTotal,
             qnt: qnt
         };
-        if (!umSabor && sizeF) {
+        if (umSabor && sizeF) {
+            values = {
+                ...values,
+                tamanho: "Família"
+            }
+        }
+        else if (umSabor && !sizeF) {
+            values = {
+                ...values,
+                tamanho: "Individual"
+            }
+        }
+        else if (!umSabor && sizeF) {
             values = {
                 ...values,
                 fk: segundoSabor.id,
@@ -101,7 +126,6 @@ function PizzaDetalhes() {
                 fk: segundoSabor.id,
                 nome: 'Meia' + ' ' + pizza.nome + ' ' + 'Meia' + ' ' + segundoSabor.nome,
                 tamanho: "Individual"
-
             }
         }
         dispatch(addToCart(values));
@@ -126,7 +150,12 @@ function PizzaDetalhes() {
                 </p>
                 <div className={`${umSabor ? 'hidden' : 'block'}`}>
                     <h2 className="text-xl font-semibold text-center my-4">Selecione o segundo sabor: </h2>
-                    <SegundoSabor setSegundoSabor={setSegundoSabor} pizzas={pizzas} />
+                    <SegundoSabor
+                        umSabor={umSabor}
+                        segundoSabor={segundoSabor}
+                        setSegundoSabor={setSegundoSabor}
+                        pizzas={pizzas}
+                    />
                 </div>
                 <div className="flex justify-center my-4">
                     <PizzaToggle
@@ -146,7 +175,11 @@ function PizzaDetalhes() {
                 </div>
 
             </div>
-            <ButtonAddFixo handleAddToCart={handleAddToCart} qnt={qnt} />
+            <ButtonAddFixo
+                disabled={disabled}
+                handleAddToCart={handleAddToCart}
+                qnt={qnt}
+            />
         </>
     )
 }

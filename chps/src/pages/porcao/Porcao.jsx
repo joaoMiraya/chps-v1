@@ -1,12 +1,15 @@
+import Porcoes from "./utils/Porcoes";
 
 
 function Porcao() {
 
 
+
+
     return (
-        <div>
-
-
+        <div className="pt-6">
+            <h1 className="text-2xl font-semibold text-center my-6">Nossas variadas porções</h1>
+            <Porcoes />
         </div>
     )
 }

@@ -30,6 +30,7 @@ function BebidasDetalhes() {
 
     const [qnt, setQnt] = useState(1);
     const [valorTotal, setValorTotal] = useState(0);
+    const [sugar, setSugar] = useState('Com açucar');
 
     useEffect(() => {
         if (bebida) {
@@ -54,6 +55,12 @@ function BebidasDetalhes() {
             valor: valorTotal,
             qnt: qnt
         };
+        if (bebida.categoria == "Suco") {
+            values = {
+                ...values,
+                suco: sugar
+            }
+        }
         dispatch(addToCart(values))
     };
 
@@ -76,9 +83,15 @@ function BebidasDetalhes() {
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <div className={`${isSuco ? 'block' : 'hidden'}`}>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                            <input className="form-check-input" onChange={(e) => setSugar(e.target.value)} value="Sem açúcar" type="checkbox" id="defaultCheck1" />
                             <label className="form-check-label" htmlFor="defaultCheck1">
                                 Sem Açúcar
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <input className="form-check-input" onChange={(e) => setSugar(e.target.value)} value="Pouco açúcar" type="checkbox" id="defaultCheck2" />
+                            <label className="form-check-label" htmlFor="defaultCheck2">
+                                Pouco Açúcar
                             </label>
                         </div>
                     </div>

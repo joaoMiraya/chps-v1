@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 import { toast } from 'react-toastify';
 
 import { auth, db } from "../../firebase/firebase";
+import Cookies from "js-cookie";
 
 
 
@@ -22,7 +23,7 @@ export const userRegister = createAsyncThunk(
                 tel: Tel,
                 date_register: Date
             });
-            sessionStorage.setItem("User", JSON.stringify({ name: Name, telefone: Tel, email: Email }))
+            Cookies.set("User", JSON.stringify({ name: Name, telefone: Tel, id: uid }, { expires: 365 }))
             //MANDA EMAIL DE VERIFICAÇÃO NO EMAIL DO USUARIO
             await sendEmailVerification(auth.currentUser)
                 .then(() => {

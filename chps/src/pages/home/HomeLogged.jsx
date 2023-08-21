@@ -1,28 +1,18 @@
-import { useEffect, useState } from "react";
+
+import PromoComp from "./home-logged-utils/PromoComp";
 
 
 function HomeLogged() {
 
-    const [user, setUser] = useState('');
-
-    useEffect(() => {
-        if (sessionStorage.getItem("User")) {
-            const user = JSON.parse(sessionStorage.getItem("User"))
-            setUser(user.name)
-        } else if (localStorage.getItem("User")) {
-            const user = JSON.parse(localStorage.getItem("User"))
-            setUser(user.name)
-        }
-    }, [])
 
 
     return (
-        <div className="pt-12">
-            <h1 className="text-2xl text-center font-semibold">Olá, {user ? user : 'Usuario'}</h1>
-            <div>
+        <>
+            <PromoComp />
+            <h2 className="text-2xl font-semibold text-center my-6">Venha conhecer nosso ambiente</h2>
+        </>
 
-            </div>
-        </div>
+
     )
 }
 

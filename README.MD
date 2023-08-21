@@ -2,11 +2,11 @@
 
 **Visão Geral**
 
-O projeto é uma aplicação web desenvolvida em React, com a funcionalidade de ser uma Progressive Web App (PWA). O objetivo do sistema é permitir que os usuários finais realizem pedidos de produtos e serviços, enquanto os clientes (estabelecimentos comerciais) possam gerenciar a aplicação através de um painel de controle (Dashboard).
+O projeto é uma aplicação web desenvolvida em React, com a funcionalidade de ser uma Progressive Web App (PWA). O objetivo do sistema é permitir que os usuários finais realizem pedidos de produtos e serviços, enquanto o cliente (estabelecimentos comerciais) possa gerenciar a aplicação através de um painel de controle (Dashboard).
 
 **Você pode acessar o deploy pelo link:** <br>
     https://chapas-lanches.com.br <br>
-**Tecnologias Utilizadas**
+**Bibliotecas Utilizadas**
 
 A seguir estão listadas as principais tecnologias e bibliotecas utilizadas na construção do projeto:
 

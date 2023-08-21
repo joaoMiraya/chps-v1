@@ -5,7 +5,8 @@ function SegundoSabor({ pizzas, setSegundoSabor }) {
     SegundoSabor.propTypes = {
         pizzas: PropTypes.array.isRequired,
         setSegundoSabor: PropTypes.func.isRequired,
-    }
+    };
+
 
     return (
 

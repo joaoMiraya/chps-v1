@@ -40,10 +40,10 @@ function Cadastro() {
         }
     }
     /* PEGAR A DATA ATUAL */
-    let dataAtual = new Date();
-    let dia = dataAtual.getDate();
-    let mes = dataAtual.getMonth() + 1;
-    let ano = dataAtual.getFullYear();
+    let date = new Date();
+    let dia = date.getDate();
+    let mes = date.getMonth() + 1;
+    let ano = date.getFullYear();
     const formatedDate = dia + '/' + mes + '/' + ano;
 
 
@@ -91,7 +91,7 @@ function Cadastro() {
         setTimeout(() => {
             navigate("/")
             window.location.reload();
-        }, 3000)
+        }, 1500)
     }
 
     return (

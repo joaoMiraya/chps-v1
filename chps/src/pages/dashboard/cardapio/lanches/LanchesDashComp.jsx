@@ -4,7 +4,7 @@ import { fetchLanches } from "../../../../services/redux/items/lanchesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../../components/partials/Loading";
 
-function Lanches() {
+function LanchesDashComp() {
 
     const dispatch = useDispatch();
     const { lanches } = useSelector(state => state.lanches);
@@ -42,4 +42,4 @@ function Lanches() {
 }
 
 
-export default Lanches;
+export default LanchesDashComp;

@@ -18,7 +18,7 @@ function DashHeader() {
                         <Link to={"/dashboard/lanches"}><li className='hover:underline cursor-pointer'>Lanches</li></Link>
                         <Link to={"/dashboard/pizzas"}><li className='hover:underline cursor-pointer'>Pizzas</li></Link>
                         <Link to={"/dashboard/porcoes"}><li className='hover:underline cursor-pointer'>Porções</li></Link>
-                        <Link to={"/dashboard/artesanais"}><li className='hover:underline cursor-pointer'>Artesanais</li></Link>
+                        <Link to={"/dashboard/pratos"}><li className='hover:underline cursor-pointer'>Pratos</li></Link>
                         <Link to={"/dashboard/bebidas"}><li className='hover:underline cursor-pointer'>Bebidas</li></Link>
                         <Link to={"/dashboard/acrescimos"}><li className='hover:underline cursor-pointer'>Acréscimos</li></Link>
                     </ul>

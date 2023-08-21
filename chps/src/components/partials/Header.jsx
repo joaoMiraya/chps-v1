@@ -39,10 +39,6 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
                         <button tabIndex={0} ref={closeMenuHambRef} className='p-2 relative z-40 hidden' onClick={handleClose} aria-label='Botão para fechar menu'>
                             <AiOutlineMenuUnfold size={30} />
                         </button>
-                        {/*   {
-                            menu ? <AiOutlineMenuUnfold aria-label='Fechar menu' size={25} onClick={handleCloseMenu} />
-                                : <AiOutlineMenu tabIndex={0} aria-label='Abrir menu' size={25} onClick={handleOpenMenu} />
-                        } */}
                     </div>
                 </div>
             </nav>

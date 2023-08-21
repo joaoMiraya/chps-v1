@@ -1,6 +1,4 @@
 
-import { Link } from 'react-router-dom';
-
 function FormFinal() {
     return (
         <section className=" mt-12 ">
@@ -16,19 +14,13 @@ function FormFinal() {
 
                         <label htmlFor="assuntoMessage">Assunto</label>
                         <input aria-label="Digite o assunto da sugestão" className="bg-transparent border-b-2 border-solid border-[#292929]" type="text" name="assuntoMessage" id="assuntoMessage" />
-
                         <label htmlFor="mensagemMessage">Sua mensagem</label>
-                        <textarea aria-label="Digite a sua sugestão" className="rounded-md bg-[#937934] p-2" name="mensagemMessage" id="mensagemMessage" cols="30" rows="3" ></textarea>
+                        <div className="rounded-md bg-[#937934]">
+                            <textarea aria-label="Digite a sua sugestão" className=" bg-transparent p-2" name="mensagemMessage" id="mensagemMessage" cols="30" rows="3" ></textarea>
+                        </div>
                         <button type="submit" aria-label="Botão para enviar sua sugestão" className="bg-[#DB0007] font-bold text-xl text-white py-2 ">Enviar</button>
                     </div>
                 </form>
-                <div>
-                    <h2 className="font-semibold text-2xl text-center my-2">Dúvidas?</h2>
-                    <ul className="flex underline gap-6 font-semibold  pl-6">
-                        <Link aria-label='Contato' tabIndex={0} to={"/contato"}>Contato</Link>
-                        <Link aria-label='Como chegar?' tabIndex={0} to={"/como-chegar"}>Como chegar</Link>
-                    </ul>
-                </div>
             </div>
         </section>
     )

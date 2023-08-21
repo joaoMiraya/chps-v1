@@ -35,65 +35,62 @@ function App() {
     };
     fetchImageUrls();
   }, [dispatch]);
-
-  /* FUNÇÃO PARA ABRIR/FECHAR O MENU HAMB */
+  //TRECHO RESPONSAVEL POR ABRIR E FECHAR O MENU LATERAL
   const menuHambRef = useRef();
   const openMenuHambRef = useRef();
   const closeMenuHambRef = useRef();
-  const handleOpen = () => {
-    menuHambRef.current.classList.add('openMenu')
-    menuHambRef.current.classList.remove('hiddeMenu')
-    openMenuHambRef.current.classList.add('hidden')
-    closeMenuHambRef.current.classList.remove('hidden')
-  };
-  const handleClose = () => {
-    menuHambRef.current.classList.remove('openMenu')
-    menuHambRef.current.classList.add('hiddeMenu')
-    closeMenuHambRef.current.classList.add('hidden')
-    openMenuHambRef.current.classList.remove('hidden')
+  const toggleHambMenu = (open) => {
+    menuHambRef.current.classList.toggle('openMenu', open);
+    menuHambRef.current.classList.toggle('hiddeMenu', !open);
+    openMenuHambRef.current.classList.toggle('hidden', open);
+    closeMenuHambRef.current.classList.toggle('hidden', !open);
   };
 
-  /* FUNÇÃO DO ESCONDER/MOSTRAR O MENU FIXO E O BOTÃO DE VOLTAR */
+
+  //TRECHO RESPONSAVEL POR ABRIR E FECHAR O MENU FIXO
   const menuFixedRef = useRef();
   const goBackRef = useRef();
   const [startY, setStartY] = useState(null);
   const [endY, setEndY] = useState(null);
+
   const handleTouchStart = (e) => {
     setStartY(e.touches[0].clientY);
   };
   const handleTouchMove = (e) => {
     setEndY(e.touches[0].clientY);
   };
+  const [menuHide, setMenuHide] = useState(false);
+
   const handleTouchEnd = () => {
     if (endY > startY) {
-      menuFixedRef.current.classList.remove('hidden')
-      goBackRef.current.classList.remove('hidden')
+      setMenuHide(false)
     } else if (endY < startY) {
       setTimeout(() => {
-        menuFixedRef.current.classList.add('hidden')
-        goBackRef.current.classList.add('hidden')
-      }, 300)
+        setMenuHide(true)
+      }, 300);
     }
   };
+
+
 
   return (
     <>
       <Header
-        handleOpen={handleOpen}
-        handleClose={handleClose}
+        handleOpen={() => toggleHambMenu(true)}
+        handleClose={() => toggleHambMenu(false)}
         menuHambRef={menuHambRef}
         openMenuHambRef={openMenuHambRef}
         closeMenuHambRef={closeMenuHambRef}
       />
+      <MenuFixed menuHide={menuHide} menuFixedRef={menuFixedRef} />
+
       <div className="relative" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
         <MenuHamb menuHambRef={menuHambRef} />
         <ToastContainer position="top-right" autoClose={3000} />
-        <GoBackBtn goBackRef={goBackRef} />
+        <GoBackBtn menuHide={menuHide} goBackRef={goBackRef} />
 
         <Outlet> </Outlet>
-
-        <MenuFixed menuFixedRef={menuFixedRef} />
-
+        
         <FormFinal />
         <Footer />
       </div>

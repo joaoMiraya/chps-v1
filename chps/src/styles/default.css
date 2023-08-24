@@ -2,17 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-::-webkit-scrollbar{
+
+::-webkit-scrollbar {
     opacity: 0;
 }
+
 body {
     font-family: 'Poppins', sans-serif;
-      background-color: var(--white-color);
-    }
+    background-color: var(--white-color);
+}

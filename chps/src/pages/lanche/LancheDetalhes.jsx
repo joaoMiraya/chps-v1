@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-
-import BebidasSection from "../../components/utils/cards/BebidasSection";
-import AcrescimoSection from "../../components/utils/cards/AcrescimoSection";
-import IncresDecresBtn from "../../components/utils/buttons/IncresDecresBtn";
-import Loading from '../../components/partials/Loading';
 
 import { fetchLanches } from "../../services/redux/items/lanchesSlice";
 import { addToCart } from "../../services/redux/cart/cartSlice";
 import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
+import { ToastContainer } from "react-toastify";
 
-
+const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
+const AcrescimoSection = lazy(() => import("../../components/utils/cards/AcrescimoSection"));
+const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
+const Loading = lazy(() => import("../../components/partials/Loading"));
 
 function LancheDetalhes() {
 
@@ -96,11 +95,17 @@ function LancheDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
-                    <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
+                        <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                    </div>
+                    <div className=" self-end flex gap-2">
+                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/lanches"}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={lanche.imagem} alt={lanche.nome} />

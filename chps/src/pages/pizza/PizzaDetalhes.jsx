@@ -1,22 +1,18 @@
-
-
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-
-import BebidasSection from "../../components/utils/cards/BebidasSection";
-import IncresDecresBtn from "../../components/utils/buttons/IncresDecresBtn";
-import Loading from '../../components/partials/Loading';
-
+import { ToastContainer } from "react-toastify";
 
 import { addToCart } from "../../services/redux/cart/cartSlice";
-import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
 import { fetchPizzas } from "../../services/redux/items/pizzasSlice";
-import PizzaToggle from "./utils/PizzaToggle";
-import SegundoSabor from "./utils/SegundoSabor";
 
-
+const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
+const PizzaToggle = lazy(() => import("./utils/PizzaToggle"));
+const SegundoSabor = lazy(() => import("./utils/SegundoSabor"));
+const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
+const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
+const Loading = lazy(() => import("../../components/partials/Loading"));
 
 function PizzaDetalhes() {
 
@@ -136,11 +132,17 @@ function PizzaDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{pizza.nome}</h1>
-                    <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{pizza.nome}</h1>
+                        <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                    </div>
+                    <div className=" self-end flex gap-2">
+                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/pizzas"}>{('pizzas >')}</Link><span className="text-gray-400">{pizza.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={pizza.imagem} alt={pizza.nome} />

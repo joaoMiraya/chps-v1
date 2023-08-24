@@ -1,7 +1,7 @@
 import { lazy, useState } from 'react';
 import { useSelector } from 'react-redux';
-import PedidoRapido from './forms/PedidoRapido';
 
+const PedidoRapido = lazy(() => import("./forms/PedidoRapido"));
 const LoginComp = lazy(() => import("./forms/LoginComp"));
 const HomeLogged = lazy(() => import("./HomeLogged"));
 

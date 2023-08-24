@@ -1,23 +1,18 @@
 
 
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-
 
 import { editItemInCart } from "../../../services/redux/cart/cartSlice";
 import { fetchPorcoes } from "../../../services/redux/items/porcoesSlice";
-import Loading from "../../../components/partials/Loading";
-import PorcaoToggle from "../../porcao/utils/PorcaoToggle";
-import IncresDecresBtn from "../../../components/utils/buttons/IncresDecresBtn";
-import BebidasSection from "../../../components/utils/cards/BebidasSection";
-import SaveBtn from "./utils/SaveBtn";
-import Note from "./utils/Note";
+import { ToastContainer } from "react-toastify";
 
-
-
-
+const Loading = lazy(() => import("../../../components/partials/Loading"));
+const PorcaoToggle = lazy(() => import("../../porcao/utils/PorcaoToggle"));
+const Note = lazy(() => import("./utils/Note"));
+const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+const SaveBtn = lazy(() => import("./utils/SaveBtn"));
 
 function CartPorcaoDetalhes() {
 
@@ -94,11 +89,18 @@ function CartPorcaoDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{porcao.nome}</h1>
-                    <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{porcao.nome}</h1>
+                        <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                    </div>
+                    <div className=" self-end flex gap-2 mt-2">
+                        <Link className="underline" to={"/carrinho"}>{('carrinho >')}</Link><span className="text-gray-400">{porcao.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={porcao.imagem} alt={porcao.nome} />
@@ -110,8 +112,6 @@ function CartPorcaoDetalhes() {
                 <div className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <Note setNote={setNote} note={note} handleSaveChanges={handleSaveChanges} />
-
-                    <BebidasSection />
                 </div>
 
             </div>

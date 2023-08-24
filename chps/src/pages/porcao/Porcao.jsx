@@ -1,10 +1,8 @@
-import Porcoes from "./utils/Porcoes";
+import { lazy } from "react";
 
+const Porcoes = lazy(() => import("./utils/Porcoes"));
 
 function Porcao() {
-
-
-
 
     return (
         <div className="pt-6">

@@ -107,6 +107,19 @@ root.render(
             <Route path='/dashboard/porcoes/:id' element={<PorcoesDashDetail />} />
           </Route>
 
+          {/* DETALHES DOS ITENS NO MENU */}
+          <Route path='/menu/lanches/:id' element={<LancheDetalhes />} />
+          <Route path='/menu/pizzas/:id' element={<PizzaDetalhes />} />
+          <Route path='/menu/porcoes/:id' element={<PorcaoDetalhes />} />
+          <Route path='/menu/pratos/:id' element={<PratoDetalhes />} />
+          <Route path='/menu/bebidas/:id' element={<BebidasDetalhes />} />
+          {/* DETALHES DOS ITENS NO CARRINHO */}
+          <Route path='/carrinho/lanche/:id' element={<CartLancheDetalhes />} />
+          <Route path='/carrinho/pizza/:id' element={<CartPizzaDetalhes />} />
+          <Route path='/carrinho/porcao/:id' element={<CartPorcaoDetalhes />} />
+          <Route path='/carrinho/pratos/:id' element={<CartPratosDetalhes />} />
+          <Route path='/carrinho/bebida/:id' element={<CartBebidasDetalhes />} />
+
           {/* APP ROUTES */}
           <Route path='/' element={<App />}>
             <Route path='/redefinir-senha' element={<RedefinePassword />} />
@@ -116,35 +129,16 @@ root.render(
             <Route path='/promocoes' element={<Promocao />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/menu' element={<Menu />} />
+            <Route path='/perfil' element={<PrivateRoute> <Profile /> </PrivateRoute>} />
 
             <Route path='/menu/lanches' element={<Lanche />} />
             <Route path='/menu/lanches/ver-todos/:cat' element={<TodosLanches />} />
-            <Route path='/menu/lanches/:id' element={<LancheDetalhes />} />
-
             <Route path='/menu/pizzas' element={<Pizza />} />
-            <Route path='/menu/pizzas/:id' element={<PizzaDetalhes />} />
-
-
             <Route path='/menu/porcoes' element={<Porcao />} />
-            <Route path='/menu/porcoes/:id' element={<PorcaoDetalhes />} />
-
             <Route path='/menu/pratos' element={<Prato />} />
-            <Route path='/menu/pratos/:id' element={<PratoDetalhes />} />
-
             <Route path='/menu/bebidas' element={<Bebidas />} />
-            <Route path='/menu/bebidas/:id' element={<BebidasDetalhes />} />
-
-
 
             <Route path='/carrinho' element={<Cart />} />
-            <Route path='/carrinho/lanche/:id' element={<CartLancheDetalhes />} />
-            <Route path='/carrinho/pizza/:id' element={<CartPizzaDetalhes />} />
-            <Route path='/carrinho/porcao/:id' element={<CartPorcaoDetalhes />} />
-            <Route path='/carrinho/pratos/:id' element={<CartPratosDetalhes />} />
-            <Route path='/carrinho/bebida/:id' element={<CartBebidasDetalhes />} />
-
-            <Route path='/perfil' element={<PrivateRoute> <Profile /> </PrivateRoute>} />
-
           </Route>
 
         </Routes>

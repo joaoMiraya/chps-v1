@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineMenu, AiOutlineMenuUnfold } from 'react-icons/ai';
 import logoHeader from '/windows11/SmallTile.scale-200.png'
+import { useEffect } from 'react';
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from '../../services/firebase/firebase';
+import { setBgHeaderUrl } from '../../services/redux/images/imageSlice';
 
 function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) {
     Header.propTypes = {
@@ -12,9 +16,33 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
         openMenuHambRef: PropTypes.object.isRequired,
     };
 
+    const dispatch = useDispatch();
+
     /* RECEBENDO IMAGENS ESTÁTICAS DO HEADER */
     const { bgHeader } = useSelector((state) => state.images);
+
     const { isAdm } = useSelector((state) => state.auth);
+
+    /* REQUISIÇÕES DAS IMAGENS ESTÁTICAS DA APLICAÇÃO */
+    useEffect(() => {
+        if (!bgHeader) {
+            const fetchImageUrls = async () => {
+                const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
+                /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
+                try {
+                    const headerBgUrl = await getDownloadURL(bgHeaderReference);
+                    dispatch(setBgHeaderUrl(headerBgUrl));
+                } catch (error) {
+                    console.error('Erro ao obter a URL da imagem:', error);
+                }
+            };
+            fetchImageUrls();
+        } else {
+            return
+        }
+    }, [dispatch]);
+
+
 
     return (
         <header className="linear-gradient min-h-[80px]">

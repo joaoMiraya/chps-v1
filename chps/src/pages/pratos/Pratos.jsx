@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchPratos } from "../../services/redux/items/pratosSlice";
-import Loading from "../../components/partials/Loading";
+
+const Loading = lazy(() => import("../../components/partials/Loading"));
 
 function Pratos() {
 
@@ -17,8 +18,6 @@ function Pratos() {
     if (!pratos) {
         return <Loading />
     }
-
-
     return (
         <div className="flex justify-center flex-wrap gap-4">
             {pratos.map((prato) => {

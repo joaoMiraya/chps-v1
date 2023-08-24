@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 
-function Perfil({ letter }) {
-    Perfil.propTypes = {
+function PerfilPhoto({ letter }) {
+    PerfilPhoto.propTypes = {
         letter: PropTypes.string.isRequired,
     }
     return (
@@ -13,4 +13,4 @@ function Perfil({ letter }) {
     )
 }
 
-export default Perfil;
+export default PerfilPhoto;

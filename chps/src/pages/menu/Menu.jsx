@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import Carousel from "./utils/Carousel";
-import MainComp from "./utils/MainComp";
 import { CiBeerMugFull } from 'react-icons/ci';
+import { lazy } from "react";
+
+const Carousel = lazy(() => import("./utils/Carousel"));
+const MainComp = lazy(() => import("./utils/MainComp"));
+
 function Menu() {
 
     return (

@@ -1,5 +1,7 @@
-import AddPizza from "./utils/AddPizza";
-import PizzasDashComp from "./PizzasDashComp";
+import { lazy } from "react";
+
+const AddPizza = lazy(() => import("./utils/AddPizza"));
+const PizzasDashComp = lazy(() => import("./PizzasDashComp"));
 
 function PizzasDash() {
 

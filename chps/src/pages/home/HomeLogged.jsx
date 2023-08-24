@@ -1,10 +1,8 @@
+import { lazy } from "react";
 
-import PromoComp from "./home-logged-utils/PromoComp";
-
+const PromoComp = lazy(() => import("./home-logged-utils/PromoComp"));
 
 function HomeLogged() {
-
-
 
     return (
         <>

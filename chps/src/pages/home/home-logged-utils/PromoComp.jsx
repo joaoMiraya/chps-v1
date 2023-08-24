@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPromoImageUrl } from "../../../services/redux/images/imageSlice";
 import { storage } from "../../../services/firebase/firebase";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function PromoComp() {
 
@@ -12,8 +13,8 @@ function PromoComp() {
     const [user, setUser] = useState('');
 
     useEffect(() => {
-        if (sessionStorage.getItem("User")) {
-            const user = JSON.parse(sessionStorage.getItem("User"))
+        if (Cookies.get("User")) {
+            const user = JSON.parse(Cookies.get("User"))
             setUser(user.name)
         } else if (localStorage.getItem("User")) {
             const user = JSON.parse(localStorage.getItem("User"))

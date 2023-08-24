@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "ISC",
+  "main": "index.html",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm dist/bundle.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
@@ -28,7 +31,6 @@
     "react-toastify": "^9.1.3",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
-    "scrollreveal": "^4.0.9",
     "workbox-build": "^4.3.1",
     "yup": "^1.2.0"
   },
@@ -36,14 +38,12 @@
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2",
+    "autoprefixer": "^10.4.15",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
-    "postcss": "^8.4.25",
+    "postcss": "^8.4.28",
     "sass": "^1.63.6",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "^3.3.3",
     "vite": "^4.3.9",
     "vite-plugin-pwa": "^0.16.4"
   }

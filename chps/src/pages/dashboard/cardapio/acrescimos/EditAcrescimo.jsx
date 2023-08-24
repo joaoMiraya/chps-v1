@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Loading from "../../../../components/partials/Loading";
 import { useEffect } from "react";
 import { fetchAcrescimo, editAcrescimo } from '../../../../services/redux/items/acrescimosSlice';
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../services/firebase/firebase";
+
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
 
 function EditAcrescimos() {

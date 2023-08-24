@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 import { toast } from 'react-toastify';
 
 import { auth, db } from "../../firebase/firebase";
-import Cookies from "js-cookie";
+
 
 
 
@@ -14,7 +14,7 @@ export const userRegister = createAsyncThunk(
     async ({ Email, Password, Name, Tel, Date }, { rejectWithValue }) => {
         try {
             await createUserWithEmailAndPassword(auth, Email, Password)
-            const { accessToken, email, uid } = auth.currentUser;
+            const { accessToken, uid } = auth.currentUser;
             //SALVA AS INFORMAÇÕES NO DB DO FIRESTORE
             const docRef = await addDoc(collection(db, "users"), {
                 id: uid,
@@ -23,13 +23,12 @@ export const userRegister = createAsyncThunk(
                 tel: Tel,
                 date_register: Date
             });
-            Cookies.set("User", JSON.stringify({ name: Name, telefone: Tel, id: uid }, { expires: 365 }))
             //MANDA EMAIL DE VERIFICAÇÃO NO EMAIL DO USUARIO
             await sendEmailVerification(auth.currentUser)
                 .then(() => {
                     toast.success("Registro efetuado, verifique seu email!");
                 });
-            return { accessToken: accessToken, email: email, name: Name };
+            return { accessToken: accessToken, tel: Tel, name: Name };
 
         } catch (error) {
             // return custom error message from API if any
@@ -59,6 +58,7 @@ const registerSlice = createSlice({
             .addCase(userRegister.fulfilled, (state) => {
                 state.success = true
                 state.error = ''
+
             })
             .addCase(userRegister.rejected, (state, action) => {
                 const message = "Email já está cadastrado"

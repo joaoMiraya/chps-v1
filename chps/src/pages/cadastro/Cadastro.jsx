@@ -19,7 +19,7 @@ const schema = yup.object().shape({
     confirmEmailRegister: yup.string().email().required("Campo obrigatório").oneOf([yup.ref("emailRegister"), null], "Email estão diferentes"),
     passwordRegister: yup.string().min(8, 'Sua senha deve conter no minímo 8 caracteres').max(32).required("Campo obrigatório").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{6,15}$/, " A senha dever conter: 1 letra grande 1 pequena e 1 número"),
     confirmPasswordRegister: yup.string().required("Campo obrigatório").oneOf([yup.ref("passwordRegister"), null], "Senhas estão diferentes"),
-    tel: yup.string("Apenas números são permitidos").min(9, "Seu telefone tem poucos digítos").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
+    tel: yup.string("Apenas números são permitidos").min(11, "Seu telefone tem poucos digítos").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
 function Cadastro() {
@@ -58,17 +58,31 @@ function Cadastro() {
 
     const onSubmit = async (data) => {
         setSubmiting(true)
+
         try {
+            const telFormater = () => {
+                const number = data.tel;
+                const numberClean = number.replace(/\s/g, "");
+                const regex = /^(\d{2})(\d{5})(\d{4})$/;
+                const match = numberClean.match(regex);
+                if (match) {
+                    return `(${match[1]}) ${match[2]}-${match[3]}`;
+                } else {
+                    return numberClean; // Retorna o número sem alterações se não estiver no formato esperado
+                }
+            };
+            const formatedTel = telFormater(data.tel);
+            
             const values = {
                 Name: data.nameRegister,
                 Email: data.emailRegister,
                 Password: data.passwordRegister,
-                Tel: data.tel,
+                Tel: formatedTel,
                 Date: formatedDate
             };
             // Faça a chamada assíncrona para criar o usuário
             dispatch(userRegister(values));
-                        // Resete o formulário se a submissão for bem-sucedida
+            // Resete o formulário se a submissão for bem-sucedida
             reset({
                 nameRegister: "",
                 emailRegister: "",
@@ -91,7 +105,7 @@ function Cadastro() {
         setTimeout(() => {
             navigate("/")
             window.location.reload();
-        }, 1500)
+        }, 2500)
     }
 
     return (
@@ -107,7 +121,7 @@ function Cadastro() {
             <p className="my-4">Ou faça seu registro com e-mail e senha</p>
 
             <form onSubmit={handleSubmit(onSubmit)} >
-                <div className="flex flex-col w-screen px-8">
+                <div className="flex flex-col w-screen px-8 md:max-w-[22rem]">
                     <label htmlFor="nameRegister">Nome:</label>
                     <input
                         aria-label='Seu nome para o cadastro'
@@ -208,7 +222,7 @@ function Cadastro() {
                         className=" border-b-[1px] border-solid border-gray-400"
                         type="text"
                         name="tel"
-                        placeholder="XX XXXXX-XXXX"
+                        placeholder="XX XXXXX XXXX"
                         id="tel"
                         {...register("tel")}
                     />

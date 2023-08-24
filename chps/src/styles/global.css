@@ -4,64 +4,59 @@
     --vine-color: #6A1E1E;
     --alternative-gray: #9C9C9C;
     --background-color: #E1E1E1;
-    --background-alternative-color: #FFFFE0;
+    --background-alternative-color: #FFFFE0
 }
 
 h1 {
-    color: var(--primary-dark-color);
+    color: var(--primary-dark-color)
 }
 
 h2,
 p {
-    color: var(--primary-dark-color);
+    color: var(--primary-dark-color)
 }
 
 button {
     cursor: pointer;
     border: none;
-    background-color: transparent;
+    background-color: transparent
 }
 
 input,
 textarea {
-    outline: none;
+    outline: none
 }
 
 .linear-gradient {
-    background: linear-gradient(180deg, #C55300, #D4AA3C);
+    background: linear-gradient(180deg, #C55300, #D4AA3C)
 }
 
 .openMenu {
     position: absolute;
     top: 0;
     right: 0;
-    transition: ease .5s;
+    transition: ease .5s
 }
 
 .hiddeMenu {
     position: absolute;
     top: 0;
     right: 100%;
-    transition: ease .5s;
-}
-.menuFixedPosition{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-.inset-shadow {
-    box-shadow: inset 3px 3px 3px #00000020, 1px 1px 3px #00000010;
+    transition: ease .5s
 }
 
+.inset-shadow {
+    box-shadow: inset 3px 3px 3px #00000020, 1px 1px 3px #00000010
+}
 
 .shadowToCart {
-    box-shadow: 0px 3px 2px #29292940;
+    box-shadow: 0 3px 2px #29292940
 }
 
 .selectedCard {
-    border: 3px solid #98FB98;
+    border: 3px solid #98FB98
 }
 
 .shadowToLogout {
-    box-shadow: inset 1px 2px 4px #00000020, 1px 2px 4px #00000020;
+    box-shadow: inset 1px 2px 4px #00000020, 1px 2px 4px #00000020
 }

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchBebidas } from "../../services/redux/items/bebidasSlice";
 import { addToCart } from "../../services/redux/cart/cartSlice";
 
-import Loading from "../../components/partials/Loading";
-import IncresDecresBtn from "../../components/utils/buttons/IncresDecresBtn";
-import BebidasSection from "../../components/utils/cards/BebidasSection";
-import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
+import { ToastContainer } from "react-toastify";
 
+
+const Loading = lazy(() => import("../../components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
+const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
+const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
 
 
 
@@ -70,11 +72,17 @@ function BebidasDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{bebida.nome}</h1>
-                    <span>Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{bebida.nome}</h1>
+                        <span>Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                    </div>
+                    <div className=" self-end flex gap-2">
+                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/bebidas"}>{('bebidas >')}</Link><span className="text-gray-400">{bebida.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={bebida.imagem} alt={bebida.nome} />

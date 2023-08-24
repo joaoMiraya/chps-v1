@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import EditLanche from "./utils/EditLanche";
 import { fetchLanches } from "../../../../services/redux/items/lanchesSlice";
 import { db, storage } from "../../../../services/firebase/firebase";
-import { useEffect, useState } from "react";
-import Loading from '../../../../components/partials/Loading';
+import { lazy, useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
+const EditLanche = lazy(() => import("./utils/EditLanche"));
 
 function LancheDashDetail() {
 

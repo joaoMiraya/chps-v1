@@ -1,12 +1,13 @@
+import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { db, storage } from "../../../../services/firebase/firebase";
-import { useEffect, useState } from "react";
-import Loading from '../../../../components/partials/Loading';
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "../../../../services/firebase/firebase";
 import { fetchPorcoes } from "../../../../services/redux/items/porcoesSlice";
-import EditPorcoes from "./utils/EditPorcao";
+
+const EditPorcoes = lazy(() => import("./utils/EditPorcao"));
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
 function PorcoesDashDetail() {
 

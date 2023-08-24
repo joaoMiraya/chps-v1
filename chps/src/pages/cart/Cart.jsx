@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CartPlaceholder from './utils/CartPlaceholder';
 import { removeFromCart, clearCart } from '../../services/redux/cart/cartSlice';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import NextStepForm from './utils/NextStepForm';
+import { lazy, useEffect, useState } from 'react';
+
+const NextStepForm = lazy(() => import("./utils/NextStepForm"));
 
 function Cart() {
 

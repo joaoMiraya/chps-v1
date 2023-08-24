@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase/firebase";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebase/firebase';
 
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = (email) => {
@@ -14,6 +16,27 @@ const getAdm = (email) => {
         return false
     }
 };
+
+//VERIFICA SE O USUARIO ESTA AUTENTICADO
+const verifyAuth = () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            getAdm(user.email);
+            const { accessToken, uid } = auth.currentUser;
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("id", "==", uid));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const userInf = doc.data();
+                const userCred = { token: accessToken, name: userInf.name, tel: userInf.tel }
+                Cookies.set("User", JSON.stringify(userCred), { expires: 365 })
+            });
+        } else {
+            Cookies.remove("User")
+        }
+    });
+};
+verifyAuth();
 
 //FUNÇÃO PARA FAZER O LOGOUT DA APP
 export const logout = () => {
@@ -51,7 +74,7 @@ export const userLogin = createAsyncThunk(
     async ({ Email, Password }, { rejectWithValue }) => {
         try {
             await signInWithEmailAndPassword(auth, Email, Password)
-            const {  displayName, accessToken } = auth.currentUser;
+            const { displayName, accessToken } = auth.currentUser;
             return { accessToken: accessToken, name: displayName }
         } catch (error) {
             if (error.response && error.response.data.message) {
@@ -86,19 +109,31 @@ export const authGoogle = () => {
             // ...
         })
 };
-//VERIFICA SE O USUARIO ESTA AUTENTICADO
-const verifyAuth = () => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const { displayName, accessToken } = auth.currentUser;
-            const userCred = { token: accessToken, name: displayName }
-            Cookies.set("User", JSON.stringify(userCred))
-        } else {
-            Cookies.remove("User")
+//FUNÇÃO RESPONSÁVEL POR EXCLUIR A CONTA DO USUARIO
+export const deleteUserAccount = createAsyncThunk(
+    'auth/delete',
+    async (_, { rejectWithValue }) => {
+        const user = auth.currentUser;
+        if (!user) {
+            return rejectWithValue("Usuário não está autenticado.");
         }
-    });
-};
-verifyAuth();
+        try {
+            const { uid } = user;
+            await deleteDoc(doc(db, "users", uid));
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue("Ocorreu um erro ao excluir a conta.");
+        }
+        try {
+            await deleteUser(user);
+            return "Conta excluída com sucesso.";
+        } catch (error) {
+            console.error(error);
+            toast.error('Ocorreu algum erro! Refaça o Login e tente novamente!')
+            return rejectWithValue("Ocorreu um erro ao excluir a conta. Por favor, tente novamente mais tarde.");
+        }
+    }
+);
 
 const initialState = {
     loading: false,

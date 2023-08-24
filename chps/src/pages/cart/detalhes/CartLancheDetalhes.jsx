@@ -1,20 +1,17 @@
 
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
 import { editItemInCart } from "../../../services/redux/cart/cartSlice";
+import { ToastContainer } from "react-toastify";
 
-
-import Loading from "../../../components/partials/Loading";
-import IncresDecresBtn from "../../../components/utils/buttons/IncresDecresBtn";
-import AcrescimoSection from "../../../components/utils/cards/AcrescimoSection";
-import Note from "./utils/Note";
-import SaveBtn from "./utils/SaveBtn";
-
-
-
+const AcrescimoSection = lazy(() => import("../../../components/utils/cards/AcrescimoSection"));
+const Note = lazy(() => import("./utils/Note"));
+const Loading = lazy(() => import("../../../components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+const SaveBtn = lazy(() => import("./utils/SaveBtn"));
 
 function CartLancheDetalhes() {
 
@@ -92,7 +89,6 @@ function CartLancheDetalhes() {
             const valorTotal = (valorTotalInCents / 100);
             const valorFinal = valorTotal * qnt
             setValorTotal(valorFinal.toFixed(2))
-
         }
     }, [lanche, acrescimos, selectedAcrescimos, qnt]);
 
@@ -126,18 +122,23 @@ function CartLancheDetalhes() {
         dispatch(editItemInCart(values));
     };
 
-
-
     if (!lanche) {
         return <Loading />
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
-                    <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
+                        <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                    </div>
+                    <div className=" self-end flex gap-2 mt-2">
+                        <Link className="underline" to={"/carrinho"}>{('carrinho >')}</Link><span className="text-gray-400">{lanche.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={lanche.imagem} alt={lanche.nome} />

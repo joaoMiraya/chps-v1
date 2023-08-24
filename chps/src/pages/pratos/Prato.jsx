@@ -1,5 +1,6 @@
-import Pratos from "./Pratos";
+import { lazy } from "react";
 
+const Pratos = lazy(() => import("./Pratos"));
 
 function Prato() {
 

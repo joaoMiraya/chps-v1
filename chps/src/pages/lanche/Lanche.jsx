@@ -1,7 +1,8 @@
-import Lanches from './Lanches';
+import { lazy } from "react";
+
+const Lanches = lazy(() => import("./Lanches"));
 
 function Lanche() {
-
 
     return (
         <div>

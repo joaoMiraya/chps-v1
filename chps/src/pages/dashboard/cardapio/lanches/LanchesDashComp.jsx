@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchLanches } from "../../../../services/redux/items/lanchesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../../../components/partials/Loading";
+
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
 function LanchesDashComp() {
 

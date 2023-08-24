@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 
 import { editItemInCart } from "../../../services/redux/cart/cartSlice";
 import { fetchPizzas } from "../../../services/redux/items/pizzasSlice";
-import Loading from "../../../components/partials/Loading";
-import SegundoSabor from "../../pizza/utils/SegundoSabor";
-import PizzaToggle from "../../pizza/utils/PizzaToggle";
-import IncresDecresBtn from "../../../components/utils/buttons/IncresDecresBtn";
-import SaveBtn from "./utils/SaveBtn";
-import Note from "./utils/Note";
+import { ToastContainer } from "react-toastify";
 
+const SegundoSabor = lazy(() => import("../../pizza/utils/SegundoSabor"));
+const Note = lazy(() => import("./utils/Note"));
+const Loading = lazy(() => import("../../../components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+const SaveBtn = lazy(() => import("./utils/SaveBtn"));
+const PizzaToggle = lazy(() => import("../../pizza/utils/PizzaToggle"));
 
 
 function CartPizzaDetalhes() {
@@ -135,11 +135,18 @@ function CartPizzaDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className={'text-xl font-semibold'}>{itemInCart.nome}</h1>
-                    <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className={'text-xl font-semibold'}>{itemInCart.nome}</h1>
+                        <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                    </div>
+                    <div className=" self-end flex gap-2 mt-2">
+                        <Link className="underline" to={"/carrinho"}>{('carrinho >')}</Link><span className="text-gray-400">{pizza.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={pizza.imagem} alt={pizza.nome} />

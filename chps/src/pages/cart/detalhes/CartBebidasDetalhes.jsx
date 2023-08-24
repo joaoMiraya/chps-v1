@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { fetchBebidas } from "../../../services/redux/items/bebidasSlice";
 import { editItemInCart } from "../../../services/redux/cart/cartSlice";
+import { ToastContainer } from "react-toastify";
 
-import Loading from "../../../components/partials/Loading";
-import IncresDecresBtn from "../../../components/utils/buttons/IncresDecresBtn";
-import SaveBtn from "./utils/SaveBtn";
-
-
+const Loading = lazy(() => import("../../../components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+const SaveBtn = lazy(() => import("./utils/SaveBtn"));
 
 function CartBebidasDetalhes() {
 
@@ -82,11 +81,18 @@ function CartBebidasDetalhes() {
     }
     return (
         <>
+            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="p-4 w-full overflow-hidden">
 
-                <div className="my-4">
-                    <h1 className="text-3xl font-semibold">{bebida.nome}</h1> <span>{isSuco ? itemInCart?.suco : ''}</span> <br />
-                    <span>Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                <div className="my-4 flex flex-col gap-2">
+                    <div>
+                        <h1 className="text-3xl font-semibold">{bebida.nome}</h1> <span>{isSuco ? itemInCart?.suco : ''}</span> <br />
+                        <span>Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                    </div>
+                    <div className=" self-end flex gap-2 mt-2">
+                        <Link className="underline" to={"/carrinho"}>{('carrinho >')}</Link><span className="text-gray-400">{bebida.nome}</span>
+                    </div>
                 </div>
                 <div className="">
                     <img src={bebida.imagem} alt={bebida.nome} />

@@ -1,25 +1,27 @@
-import { useEffect, useState } from "react";
-import LogoutBtn from "../../components/utils/buttons/LogoutBtn";
-import Capa from "./comps/Capa";
-import Perfil from "./comps/Perfil";
+import { lazy, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
+const Pedidos = lazy(() => import("./comps/Pedidos"));
+const Capa = lazy(() => import("./comps/Capa"));
+const PerfilPhoto = lazy(() => import("./comps/PerfilPhoto"));
+const LogoutBtn = lazy(() => import("../../components/utils/buttons/LogoutBtn"));
+const FormEndPerfil = lazy(() => import("./comps/FormEndPerfil"));
 
 function Profile() {
 
-
-
-    const user = JSON.parse(localStorage.getItem("User"))
+    const user = JSON.parse(Cookies.get("User"));
     const [letter, setLetter] = useState('');
 
-
     useEffect(() => {
-        if (user.name) {
-            const user = JSON.parse(localStorage.getItem("User"))
+
+        if (user) {
             const firstLetter = user.name.charAt(0);
-            setLetter(firstLetter)
+            setLetter(firstLetter.toUpperCase());
         } else {
-            setLetter('U')
+            return
         }
-    }, [user])
+    }, [user]);
+
 
     return (
         <div className=" flex flex-col ">
@@ -28,9 +30,14 @@ function Profile() {
             </div>
             <div className="px-6 relative flex justify-center">
                 <Capa />
-                <Perfil letter={letter} />
+                <PerfilPhoto letter={letter} />
             </div>
-
+            <section className="mt-16">
+                <Pedidos />
+            </section>
+            <section className="mt-4">
+                <FormEndPerfil />
+            </section>
         </div>
     )
 }

@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import EditPizza from "./utils/EditPizza";
 import { fetchPizzas } from "../../../../services/redux/items/pizzasSlice";
 import { db, storage } from "../../../../services/firebase/firebase";
-import { useEffect, useState } from "react";
-import Loading from '../../../../components/partials/Loading';
+import { lazy, useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+
+const EditPizza = lazy(() => import("./utils/EditPizza"));
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
 function PizzaDashDetail() {
 

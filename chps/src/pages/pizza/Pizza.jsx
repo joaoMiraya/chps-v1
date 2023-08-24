@@ -1,5 +1,6 @@
-import Pizzas from "./utils/Pizzas";
+import { lazy } from "react";
 
+const Pizzas = lazy(() => import("./utils/Pizzas"));
 
 function Pizza() {
 

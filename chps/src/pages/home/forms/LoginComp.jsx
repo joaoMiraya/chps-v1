@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,15 +44,12 @@ function LoginComp({ handleShowPassword, showPass }) {
 
     return (
         <div className="container flex flex-col items-center">
-            <Helmet>
-                <meta name="referrer" content="no-referrer-when-downgrade" />
-            </Helmet>
 
-            <h1 className="mt-16 text-2xl font-bold">Entrar em Chapas</h1>
+            <h1 className="mt-16 text-2xl font-bold">Entrar em Chapas</h1>  
             <p className="font-semibold">Entrar com:  </p>
-            <div className="flex gap-4 mt-4 ">
-                <div className="flex xl:flex-col xl:-w xl:flex-grow- gap-4 mt-4 ">
-                    <div onClick={handleAuthGoogle} className="h-16 w-[18rem] flex justify-between hover:bg-[#c1c1c130]  items-center text-sm font-semibold rounded-md border-[1px] border-solid border-gray-400">
+            <div className="flex gap-4 ">
+                <div className="flex xl:flex-col xl:-w xl:flex-grow- gap-4 mt-2 ">
+                    <div aria-label='Entrar com Gmail' tabIndex={0} onClick={handleAuthGoogle} className="h-16 w-[18rem] flex justify-between hover:bg-[#c1c1c130]  items-center text-sm font-semibold rounded-md border-[1px] border-solid border-gray-400">
                         <svg className='relative w-16 h-12 top-1 ' xmlns="http://www.w3.org/2000/svg" aria-label="Gmail" role="img" viewBox="0 0 512 512" width="64px" height="64px" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><rect width="512" height="512" rx="15%" fill="#ffffff"></rect><path d="M158 391v-142l-82-63V361q0 30 30 30" fill="#4285f4"></path><path d="M 154 248l102 77l102-77v-98l-102 77l-102-77" fill="#ea4335"></path><path d="M354 391v-142l82-63V361q0 30-30 30" fill="#34a853"></path><path d="M76 188l82 63v-98l-30-23c-27-21-52 0-52 26" fill="#c5221f"></path><path d="M436 188l-82 63v-98l30-23c27-21 52 0 52 26" fill="#fbbc04"></path></g></svg>
                         <h3 className=' text-center mr-4'>Entre com sua conta Google</h3>
                     </div>
@@ -61,7 +57,7 @@ function LoginComp({ handleShowPassword, showPass }) {
             </div>
             <p className="my-4">Ou entre com seu e-mail e senha</p>
             <form onSubmit={handleSubmit(onSubmit)} >
-                <div className="flex flex-col w-screen px-8">
+                <div className="flex flex-col w-screen md:max-w-[22rem] px-8">
                     <label htmlFor="emailLogin">Email:</label>
                     <input
                         aria-label='Email para login'

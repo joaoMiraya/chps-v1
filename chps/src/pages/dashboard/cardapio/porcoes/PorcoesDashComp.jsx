@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../../../../components/partials/Loading";
 import { fetchPorcoes } from "../../../../services/redux/items/porcoesSlice";
+
+const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
 function PorcoesDashComp() {
 

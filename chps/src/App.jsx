@@ -2,6 +2,7 @@ import { lazy, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TempoEntrega from "./components/utils/menus/TempoEntrega";
 
 
 
@@ -41,10 +42,10 @@ function App() {
         <MenuHamb menuHambRef={menuHambRef} />
         <ToastContainer position="top-right" autoClose={3000} />
         <GoBackBtn />
-
+        <TempoEntrega />
         <Outlet> </Outlet>
 
-           <FormFinal />
+        <FormFinal />
         <Footer />
       </div>
       <MenuFixed />

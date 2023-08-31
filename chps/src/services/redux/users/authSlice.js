@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { auth, googleProvider, db } from "../../firebase/firebase";
 import { GoogleAuthProvider, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
@@ -16,27 +16,6 @@ const getAdm = (email) => {
         return false
     }
 };
-
-export const fetchUsers = createAsyncThunk(
-    'fetch/users',
-    async (_, { rejectWithValue }) => {
-        try {
-            const q = query(collection(db, "usuarios"));
-            const querySnapshot = await getDocs(q);
-            const usersData = [];
-            querySnapshot.forEach((doc) => {
-                usersData.push({ id: doc.id, ...doc.data() });
-            });
-            return usersData;
-        } catch (error) {
-            if (error.response && error.response.data.message) {
-                return rejectWithValue(error.response.data.message)
-            } else {
-                return rejectWithValue(error.message)
-            }
-        }
-    }
-);
 
 //VERIFICA SE O USUARIO ESTA AUTENTICADO
 const verifyAuth = () => {
@@ -59,36 +38,6 @@ const verifyAuth = () => {
     });
 };
 verifyAuth();
-
-//FUNÇÃO PARA FAZER O LOGOUT DA APP
-export const logout = () => {
-    signOut(auth).then(() => {
-        if (Cookies.get("isAdm")) {
-            Cookies.remove("isAdm")
-            Cookies.remove("User")
-        } else {
-            Cookies.remove("User")
-        }
-        window.location.reload();
-    }).catch((error) => {
-        alert("Ocorreu um erro" + error)
-        console.log("Ocorreu um erro" + error);
-    });
-};
-
-//FUNÇÃO PARA ENVIAR EMAIL PARA REDEFINIR A SENHA
-export const redefinePassword = createAsyncThunk(
-    "redefinePassword",
-    async (email) => {
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
-            })
-            .catch((err) => {
-                toast.error("Email inserido não foi encontrado em nossa base de dados, tente criar uma conta!")
-                console.log(err);
-            })
-    });
 
 //AUTENTICAÇÃO COM O EMAIL E SENHA
 export const userLogin = createAsyncThunk(
@@ -131,26 +80,42 @@ export const authGoogle = () => {
             // ...
         })
 };
-//FUNÇÃO RESPONSÁVEL POR EXCLUIR A CONTA DO USUARIO
-export const deleteUserAccount = createAsyncThunk(
-    'auth/delete',
-    async (_, { rejectWithValue }) => {
-        const user = auth.currentUser;
-        try {
-            await deleteUser(user);
-        } catch (error) {
-            console.error(error);
-            return rejectWithValue("Ocorreu um erro ao excluir a conta.");
+
+//FUNÇÃO PARA FAZER O LOGOUT DA APP
+export const logout = () => {
+    signOut(auth).then(() => {
+        if (Cookies.get("isAdm")) {
+            Cookies.remove("isAdm")
+            Cookies.remove("User")
+        } else {
+            Cookies.remove("User")
         }
-    }
-);
+        window.location.reload();
+    }).catch((error) => {
+        alert("Ocorreu um erro" + error)
+        console.log("Ocorreu um erro" + error);
+    });
+};
+
+//FUNÇÃO PARA ENVIAR EMAIL PARA REDEFINIR A SENHA
+export const redefinePassword = createAsyncThunk(
+    "redefinePassword",
+    async (email) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                toast.info("Foi enviado o link para redefinir sua senha no seu email de cadastro!")
+            })
+            .catch((err) => {
+                toast.error("Email inserido não foi encontrado em nossa base de dados, tente criar uma conta!")
+                console.log(err);
+            })
+    });
 
 
 const initialState = {
     loading: false,
     isLogged: Cookies.get("User") ? true : false,
     isAdm: Cookies.get("isAdm") ? true : false,
-    users: [],
     error: null,
     success: false,
 };
@@ -175,13 +140,6 @@ const authSlice = createSlice({
             .addCase(userLogin.rejected, (state) => {
                 let message = "Email ou senha inválidos"
                 state.error = message
-            })
-            .addCase(fetchUsers.fulfilled, (state, action) => {
-                state.users = action.payload
-            })
-            .addCase(fetchUsers.rejected, (state, action) => {
-                state.error = action.payload
-                console.log(action.payload);
             })
             .addDefaultCase((state) => {
                 return state;

@@ -46,6 +46,7 @@ import CartLancheDetalhes from '../pages/cart/detalhes/CartLancheDetalhes';
 import CartPizzaDetalhes from '../pages/cart/detalhes/CartPizzaDetalhes';
 import CartPorcaoDetalhes from '../pages/cart/detalhes/CartPorcaoDetalhes';
 import CartBebidasDetalhes from '../pages/cart/detalhes/CartBebidasDetalhes';
+import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 
 //DASHBOARD ABAIXO
 import DashApp from '../pages/dashboard/DashApp';
@@ -68,7 +69,9 @@ import PratosDashDetail from '../pages/dashboard/cardapio/pratos/PratosDashDetai
 
 import PorcoesDash from '../pages/dashboard/cardapio/porcoes/PorcoesDash';
 import PorcoesDashDetail from '../pages/dashboard/cardapio/porcoes/PorcoesDashDetail';
-import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
+
+import Usuarios from '../pages/dashboard/usuarios/Usuarios';
+import UsuarioDetalhes from '../pages/dashboard/usuarios/UsuarioDetalhes';
 
 
 
@@ -87,6 +90,9 @@ root.render(
           {/* DASHBOARD ROUTES */}
           <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
+
+            <Route path='/dashboard/usuarios' element={<Usuarios />} />
+            <Route path='/dashboard/usuarios/:id' element={<UsuarioDetalhes />} />
 
             <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
             <Route path='/dashboard/acrescimos/:id' element={<AcrescimosEdit />} />

@@ -6,9 +6,6 @@ import { toast } from 'react-toastify';
 import { auth, db } from "../../firebase/firebase";
 
 
-
-
-
 export const userRegister = createAsyncThunk(
     'auth/register',
     async ({ Email, Password, Name, Tel, Date }, { rejectWithValue }) => {

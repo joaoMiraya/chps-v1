@@ -1,4 +1,5 @@
-import AllUsers from "./usuarios/AllUsers";
+
+
 import AddTempoEntrega from "./utils/AddTempoEntrega";
 import AddTempoRetirar from "./utils/AddTempoRetirar";
 import LigarDesligarApp from "./utils/LigarDesligarApp";
@@ -26,7 +27,7 @@ function Dashboard() {
             </div>
             <div className="flex flex-col items-center w-full">
                 <h2>Pedidos em Andamento</h2>
-                <AllUsers />
+              
             </div>
         </div>
     )

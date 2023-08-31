@@ -14,6 +14,7 @@ function DashHeader() {
                 </Link>
                 <div className='flex gap-6'>
                     <ul className="flex gap-4 ">
+                        <Link to={"/dashboard/usuarios"}><li className='hover:underline cursor-pointer'>Usuarios</li></Link>
                         <Link to={"/dashboard/lanches"}><li className='hover:underline cursor-pointer'>Lanches</li></Link>
                         <Link to={"/dashboard/pizzas"}><li className='hover:underline cursor-pointer'>Pizzas</li></Link>
                         <Link to={"/dashboard/porcoes"}><li className='hover:underline cursor-pointer'>Porções</li></Link>

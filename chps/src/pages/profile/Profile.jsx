@@ -1,8 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../services/redux/users/authSlice";
-
 
 const Pedidos = lazy(() => import("./comps/Pedidos"));
 const Capa = lazy(() => import("./comps/Capa"));

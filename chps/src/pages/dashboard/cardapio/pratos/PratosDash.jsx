@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
-const AddPratos = lazy(() => import("./PratosDashComp"));
-const PratosDashComp = lazy(() => import("./utils/AddPratos"));
+const AddPratos = lazy(() => import("./utils/AddPratos"));
+const PratosDashComp = lazy(() => import("./PratosDashComp"));
 
 function PratosDash() {
 

@@ -1,5 +1,8 @@
 import { lazy, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../services/redux/users/authSlice";
+
 
 const Pedidos = lazy(() => import("./comps/Pedidos"));
 const Capa = lazy(() => import("./comps/Capa"));
@@ -12,8 +15,8 @@ function Profile() {
     const user = JSON.parse(Cookies.get("User"));
     const [letter, setLetter] = useState('');
 
+        //RESPONSÁVEL POR CAPTURAR A PRIMEIRA LETRA DO NOME DO USUARIO
     useEffect(() => {
-
         if (user) {
             const firstLetter = user.name.charAt(0);
             setLetter(firstLetter.toUpperCase());
@@ -22,22 +25,23 @@ function Profile() {
         }
     }, [user]);
 
-
     return (
-        <div className=" flex flex-col ">
+        <div className=" flex flex-col items-center ">
             <div className="flex w-full justify-end p-4">
                 <LogoutBtn />
             </div>
-            <div className="px-6 relative flex justify-center">
-                <Capa />
-                <PerfilPhoto letter={letter} />
+            <div className="max-w-[24rem]">
+                <div className="px-6 relative flex justify-center">
+                    <Capa />
+                    <PerfilPhoto letter={letter} />
+                </div>
+                <section className="pt-16 flex justify-center">
+                    <Pedidos />
+                </section>
+                <section className="mt-4">
+                    <FormEndPerfil />
+                </section>
             </div>
-            <section className="mt-16">
-                <Pedidos />
-            </section>
-            <section className="mt-4">
-                <FormEndPerfil />
-            </section>
         </div>
     )
 }

@@ -15,11 +15,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
     nameRegister: yup.string().required("Campo obrigatório"),
-    emailRegister: yup.string().email().required("Campo obrigatório"),
-    confirmEmailRegister: yup.string().email().required("Campo obrigatório").oneOf([yup.ref("emailRegister"), null], "Email estão diferentes"),
+    emailRegister: yup.string().email("Insira um e-mail válido").required("Campo obrigatório"),
+    confirmEmailRegister: yup.string().email("Insira um e-mail válido").required("Campo obrigatório").oneOf([yup.ref("emailRegister"), null], "Email estão diferentes"),
     passwordRegister: yup.string().min(8, 'Sua senha deve conter no minímo 8 caracteres').max(32).required("Campo obrigatório").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{6,15}$/, " A senha dever conter: 1 letra grande 1 pequena e 1 número"),
     confirmPasswordRegister: yup.string().required("Campo obrigatório").oneOf([yup.ref("passwordRegister"), null], "Senhas estão diferentes"),
-    tel: yup.string("Apenas números são permitidos").min(11, "Seu telefone tem poucos digítos").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
+    tel: yup.string("Apenas números são permitidos").min(11, "Seu telefone tem poucos digítos").max(12, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
 function Cadastro() {
@@ -112,7 +112,7 @@ function Cadastro() {
         <div className="container flex flex-col  items-center pt-16">
             <h1 className=" text-2xl font-bold">Fazer registro no Chapas</h1>
             <p className="font-semibold">Registrar-se com:  </p>
-            <div className="flex xl:flex-col xl:-w xl:flex-grow- gap-4 mt-4 ">
+            <div className="flex xl:flex-col gap-4 mt-4 ">
                 <div className="h-16 w-[18rem] flex justify-between hover:bg-[#c1c1c130]  items-center text-sm font-semibold rounded-md border-[1px] border-solid border-gray-400">
                     <svg className='relative w-16 h-12 top-1 ' xmlns="http://www.w3.org/2000/svg" aria-label="Gmail" role="img" viewBox="0 0 512 512" width="64px" height="64px" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><rect width="512" height="512" rx="15%" fill="#ffffff"></rect><path d="M158 391v-142l-82-63V361q0 30 30 30" fill="#4285f4"></path><path d="M 154 248l102 77l102-77v-98l-102 77l-102-77" fill="#ea4335"></path><path d="M354 391v-142l82-63V361q0 30-30 30" fill="#34a853"></path><path d="M76 188l82 63v-98l-30-23c-27-21-52 0-52 26" fill="#c5221f"></path><path d="M436 188l-82 63v-98l30-23c27-21 52 0 52 26" fill="#fbbc04"></path></g></svg>
                     <h3 className=' text-center mr-4'>Registre-se com sua conta Google</h3>
@@ -121,7 +121,7 @@ function Cadastro() {
             <p className="my-4">Ou faça seu registro com e-mail e senha</p>
 
             <form onSubmit={handleSubmit(onSubmit)} >
-                <div className="flex flex-col w-screen px-8 md:max-w-[22rem]">
+                <div className="flex flex-col w-screen px-8 md:max-w-[50rem]">
                     <label htmlFor="nameRegister">Nome:</label>
                     <input
                         aria-label='Seu nome para o cadastro'

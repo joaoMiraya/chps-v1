@@ -1,4 +1,3 @@
-import { BsFillGearFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 
@@ -22,9 +21,6 @@ function DashHeader() {
                         <Link to={"/dashboard/bebidas"}><li className='hover:underline cursor-pointer'>Bebidas</li></Link>
                         <Link to={"/dashboard/acrescimos"}><li className='hover:underline cursor-pointer'>Acréscimos</li></Link>
                     </ul>
-                    <div>
-                        <BsFillGearFill size={30} />
-                    </div>
                 </div>
             </nav>
         </header>

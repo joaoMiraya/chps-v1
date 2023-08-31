@@ -10,10 +10,12 @@ import acrescimosSlice from './items/acrescimosSlice';
 import bebidasSlice from './items/bebidasSlice';
 import pratosSlice from './items/pratosSlice';
 import porcoesSlice from './items/porcoesSlice';
+import appSlice from './app/appSlice';
 
 const rootReducer = combineReducers({
     images: imageReducer,
     relativeImages: relativeImageReducer,
+    app: appSlice,
     auth: authSlice,
     register: authRegister,
     cart: cartSlice,

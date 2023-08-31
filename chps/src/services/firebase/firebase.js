@@ -1,9 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { setIsLogged } from '../redux/users/authSlice';
-import { store } from '../redux/store';
 
 
 
@@ -24,25 +22,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const storage = getStorage(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
-//FUNÇÃO RESPONSAVEL POR VERIFICAR A AUTENTICAÇÃO DO USUARIO
-const verifyAuth = () => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const { email, displayName, accessToken } = auth.currentUser;
-            const userCred = { token: accessToken, email: email, name: displayName }
-            localStorage.setItem("User", JSON.stringify(userCred));
-            store.dispatch(setIsLogged()); // Despacha a ação para atualizar o estado
-        } else {
-            localStorage.removeItem("User");
-        }
-    });
-};
-verifyAuth();
-
 
 export { app, storage, db, auth, firebaseConfig, googleProvider };

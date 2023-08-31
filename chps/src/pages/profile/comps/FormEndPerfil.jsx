@@ -1,12 +1,39 @@
-import { useDispatch } from "react-redux";
-import { deleteUserAccount } from "../../../services/redux/users/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserAccount, fetchUsers } from "../../../services/redux/users/authSlice";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../../services/firebase/firebase";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+
 
 function FormEndPerfil() {
+
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleDeleteAccount = () => {
+    useEffect(() => {
+        dispatch(fetchUsers());
+    }, []);
+
+    const user = JSON.parse(Cookies.get("User"));
+    const { users } = useSelector(state => state.auth);
+    const usuario = users.find(usuario => usuario.email == user?.email)
+    const id = usuario?.id;
+
+
+    //RESPONSÁVEL POR EXCLUIR OS DADOS DO USUARIO NO FIRESTORE E DISPACHAR A FUNÇÃO PARA EXCLUIR A AUTENTICAÇÃO
+    const handleDeleteAccount = async () => {
+        await deleteDoc(doc(db, "usuarios", id));
+        toast.error("Conta apagada")
         dispatch(deleteUserAccount())
+        setTimeout(() => {
+            navigate("/")
+            window.location.reload();
+        }, 2500)
     };
+
     return (
 
         <div className="flex flex-col items-center mx-6">
@@ -35,7 +62,7 @@ function FormEndPerfil() {
             </form>
 
             <div className="mt-12 self-end text-gray-400">
-                <span onClick={handleDeleteAccount} className="underline">Excluir conta</span>
+                <button onClick={handleDeleteAccount} className="underline cursor-pointer">Excluir conta</button>
             </div>
 
         </div>

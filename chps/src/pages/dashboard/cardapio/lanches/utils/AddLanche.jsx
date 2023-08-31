@@ -26,7 +26,7 @@ function AddLanche() {
         setIngreLanche('');
         setValorLanche('');
     };
-
+    
     //FAZ O DISPATCH DOS VALORES PARA O REDUX SALVAR NO FIRESTORE
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -27,7 +27,7 @@ function Capa() {
     return (
 
         <div style={{ backgroundColor: color }} className={`${color.length > 3 ? '' : 'bg-gray-300'} flex justify-end items-end p-2 w-full rounded-t-xl max-w-[24rem] h-[6rem]`}>
-            <div className='p-2'>
+            <div className='p-2 cursor-pointer'>
                 {openColors ?
                     <AiOutlineClose color='white' onClick={() => setOpenColors(!openColors)} size={20} /> :
                     <FiEdit2 color='white' onClick={() => setOpenColors(!openColors)} size={20} />
@@ -45,7 +45,7 @@ function Capa() {
                         >
                             <input
                                 onClick={() => setColor(cor)}
-                                className="opacity-0"
+                                className="opacity-0  cursor-pointer"
                                 type="radio"
                                 name={`color${cor}`}
                                 value={cor}

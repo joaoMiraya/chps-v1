@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { auth, googleProvider, db } from "../../firebase/firebase";
 import { GoogleAuthProvider, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase/firebase";
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../firebase/firebase';
+
 
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = (email) => {
@@ -17,22 +17,44 @@ const getAdm = (email) => {
     }
 };
 
+export const fetchUsers = createAsyncThunk(
+    'fetch/users',
+    async (_, { rejectWithValue }) => {
+        try {
+            const q = query(collection(db, "usuarios"));
+            const querySnapshot = await getDocs(q);
+            const usersData = [];
+            querySnapshot.forEach((doc) => {
+                usersData.push({ id: doc.id, ...doc.data() });
+            });
+            return usersData;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message)
+            } else {
+                return rejectWithValue(error.message)
+            }
+        }
+    }
+);
+
 //VERIFICA SE O USUARIO ESTA AUTENTICADO
 const verifyAuth = () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             getAdm(user.email);
             const { accessToken, uid } = auth.currentUser;
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("id", "==", uid));
+            const usersRef = collection(db, "usuarios");
+            const q = query(usersRef, where("uid", "==", uid));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 const userInf = doc.data();
-                const userCred = { token: accessToken, name: userInf.name, tel: userInf.tel }
+                const userCred = { token: accessToken, name: userInf.name, email: userInf.email, tel: userInf.tel }
                 Cookies.set("User", JSON.stringify(userCred), { expires: 365 })
             });
         } else {
             Cookies.remove("User")
+            Cookies.remove("isAdm")
         }
     });
 };
@@ -114,31 +136,21 @@ export const deleteUserAccount = createAsyncThunk(
     'auth/delete',
     async (_, { rejectWithValue }) => {
         const user = auth.currentUser;
-        if (!user) {
-            return rejectWithValue("Usuário não está autenticado.");
-        }
         try {
-            const { uid } = user;
-            await deleteDoc(doc(db, "users", uid));
+            await deleteUser(user);
         } catch (error) {
             console.error(error);
             return rejectWithValue("Ocorreu um erro ao excluir a conta.");
         }
-        try {
-            await deleteUser(user);
-            return "Conta excluída com sucesso.";
-        } catch (error) {
-            console.error(error);
-            toast.error('Ocorreu algum erro! Refaça o Login e tente novamente!')
-            return rejectWithValue("Ocorreu um erro ao excluir a conta. Por favor, tente novamente mais tarde.");
-        }
     }
 );
+
 
 const initialState = {
     loading: false,
     isLogged: Cookies.get("User") ? true : false,
     isAdm: Cookies.get("isAdm") ? true : false,
+    users: [],
     error: null,
     success: false,
 };
@@ -163,6 +175,13 @@ const authSlice = createSlice({
             .addCase(userLogin.rejected, (state) => {
                 let message = "Email ou senha inválidos"
                 state.error = message
+            })
+            .addCase(fetchUsers.fulfilled, (state, action) => {
+                state.users = action.payload
+            })
+            .addCase(fetchUsers.rejected, (state, action) => {
+                state.error = action.payload
+                console.log(action.payload);
             })
             .addDefaultCase((state) => {
                 return state;

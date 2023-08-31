@@ -16,8 +16,8 @@ export const userRegister = createAsyncThunk(
             await createUserWithEmailAndPassword(auth, Email, Password)
             const { accessToken, uid } = auth.currentUser;
             //SALVA AS INFORMAÇÕES NO DB DO FIRESTORE
-            const docRef = await addDoc(collection(db, "users"), {
-                id: uid,
+            const docRef = await addDoc(collection(db, "usuarios"), {
+                uid: uid,
                 name: Name,
                 email: Email,
                 tel: Tel,
@@ -63,6 +63,7 @@ const registerSlice = createSlice({
             .addCase(userRegister.rejected, (state, action) => {
                 const message = "Email já está cadastrado"
                 state.error = message;
+                toast.error(message)
                 console.log(action.payload);
             })
             .addDefaultCase((state) => {

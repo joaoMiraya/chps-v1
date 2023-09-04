@@ -24,16 +24,16 @@ export const fetchUsers = createAsyncThunk(
     }
 );
 
-/* export const setWaiter = ({ email }) => {
-    const waiterEmail = email;
-    console.log(waiterEmail);
-}; */
-export const setWaiter = createAsyncThunk(
-    'users/waiter',
-    async ({ email }, { rejectWithValue }) => {
-        try {
-            console.log(email);
 
+export const setUserRole = createAsyncThunk(
+    'users/waiter',
+    async ({ role, id }, { rejectWithValue }) => {
+        try {
+            const userRef = await doc(db, 'usuarios', id);
+            await setDoc(userRef, {
+                role: role,
+            }, { merge: true });
+            toast.success(`Usuario definido como ${role}`)
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
@@ -43,6 +43,8 @@ export const setWaiter = createAsyncThunk(
         }
     }
 );
+
+
 export const addEndress = createAsyncThunk(
     'users/endress',
     async ({ bairro, rua, numero_casa, referencia, id }, { rejectWithValue }) => {
@@ -66,7 +68,7 @@ export const addEndress = createAsyncThunk(
     }
 );
 
-//FUNÇÃO RESPONSÁVEL POR EXCLUIR A CONTA DO USUARIO
+//FUNÇÃO RESPONSÁVEL POR EXCLUIR A CONTA DO USUARIO LOGADO
 export const deleteUserAccount = createAsyncThunk(
     'users/delete',
     async (_, { rejectWithValue }) => {

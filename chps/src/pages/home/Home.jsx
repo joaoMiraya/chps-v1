@@ -1,4 +1,4 @@
-import { lazy, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const PedidoRapido = lazy(() => import("./forms/PedidoRapido"));
@@ -7,7 +7,7 @@ const HomeLogged = lazy(() => import("./HomeLogged"));
 
 function Home() {
 
-    const { isLogged } = useSelector((state) => state.auth);
+    const { isLogged, success } = useSelector((state) => state.auth);
     const [showPass, setShowPass] = useState(false);
 
     const handleShowPassword = () => {
@@ -16,7 +16,14 @@ function Home() {
         } else {
             setShowPass(false)
         }
-    }
+    };
+    useEffect(() => {
+        if (success) {
+            setInterval(() => {
+                window.location.reload();
+            }, 500)
+        } else return
+    }, [success]);
 
     return (
         isLogged ? <HomeLogged /> :

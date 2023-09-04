@@ -7,7 +7,7 @@ import { auth, db } from "../../firebase/firebase";
 
 
 export const userRegister = createAsyncThunk(
-    'auth/register',
+    'register/user',
     async ({ Email, Password, Name, Tel, Date }, { rejectWithValue }) => {
         try {
             await createUserWithEmailAndPassword(auth, Email, Password)
@@ -18,6 +18,7 @@ export const userRegister = createAsyncThunk(
                 name: Name,
                 email: Email,
                 tel: Tel,
+                role: 'cliente',
                 date_register: Date
             });
             //MANDA EMAIL DE VERIFICAÇÃO NO EMAIL DO USUARIO
@@ -45,7 +46,7 @@ const initialState = {
 };
 
 const registerSlice = createSlice({
-    name: 'auth',
+    name: 'register',
     initialState,
     reducers: {
 

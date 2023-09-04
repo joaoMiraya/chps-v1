@@ -8,6 +8,7 @@ import { userLogin, authGoogle } from '../../../services/redux/users/authSlice';
 
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
+import { useEffect } from 'react';
 
 const schema = yup.object().shape({
     emailLogin: yup.string().email("Não é um email válido").required("Campo obrigatório"),
@@ -21,7 +22,7 @@ function LoginComp({ handleShowPassword, showPass }) {
     };
 
     const dispatch = useDispatch();
-    const { error } = useSelector((state) => state.auth);
+    const { error, success } = useSelector((state) => state.auth);
 
     //LOGIN COM EMAIL E SENHA
     const { register, handleSubmit, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm({
@@ -41,6 +42,7 @@ function LoginComp({ handleShowPassword, showPass }) {
     const handleAuthGoogle = () => {
         dispatch(authGoogle)
     }
+
 
     return (
         <div className="container flex flex-col items-center">

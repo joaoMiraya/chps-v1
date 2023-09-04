@@ -50,9 +50,7 @@ function FormEndPerfil() {
                 numero_casa: data.numeroCasaDefault,
                 referencia: data.referenciaDefault,
             };
-            // Faça a chamada assíncrona para criar o usuário
             dispatch(addEndress(values));
-            // Resete o formulário se a submissão for bem-sucedida
             reset({
                 bairroDefault: "",
                 ruaDefault: "",
@@ -128,7 +126,7 @@ function FormEndPerfil() {
                         type="text"
                         placeholder={usuario?.referencia ? usuario.referencia : 'Ajuda seu pedido chegar mais rápido'}
                         {...register("referenciaDefault")}
-                                            />
+                    />
                     <p className=' text-sm text-center  text-red-400'>{errors.referenciaDefault?.message}</p>
 
 

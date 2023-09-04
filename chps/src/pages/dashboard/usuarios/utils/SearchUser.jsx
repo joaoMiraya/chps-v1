@@ -43,8 +43,8 @@ function SearchUser({ users }) {
                         list="email-list"
                     />
                     <datalist id="email-list">
-                        {getEmails().map((email) => (
-                            <option key={email} value={email} />
+                        {getEmails().map((email, i) => (
+                            <option key={email + i} value={email} />
                         ))}
                     </datalist>
                     <button type='submit' className="bg-black py-2 px-4 rounded-r-xl text-white"><AiOutlineSearch size={25} /></button>

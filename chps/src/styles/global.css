@@ -31,6 +31,8 @@ textarea {
     background: linear-gradient(180deg, #C55300, #D4AA3C)
 }
 
+
+
 .openMenu {
     position: absolute;
     top: 0;
@@ -61,6 +63,8 @@ textarea {
     box-shadow: inset 1px 2px 4px #00000020, 1px 2px 4px #00000020
 }
 
+
+/* ESTILOS PARA O MARCAR O TEMPO DE ENTREGA*/
 .motosvg {
     animation: motoAnimate 3s linear;
 }
@@ -68,7 +72,6 @@ textarea {
 .bgSvgClass {
     animation: bgSvgAnimate 1s linear;
 }
-
 
 @keyframes motoAnimate {
     0% {
@@ -118,4 +121,16 @@ textarea {
     100% {
         width: 100vw;
     }
+}
+
+.mesa{
+    border-radius: 16px 0px 16px 0px;
+   }
+.mesaDefault {
+    border-radius: 16px 0px 16px 0px;
+    background: linear-gradient(180deg, #C1C1C1, #AAACB2, #8C8C8C);
+}
+.mesaActive {
+    border-radius: 16px 0px 16px 0px;
+    background: linear-gradient(180deg, #C55300, #ED724E, #D4AA3C, #FFB44D);
 }

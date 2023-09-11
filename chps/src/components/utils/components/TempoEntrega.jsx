@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MotoboySvg from "../MotoboySvg";
+import MotoboySvg from "../../../assets/MotoboySvg";
 import { AiOutlineClose, AiOutlineFieldTime } from 'react-icons/ai';
 import { useSelector } from "react-redux";
 

@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = (email) => {
-    const emailAdm = "joao@adm.com"
+    const emailAdm = import.meta.env.VITE_ADM_EMAIL;
     if (email == emailAdm) {
         Cookies.set("isAdm", true)
         return true
@@ -29,11 +29,24 @@ const verifyAuth = () => {
             querySnapshot.forEach((doc) => {
                 const userInf = doc.data();
                 const userCred = { token: accessToken, name: userInf.name, email: userInf.email, tel: userInf.tel }
-                Cookies.set("User", JSON.stringify(userCred), { expires: 365 })
+                switch (userInf.role) {
+                    case 'garçom':
+                        Cookies.set("User", JSON.stringify(userCred), { expires: 365 });
+                        Cookies.set("isWaiter", true, { expires: 365 });
+                        break;
+                    case 'motoboy':
+                        Cookies.set("User", JSON.stringify(userCred), { expires: 365 });
+                        Cookies.set("isMotoboy", true, { expires: 365 });
+                        break;
+                    default:
+                        Cookies.set("User", JSON.stringify(userCred), { expires: 365 })
+                }
             });
         } else {
             Cookies.remove("User")
             Cookies.remove("isAdm")
+            Cookies.remove("isWaiter")
+            Cookies.remove("isMotoboy")
         }
     });
 };
@@ -116,6 +129,8 @@ const initialState = {
     loading: false,
     isLogged: Cookies.get("User") ? true : false,
     isAdm: Cookies.get("isAdm") ? true : false,
+    isWaiter: Cookies.get("isWaiter") ? true : false,
+    isMotoboy: Cookies.get("isMotoboy") ? true : false,
     error: null,
     success: false,
 };

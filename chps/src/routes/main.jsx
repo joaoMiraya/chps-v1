@@ -18,6 +18,32 @@ import RedefinePassword from '../components/utils/components/RedefinePassword';
 import TermosEPoliticas from '../components/partials/TermosEPoliticas';
 import Teste from '../pages/Teste';
 
+
+//DASHBOARD ABAIXO
+import DashApp from '../pages/dashboard/DashApp';
+import Dashboard from '../pages/dashboard/Dashboard';
+
+import AcrescimosDash from '../pages/dashboard/cardapio/acrescimos/AcrescimosDash';
+import AcrescimosEdit from '../pages/dashboard/cardapio/acrescimos/EditAcrescimo';
+
+import BebidasDash from '../pages/dashboard/cardapio/bebidas/BebidasDash';
+import BebidasDashDetail from '../pages/dashboard/cardapio/bebidas/BebidaDashDetail';
+
+import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
+import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDetail';
+
+import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
+import PizzaDashDetail from '../pages/dashboard/cardapio/pizzas/PizzaDashDetail';
+
+import PratosDash from '../pages/dashboard/cardapio/pratos/PratosDash';
+import PratosDashDetail from '../pages/dashboard/cardapio/pratos/PratosDashDetail';
+
+import PorcoesDash from '../pages/dashboard/cardapio/porcoes/PorcoesDash';
+import PorcoesDashDetail from '../pages/dashboard/cardapio/porcoes/PorcoesDashDetail';
+
+import Usuarios from '../pages/dashboard/usuarios/Usuarios';
+import UsuarioDetalhes from '../pages/dashboard/usuarios/UsuarioDetalhes';
+
 //PAGES DO APP
 import Home from '../pages/home/Home';
 import Cadastro from '../pages/cadastro/Cadastro';
@@ -48,33 +74,12 @@ import CartPorcaoDetalhes from '../pages/cart/detalhes/CartPorcaoDetalhes';
 import CartBebidasDetalhes from '../pages/cart/detalhes/CartBebidasDetalhes';
 import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 
-//DASHBOARD ABAIXO
-import DashApp from '../pages/dashboard/DashApp';
-import Dashboard from '../pages/dashboard/Dashboard';
-
-import AcrescimosDash from '../pages/dashboard/cardapio/acrescimos/AcrescimosDash';
-import AcrescimosEdit from '../pages/dashboard/cardapio/acrescimos/EditAcrescimo';
-
-import BebidasDash from '../pages/dashboard/cardapio/bebidas/BebidasDash';
-import BebidasDashDetail from '../pages/dashboard/cardapio/bebidas/BebidaDashDetail';
-
-import LanchesDash from '../pages/dashboard/cardapio/lanches/LanchesDash';
-import LancheDashDetail from '../pages/dashboard/cardapio/lanches/LancheDashDetail';
-
-import PizzasDash from '../pages/dashboard/cardapio/pizzas/PizzasDash';
-import PizzaDashDetail from '../pages/dashboard/cardapio/pizzas/PizzaDashDetail';
-
-import PratosDash from '../pages/dashboard/cardapio/pratos/PratosDash';
-import PratosDashDetail from '../pages/dashboard/cardapio/pratos/PratosDashDetail';
-
-import PorcoesDash from '../pages/dashboard/cardapio/porcoes/PorcoesDash';
-import PorcoesDashDetail from '../pages/dashboard/cardapio/porcoes/PorcoesDashDetail';
-
-import Usuarios from '../pages/dashboard/usuarios/Usuarios';
-import UsuarioDetalhes from '../pages/dashboard/usuarios/UsuarioDetalhes';
-
-
-
+import Mesas from '../pages/mesas/Mesas';
+import MesaDetalhe from '../pages/mesas/MesaDetalhe';
+import PizzaMesa from '../pages/mesas/utils/PizzaMesa';
+import WaiterApp from '../pages/mesas/WaiterApp';
+import LancheMesa from '../pages/mesas/utils/LancheMesa';
+import WaiterRoute from './WaiterRoute';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -83,12 +88,13 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       <Suspense fallback={<Loading />}>
-        <Routes>
+        <Routes> 
+
           <Route path='/teste' element={<Teste />} />
           <Route path='*' element={<NotFound />} />
 
           {/* DASHBOARD ROUTES */}
-          <Route path='/dashboard' element={<AdminRoute><DashApp /></AdminRoute>}>
+          <Route path='/dashboard' element={<AdminRoute> <DashApp /> </AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
 
             <Route path='/dashboard/usuarios' element={<Usuarios />} />
@@ -111,6 +117,14 @@ root.render(
 
             <Route path='/dashboard/porcoes' element={<PorcoesDash />} />
             <Route path='/dashboard/porcoes/:id' element={<PorcoesDashDetail />} />
+          </Route>
+
+          {/* MESAS ROUTES */}
+          <Route path='/mesas' element={<WaiterRoute> <WaiterApp /> </WaiterRoute>}>
+            <Route path='/mesas' element={<Mesas />} />
+            <Route path='/mesas/:id' element={<MesaDetalhe />} />
+            <Route path='/mesas/:id/pizzas' element={<PizzaMesa />} />
+            <Route path='/mesas/:id/lanches' element={<LancheMesa />} />
           </Route>
 
           {/* DETALHES DOS ITENS NO MENU */}
@@ -145,6 +159,9 @@ root.render(
             <Route path='/menu/bebidas' element={<Bebidas />} />
 
             <Route path='/carrinho' element={<Cart />} />
+
+
+
           </Route>
 
         </Routes>

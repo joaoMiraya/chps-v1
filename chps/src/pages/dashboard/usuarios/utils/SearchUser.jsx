@@ -30,7 +30,7 @@ function SearchUser({ users }) {
     };
 
     return (
-        <div className='self-end'>
+        <div >
             <form onSubmit={(e) => handleSearchUser(e)}>
                 <div className="flex shadow-md items-center border-[1px] border-solid border-gray-300 rounded-xl">
                     <input value={searchValue}

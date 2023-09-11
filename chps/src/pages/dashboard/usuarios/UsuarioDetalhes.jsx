@@ -17,7 +17,7 @@ function UsuarioDetalhes() {
     }, [dispatch]);
 
     const { users } = useSelector(state => state.users);
-    const user = users?.find(user => user.uid === id)
+    const user = users?.find(user => user.uid === id);
 
     const handleSetRole = async (role) => {
         try {

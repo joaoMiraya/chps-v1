@@ -7,6 +7,7 @@ import { fetchLanches } from "../../services/redux/items/lanchesSlice";
 import { addToCart } from "../../services/redux/cart/cartSlice";
 import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
 import { ToastContainer } from "react-toastify";
+import Note from "../cart/detalhes/utils/Note";
 
 const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
 const AcrescimoSection = lazy(() => import("../../components/utils/cards/AcrescimoSection"));
@@ -17,6 +18,7 @@ function LancheDetalhes() {
 
     const { id } = useParams();
     const dispatch = useDispatch();
+    const [note, setNote] = useState('');
 
     useEffect(() => {
         dispatch(fetchLanches());
@@ -84,6 +86,13 @@ function LancheDetalhes() {
                 acrescimos: selectedAcrecimoObjects
             };
         }
+        if (note && note.length > 3) {
+            values = {
+                ...values,
+                nota: note
+            }
+            setNote('');
+        }
 
         dispatch(addToCart(values));
     };
@@ -119,12 +128,15 @@ function LancheDetalhes() {
                         selectedAcrescimos={selectedAcrescimos}
                         handleSelectAcrescimo={handleSelectAcrescimo}
                     />
-                    <div className="flex justify-center text-center my-4 bg-[#9C9C9C40] p-2 rounded-xl">
+                    {/* <div className="flex justify-center text-center my-4 bg-[#9C9C9C40] p-2 rounded-xl">
                         <span className="mb-4"><AiOutlineInfoCircle color="#9C9C9C" size={25} />Você pode remover ingredientes adicionando uma nota na hora de finalizar o pedido</span>
-                    </div>
-                    <BebidasSection />
-                </div>
+                    </div> */}
+                    <Note setNote={setNote} note={note} />
 
+                </div>
+                <section className="py-6">
+                    <BebidasSection />
+                </section>
             </div>
             <ButtonAddFixo handleAddToCart={handleAddToCart} qnt={qnt} />
 

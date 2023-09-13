@@ -32,6 +32,7 @@ function CartLancheDetalhes() {
         dispatch(fetchLanches());
     }, [dispatch]);
 
+   
     //RESPONSÁVEL POR ENCONTRAR O ITEM DO PEDIDO E SETAR SUAS INFORMAÇÕES
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -43,10 +44,12 @@ function CartLancheDetalhes() {
             if (itemWithMatchingId) {
                 setItemInCart(itemWithMatchingId);
                 setQnt(itemWithMatchingId.qnt)
+                setNote(itemWithMatchingId.nota)
             }
         };
         fetchCartItems();
     }, [id]);
+
 
     //RESPONSAVEL POR VERIFICAR SE O ITEM POSSUI ACRESCIMOS OU NÃO
     useEffect(() => {
@@ -117,7 +120,6 @@ function CartLancheDetalhes() {
                 ...values,
                 nota: note
             }
-            setNote('');
         }
         dispatch(editItemInCart(values));
     };
@@ -129,7 +131,7 @@ function CartLancheDetalhes() {
         <>
             <ToastContainer position="top-right" autoClose={3000} />
 
-            <div className="p-4 w-full overflow-hidden">
+            <div className="p-4 w-full overflow-hidden mb-12">
 
                 <div className="my-4 flex flex-col gap-2">
                     <div>
@@ -152,7 +154,7 @@ function CartLancheDetalhes() {
                         selectedAcrescimos={selectedAcrescimos}
                         handleSelectAcrescimo={handleSelectAcrescimo}
                     />
-                    <Note setNote={setNote} note={note} handleSaveChanges={handleSaveChanges} />
+                    <Note setNote={setNote} note={note} />
                 </div>
 
             </div>

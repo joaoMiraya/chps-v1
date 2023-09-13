@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MotoboySvg from "../../../assets/MotoboySvg";
 import { AiOutlineClose, AiOutlineFieldTime } from 'react-icons/ai';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTempoEntrega } from "../../../services/redux/app/appSlice";
 
 
 
@@ -12,7 +13,11 @@ function TempoEntrega() {
     const [open, setOpen] = useState(false);
 
     const { tempoEntregar, tempoRetirar } = useSelector(state => state.app)
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(fetchTempoEntrega());
+    }, [dispatch]);
 
     return (
 

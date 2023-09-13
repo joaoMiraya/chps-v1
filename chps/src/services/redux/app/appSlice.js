@@ -1,8 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import { database } from '../../firebase/firebase';
+import { set, ref, onValue } from 'firebase/database';
+
+export const fetchTempoEntrega = createAsyncThunk(
+    'app/fetchTempoEntrega',
+    async (_, { rejectWithValue }) => {
+        try {
+            const tempoEntregaRef = ref(database, 'app-config/' + 'tempo-entrega');
+            onValue(tempoEntregaRef, (snapshot) => {
+                const data = snapshot.val();
+                return data;
+            });
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 
 const initialState = {
-    tempoEntregar: Cookies.get("tempoEntregar") || "15 minutos",
+    tempoEntregar: [],
     tempoRetirar: Cookies.get("tempoRetirar") || "15 minutos",
     appOnline: Cookies.get("appOnline") || false,
 };
@@ -13,7 +31,12 @@ const appSlice = createSlice({
     reducers: {
         setTempoEntrega(state, action) {
             state.tempoEntregar = action.payload;
-            Cookies.set('tempoEntregar', action.payload, { expires: 1 });
+            function setTempoEntrega() {
+                set(ref(database, 'app-config/' + 'tempo-entrega'), {
+                    tempo_entrega: action.payload
+                });
+            }
+            setTempoEntrega();
         },
         setTempoRetirar(state, action) {
             state.tempoRetirar = action.payload;
@@ -23,6 +46,16 @@ const appSlice = createSlice({
             state.appOnline = action.payload;
             Cookies.set('appOnline', action.payload, { expires: 1 });
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchTempoEntrega.fulfilled, (state, action) => {
+                state.tempoEntregar = action.payload;
+            })
+            .addCase(fetchTempoEntrega.rejected, (state, action) => {
+                // Lida com erros da busca do tempo de entrega, se necessário
+                console.error(action.error);
+            });
     },
 });
 

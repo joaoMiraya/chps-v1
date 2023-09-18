@@ -5,6 +5,7 @@ import { setPromoImageUrl } from "../../../services/redux/images/imageSlice";
 import { storage } from "../../../services/firebase/firebase";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import VemProChapas from "../../../assets/VemProChapas";
 
 function PromoComp() {
 
@@ -39,9 +40,10 @@ function PromoComp() {
     }, [dispatch]);
 
     return (
-        <div className=" bg-gradient-to-t from-[#FFDD86] to-[#D4AA3C] pt-12 flex flex-col items-center">
+        <div className=" bg-gradient-to-t from-[#FFDD86] to-[#D4AA3C] pt-12 flex flex-col h-screen items-center">
             <h1 className="text-2xl text-center font-semibold">Boa noite, {user ? user : 'Usuario'}!</h1>
-            <div className="w-[375px] h-[375px]">
+            <div className="w-[375px] h-[375px] mt-12">
+                <VemProChapas />
                 <Link aria-label="Navegar para promoções" to={"/promocoes"} className="relative flex flex-col items-center  drop-shadow-2xl">
                     <h3 className="text-2xl font-semibold top-1/3 left-14 absolute">Ver Promoções</h3>
                     <svg className="" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">

@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineMenu, AiOutlineMenuUnfold } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
+import { BsJustify, BsJustifyRight } from 'react-icons/bs';
 import logoHeader from '/windows11/SmallTile.scale-200.png'
-import { useEffect } from 'react';
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from '../../services/firebase/firebase';
-import { setBgHeaderUrl } from '../../services/redux/images/imageSlice';
+import bgHeader from '../../assets/images/lanchebg.png';
 
 function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) {
     Header.propTypes = {
@@ -16,33 +13,7 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
         openMenuHambRef: PropTypes.object.isRequired,
     };
 
-    const dispatch = useDispatch();
-
-    /* RECEBENDO IMAGENS ESTÁTICAS DO HEADER */
-    const { bgHeader } = useSelector((state) => state.images);
-
     const { isAdm } = useSelector((state) => state.auth);
-
-    /* REQUISIÇÕES DAS IMAGENS ESTÁTICAS DA APLICAÇÃO */
-    useEffect(() => {
-        if (!bgHeader) {
-            const fetchImageUrls = async () => {
-                const bgHeaderReference = ref(storage, 'images-app/lanchebg.png');
-                /* REQUISIÇÃO DA IMAGEM DE FUNDO DO HEADER */
-                try {
-                    const headerBgUrl = await getDownloadURL(bgHeaderReference);
-                    dispatch(setBgHeaderUrl(headerBgUrl));
-                } catch (error) {
-                    console.error('Erro ao obter a URL da imagem:', error);
-                }
-            };
-            fetchImageUrls();
-        } else {
-            return
-        }
-    }, [dispatch]);
-
-
 
     return (
         <header className="linear-gradient min-h-[80px]">
@@ -62,10 +33,10 @@ function Header({ handleOpen, handleClose, openMenuHambRef, closeMenuHambRef }) 
                     </div>
                     <div className=" md:hidden relative top-8 text-white">
                         <button tabIndex={0} ref={openMenuHambRef} className='p-2 relative z-40' onClick={handleOpen} aria-label='Botão para abrir menu' >
-                            <AiOutlineMenu size={30} />
+                            <BsJustify size={30} />
                         </button>
                         <button tabIndex={0} ref={closeMenuHambRef} className='p-2 relative z-40 hidden' onClick={handleClose} aria-label='Botão para fechar menu'>
-                            <AiOutlineMenuUnfold size={30} />
+                            <BsJustifyRight size={30} />
                         </button>
                     </div>
                 </div>

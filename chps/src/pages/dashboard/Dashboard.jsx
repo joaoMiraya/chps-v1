@@ -1,13 +1,9 @@
+import { lazy } from 'react'
 
-
-import AddTempoEntrega from "./utils/AddTempoEntrega";
-import AddTempoRetirar from "./utils/AddTempoRetirar";
-import LigarDesligarApp from "./utils/LigarDesligarApp";
-
-
+const AddTempoRetirar = lazy(() => import("./utils/AddTempoRetirar"))
+const AddTempoEntrega = lazy(() => import("./utils/AddTempoEntrega"))
 
 function Dashboard() {
-
 
     return (
 
@@ -22,12 +18,11 @@ function Dashboard() {
                 <div className="offcanvas-body">
                     <AddTempoEntrega />
                     <AddTempoRetirar />
-                    <LigarDesligarApp />
                 </div>
             </div>
             <div className="flex flex-col items-center w-full">
                 <h2>Pedidos em Andamento</h2>
-              
+
             </div>
         </div>
     )

@@ -107,7 +107,6 @@ const usersSlice = createSlice({
             })
             .addCase(addEndress.fulfilled, (state, action) => {
                 state.success = true
-                console.log(action.payload);
             })
             .addCase(addEndress.rejected, (state, action) => {
                 state.error = action.payload

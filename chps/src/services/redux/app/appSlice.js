@@ -1,18 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
 import { database } from '../../firebase/firebase';
-import { set, ref, onValue } from 'firebase/database';
+import { set, ref, get } from 'firebase/database';
 
-export const fetchTempoEntrega = createAsyncThunk(
-    'app/fetchTempoEntrega',
+export const fetchWaitTime = createAsyncThunk(
+    'app/fetchWaitTime',
     async (_, { rejectWithValue }) => {
         try {
-            const tempoEntregaRef = ref(database, 'app-config/' + 'tempo-entrega');
-            onValue(tempoEntregaRef, (snapshot) => {
-                const data = snapshot.val();
-                return data;
-            });
+            const tempoEntregaRef = ref(database, 'app-config/tempo-entrega');
+            const tempoRetirarRef = ref(database, 'app-config/tempo-retirar');
+            const [tempoEntregaSnapshot, tempoRetirarSnapshot] = await Promise.all([
+                get(tempoEntregaRef),
+                get(tempoRetirarRef),
+            ]);
+            const tempoEntregaData = tempoEntregaSnapshot.val();
+            const tempoRetirarData = tempoRetirarSnapshot.val();
+            return { tempo_entrega: tempoEntregaData, tempo_retirar: tempoRetirarData };
         } catch (error) {
+            console.error(error.message);
             return rejectWithValue(error.message);
         }
     }
@@ -21,8 +25,8 @@ export const fetchTempoEntrega = createAsyncThunk(
 
 const initialState = {
     tempoEntregar: [],
-    tempoRetirar: Cookies.get("tempoRetirar") || "15 minutos",
-    appOnline: Cookies.get("appOnline") || false,
+    tempoRetirar: [],
+    appOnline: false,
 };
 
 const appSlice = createSlice({
@@ -31,29 +35,27 @@ const appSlice = createSlice({
     reducers: {
         setTempoEntrega(state, action) {
             state.tempoEntregar = action.payload;
-            function setTempoEntrega() {
-                set(ref(database, 'app-config/' + 'tempo-entrega'), {
-                    tempo_entrega: action.payload
-                });
-            }
-            setTempoEntrega();
+            set(ref(database, 'app-config/' + 'tempo-entrega'), {
+                tempo_entrega: action.payload
+            });
         },
         setTempoRetirar(state, action) {
             state.tempoRetirar = action.payload;
-            Cookies.set('tempoRetirar', action.payload, { expires: 1 });
+            set(ref(database, 'app-config/' + 'tempo-retirar'), {
+                tempo_retirar: action.payload
+            });
         },
         setAppOnline(state, action) {
             state.appOnline = action.payload;
-            Cookies.set('appOnline', action.payload, { expires: 1 });
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchTempoEntrega.fulfilled, (state, action) => {
-                state.tempoEntregar = action.payload;
+            .addCase(fetchWaitTime.fulfilled, (state, action) => {
+                state.tempoEntregar = action.payload.tempo_entrega.tempo_entrega;
+                state.tempoRetirar = action.payload.tempo_retirar.tempo_retirar;
             })
-            .addCase(fetchTempoEntrega.rejected, (state, action) => {
-                // Lida com erros da busca do tempo de entrega, se necessário
+            .addCase(fetchWaitTime.rejected, (action) => {
                 console.error(action.error);
             });
     },

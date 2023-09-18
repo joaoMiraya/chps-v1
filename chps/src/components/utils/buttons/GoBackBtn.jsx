@@ -1,4 +1,4 @@
-import { IoIosArrowBack } from 'react-icons/io';
+import { BsChevronLeft } from 'react-icons/bs';
 
 function GoBackBtn() {
 
@@ -14,7 +14,7 @@ function GoBackBtn() {
                 className={`fixed md:hidden z-40 left-2 mt-2 border-solid border-[1px] bg-[#eeeeee90] border-gray-200 rounded-full p-1`}
                 onClick={handleGoBack}
             >
-                <IoIosArrowBack size={30} />
+                <BsChevronLeft size={30} />
             </button>
         </>
     )

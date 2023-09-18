@@ -1,14 +1,13 @@
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { ToastContainer } from "react-toastify";
 
 import { fetchLanches } from "../../services/redux/items/lanchesSlice";
 import { addToCart } from "../../services/redux/cart/cartSlice";
-import ButtonAddFixo from "../../components/utils/cards/detalhes/ButtonAddFixo";
-import { ToastContainer } from "react-toastify";
-import Note from "../cart/detalhes/utils/Note";
 
+const Note = lazy(() => import("../cart/detalhes/utils/Note"));
+const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
 const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
 const AcrescimoSection = lazy(() => import("../../components/utils/cards/AcrescimoSection"));
 const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));

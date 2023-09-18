@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet';
-import { lazy, useRef } from "react";
+import { lazy, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import { fetchWaitTime, setAppOnline } from './services/redux/app/appSlice';
+import { useDispatch } from 'react-redux';
 
 const Header = lazy(() => import("./components/partials/Header"));
 const Footer = lazy(() => import("./components/partials/Footer"));
@@ -15,9 +15,7 @@ const MenuFixed = lazy(() => import("./components/utils/menus/MenuFixed"));
 const GoBackBtn = lazy(() => import("./components/utils/buttons/GoBackBtn"));
 const FormFinal = lazy(() => import("./components/partials/FormFinal"));
 
-
 function App() {
-
 
   //TRECHO RESPONSAVEL POR ABRIR E FECHAR O MENU LATERAL
   const menuHambRef = useRef();
@@ -29,6 +27,30 @@ function App() {
     openMenuHambRef.current.classList.toggle('hidden', open);
     closeMenuHambRef.current.classList.toggle('hidden', !open);
   };
+
+  const dispatch = useDispatch();
+
+  //RESPONSAVEL POR DEFINIR SE O APP ESTÁ ONLINE/OFFLINE DE ACORDO COM A HORA
+  useEffect(() => {
+    const dataAtual = new Date();
+    const horaAtual = dataAtual.getHours();
+    if (horaAtual > 18) {
+      setInterval(async () => {
+        try {
+          dispatch(fetchWaitTime());
+        } catch (err) {
+          console.log(err);
+        }
+        try {
+          dispatch(setAppOnline(true));
+        } catch (err) {
+          console.log(err);
+        }
+      }, 90000)
+    } else {
+      dispatch(setAppOnline(false));
+    }
+  }, [dispatch]);
 
   return (
     <>

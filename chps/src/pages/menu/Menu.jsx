@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { CiBeerMugFull } from 'react-icons/ci';
 import { lazy } from "react";
 
-const Carousel = lazy(() => import("./utils/Carousel"));
+const CarouselMenu = lazy(() => import("./utils/CarouselMenu"));
 const MainComp = lazy(() => import("./utils/MainComp"));
 
 function Menu() {
 
     return (
         <div className=" flex flex-col ">
-            <Carousel />
+            <CarouselMenu />
             <h1 className="text-3xl font-semibold text-center my-6">Está com fome do que hoje?!</h1>
             <main>
                 <MainComp />

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import SearchUser from "./utils/SearchUser";
 
 function AllUsers() {
-
+    
     const dispatch = useDispatch();
 
     useEffect(() => {

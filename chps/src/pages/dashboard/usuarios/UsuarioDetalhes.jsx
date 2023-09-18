@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { fetchUsers, setUserRole } from "../../../services/redux/users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import Loading from "../../../components/partials/Loading";
+import { lazy, useEffect } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../services/firebase/firebase";
 
 
 function UsuarioDetalhes() {
+
+    const Loading = lazy(() => ("../../../components/partials/Loading"));
 
     const { id } = useParams();
     const dispatch = useDispatch();

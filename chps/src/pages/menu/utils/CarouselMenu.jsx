@@ -3,10 +3,12 @@ import { setimageCarousel1, setimageCarousel2, setimageCarousel3 } from "../../.
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { lazy, useEffect } from 'react';
+import Carousel from "../../../components/utils/components/Carousel";
 
 const Loading = lazy(() => import("../../../components/partials/Loading"));
 
-function Carousel() {
+function CarouselMenu() {
+
     const dispatch = useDispatch();
     const { imageCarousel1, imageCarousel2, imageCarousel3 } = useSelector((state) => state.relativeImages);
     const carouselImages = [imageCarousel1, imageCarousel2, imageCarousel3]
@@ -47,28 +49,8 @@ function Carousel() {
     }
 
     return (
-        <div id="carouselMenu" className="carousel slide" data-bs-interval="4000" data-bs-ride="carousel">
-            <div className="carousel-inner h-[15rem] md:h-[25rem] overflow-hidden">
-                <div className="carousel-item active">
-                    <img src={imageCarousel1} className="d-block w-100 " alt="carousel-image" />
-                </div>
-                <div className="carousel-item">
-                    <img src={imageCarousel2} className="d-block w-100 " alt="carousel-image" />
-                </div>
-                <div className="carousel-item">
-                    <img src={imageCarousel3} className="d-block w-100 " alt="carousel-image" />
-                </div>
-            </div>
-            <button className="carousel-control-prev mt-12" type="button" data-bs-target="#carouselMenu" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next mt-12" type="button" data-bs-target="#carouselMenu" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-            </button>
-        </div>
+        <Carousel image1={imageCarousel1} image2={imageCarousel2} image3={imageCarousel3} />
     )
 }
 
-export default Carousel;
+export default CarouselMenu;

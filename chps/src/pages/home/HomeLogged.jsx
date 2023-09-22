@@ -1,9 +1,9 @@
 import { lazy } from "react";
-import CarouselHome from "./home-logged-utils/CarouselHome";
-import Qualidades from "./home-logged-utils/Qualidades";
-import Localizacao from "./home-logged-utils/Localizacao";
 
 const PromoComp = lazy(() => import("./home-logged-utils/PromoComp"));
+const CarouselHome = lazy(() => import("./home-logged-utils/CarouselHome"));
+const Qualidades = lazy(() => import("./home-logged-utils/Qualidades"));
+const Localizacao = lazy(() => import("./home-logged-utils/Localizacao"));
 
 function HomeLogged() {
 

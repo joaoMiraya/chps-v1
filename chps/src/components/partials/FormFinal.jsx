@@ -1,3 +1,4 @@
+import { BsFacebook, BsInstagram, BsWhatsapp } from 'react-icons/bs';
 
 function FormFinal() {
     return (
@@ -21,6 +22,12 @@ function FormFinal() {
                         <button type="submit" aria-label="Botão para enviar sua sugestão" className="bg-[#DB0007] font-bold text-xl text-white py-2 ">Enviar</button>
                     </div>
                 </form>
+                <h2 className="text-2xl font-semibold text-center">Acompanhe nossas redes sociais</h2>
+                <div className='flex justify-center gap-6 pt-6'>
+                    <a href='https://www.facebook.com/profile.php?id=100058972426609' target='_blank'><BsFacebook size={30} /></a>
+                    <a href='https://www.instagram.com/chapaslanchees/' target='_blank'><BsInstagram size={30} /></a>
+                    <a href='tel:+5518996149007'><BsWhatsapp size={30} /></a>
+                </div>
             </div>
         </section>
     )

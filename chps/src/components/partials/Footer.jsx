@@ -7,7 +7,7 @@ function Footer() {
 
     return (
         <footer>
-            <div className=" pt-4 pb-4 mb-10 flex flex-col items-center justify-center">
+            <div className=" pt-4 pb-4 mb-20 flex flex-col items-center justify-center">
                 <p className='text-center mb-2'>© Chapas Lanches <br /> Todos os direitos reservados</p>
                 <h1 className=" font-semibold">Desenvolvido por {import.meta.env.VITE_AUTHOR + ' ' + '-' + ' ' + anoAtual}</h1>
                 <div className="flex w-full items-center justify-evenly underline">

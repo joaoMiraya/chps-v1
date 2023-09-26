@@ -1,4 +1,4 @@
-import { print } from "../services/qz/print";
+import { print } from "../../server/qz/print";
 
 
 function Teste() {

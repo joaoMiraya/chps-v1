@@ -7,23 +7,23 @@
  * Connects a web client to the QZ Tray software.
  * Enables printing and device communication from javascript.
  */
-var qz = (function () {
+var qz = (function() {
 
-    ///// POLYFILLS /////
+///// POLYFILLS /////
 
     if (!Array.isArray) {
-        Array.isArray = function (arg) {
+        Array.isArray = function(arg) {
             return Object.prototype.toString.call(arg) === '[object Array]';
         };
     }
 
     if (!Number.isInteger) {
-        Number.isInteger = function (value) {
+        Number.isInteger = function(value) {
             return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
         };
     }
 
-    ///// PRIVATE METHODS /////
+///// PRIVATE METHODS /////
 
     var _qz = {
         VERSION: "2.2.3-SNAPSHOT",                              //must match @version above
@@ -31,15 +31,15 @@ var qz = (function () {
 
         log: {
             /** Debugging messages */
-            trace: function () { if (_qz.DEBUG) { console.log.apply(console, arguments); } },
+            trace: function() { if (_qz.DEBUG) { console.log.apply(console, arguments); } },
             /** General messages */
-            info: function () { console.info.apply(console, arguments); },
+            info: function() { console.info.apply(console, arguments); },
             /** General warnings */
-            warn: function () { console.warn.apply(console, arguments); },
+            warn: function() { console.warn.apply(console, arguments); },
             /** Debugging errors */
-            allay: function () { if (_qz.DEBUG) { console.warn.apply(console, arguments); } },
+            allay: function() { if (_qz.DEBUG) { console.warn.apply(console, arguments); } },
             /** General errors */
-            error: function () { console.error.apply(console, arguments); }
+            error: function() { console.error.apply(console, arguments); }
         },
 
 
@@ -55,7 +55,7 @@ var qz = (function () {
 
             /** Default parameters used on new connections. Override values using options parameter on {@link qz.websocket.connect}. */
             connectConfig: {
-                host: ["localhost", "https://www.chapas-lanches.com.br", "localhost.qz.io"], //hosts QZ Tray can be running on
+                host: ["localhost", "*.chapas-lanches.com.br", "localhost.qz.io"], //hosts QZ Tray can be running on
                 hostIndex: 0,                           //internal var - index on host array
                 usingSecure: true,                      //boolean use of secure protocol
                 protocol: {
@@ -74,7 +74,7 @@ var qz = (function () {
 
             setup: {
                 /** Loop through possible ports to open connection, sets web socket calls that will settle the promise. */
-                findConnection: function (config, resolve, reject) {
+                findConnection: function(config, resolve, reject) {
                     //force flag if missing ports
                     if (!config.port.secure.length) {
                         if (!config.port.insecure.length) {
@@ -89,7 +89,7 @@ var qz = (function () {
                         config.usingSecure = true;
                     }
 
-                    var deeper = function () {
+                    var deeper = function() {
                         config.port.portIndex++;
 
                         if ((config.usingSecure && config.port.portIndex >= config.port.secure.length)
@@ -119,7 +119,7 @@ var qz = (function () {
                         _qz.log.trace("Attempting connection", address);
                         _qz.websocket.connection = new _qz.tools.ws(address);
                     }
-                    catch (err) {
+                    catch(err) {
                         _qz.log.error(err);
                         deeper();
                         return;
@@ -129,7 +129,7 @@ var qz = (function () {
                         _qz.websocket.connection.established = false;
 
                         //called on successful connection to qz, begins setup of websocket calls and resolves connect promise after certificate is sent
-                        _qz.websocket.connection.onopen = function (evt) {
+                        _qz.websocket.connection.onopen = function(evt) {
                             if (!_qz.websocket.connection.established) {
                                 _qz.log.trace(evt);
                                 _qz.log.info("Established connection with QZ Tray on " + address);
@@ -137,7 +137,7 @@ var qz = (function () {
                                 _qz.websocket.setup.openConnection({ resolve: resolve, reject: reject });
 
                                 if (config.keepAlive > 0) {
-                                    var interval = setInterval(function () {
+                                    var interval = setInterval(function() {
                                         if (!_qz.tools.isActive() || _qz.websocket.connection.interval !== interval) {
                                             clearInterval(interval);
                                             return;
@@ -152,7 +152,7 @@ var qz = (function () {
                         };
 
                         //called during websocket close during setup
-                        _qz.websocket.connection.onclose = function () {
+                        _qz.websocket.connection.onclose = function() {
                             // Safari compatibility fix to raise error event
                             if (_qz.websocket.connection && typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
                                 _qz.websocket.connection.onerror();
@@ -160,7 +160,7 @@ var qz = (function () {
                         };
 
                         //called for errors during setup (such as invalid ports), reject connect promise only if all ports have been tried
-                        _qz.websocket.connection.onerror = function (evt) {
+                        _qz.websocket.connection.onerror = function(evt) {
                             _qz.log.trace(evt);
 
                             _qz.websocket.connection = null;
@@ -173,18 +173,18 @@ var qz = (function () {
                 },
 
                 /** Finish setting calls on successful connection, sets web socket calls that won't settle the promise. */
-                openConnection: function (openPromise) {
+                openConnection: function(openPromise) {
                     _qz.websocket.connection.established = true;
 
                     //called when an open connection is closed
-                    _qz.websocket.connection.onclose = function (evt) {
+                    _qz.websocket.connection.onclose = function(evt) {
                         _qz.log.trace(evt);
 
                         _qz.websocket.connection = null;
                         _qz.websocket.callClose(evt);
                         _qz.log.info("Closed connection with QZ Tray");
 
-                        for (var uid in _qz.websocket.pendingCalls) {
+                        for(var uid in _qz.websocket.pendingCalls) {
                             if (_qz.websocket.pendingCalls.hasOwnProperty(uid)) {
                                 _qz.websocket.pendingCalls[uid].reject(new Error("Connection closed before response received"));
                             }
@@ -197,12 +197,12 @@ var qz = (function () {
                     };
 
                     //called for any errors with an open connection
-                    _qz.websocket.connection.onerror = function (evt) {
+                    _qz.websocket.connection.onerror = function(evt) {
                         _qz.websocket.callError(evt);
                     };
 
                     //send JSON objects to qz
-                    _qz.websocket.connection.sendData = function (obj) {
+                    _qz.websocket.connection.sendData = function(obj) {
                         _qz.log.trace("Preparing object for websocket", obj);
 
                         if (obj.timestamp == undefined) {
@@ -233,14 +233,14 @@ var qz = (function () {
                                 //make a hashing promise if not already one
                                 var hashing = _qz.tools.hash(_qz.tools.stringify(signObj));
                                 if (!hashing.then) {
-                                    hashing = _qz.tools.promise(function (resolve) {
+                                    hashing = _qz.tools.promise(function(resolve) {
                                         resolve(hashing);
                                     });
                                 }
 
-                                hashing.then(function (hashed) {
+                                hashing.then(function(hashed) {
                                     return _qz.security.callSign(hashed);
-                                }).then(function (signature) {
+                                }).then(function(signature) {
                                     _qz.log.trace("Signature for call", signature);
                                     obj.signature = signature || "";
                                     obj.signAlgorithm = _qz.security.signAlgorithm;
@@ -255,7 +255,7 @@ var qz = (function () {
                                 _qz.websocket.connection.send(_qz.tools.stringify(obj));
                             }
                         }
-                        catch (err) {
+                        catch(err) {
                             _qz.log.error(err);
 
                             if (obj.promise != undefined) {
@@ -266,7 +266,7 @@ var qz = (function () {
                     };
 
                     //receive message from qz
-                    _qz.websocket.connection.onmessage = function (evt) {
+                    _qz.websocket.connection.onmessage = function(evt) {
                         var returned = JSON.parse(evt.data);
 
                         if (returned.uid == null) {
@@ -276,7 +276,7 @@ var qz = (function () {
 
                             } else {
                                 //streams (callbacks only, no promises)
-                                switch (returned.type) {
+                                switch(returned.type) {
                                     case _qz.streams.serial:
                                         if (!returned.event) {
                                             returned.event = JSON.stringify({ portName: returned.key, output: returned.data });
@@ -335,10 +335,10 @@ var qz = (function () {
                         if (cert === undefined) { cert = null; }
 
                         //websocket setup, query what version is connected
-                        qz.api.getVersion().then(function (version) {
+                        qz.api.getVersion().then(function(version) {
                             _qz.websocket.connection.version = version;
                             _qz.websocket.connection.semver = version.toLowerCase().replace(/-rc\./g, "-rc").split(/[\\+\\.-]/g);
-                            for (var i = 0; i < _qz.websocket.connection.semver.length; i++) {
+                            for(var i = 0; i < _qz.websocket.connection.semver.length; i++) {
                                 try {
                                     if (i == 3 && _qz.websocket.connection.semver[i].toLowerCase().indexOf("rc") == 0) {
                                         // Handle "rc1" pre-release by negating build info
@@ -347,7 +347,7 @@ var qz = (function () {
                                     }
                                     _qz.websocket.connection.semver[i] = parseInt(_qz.websocket.connection.semver[i]);
                                 }
-                                catch (ignore) { }
+                                catch(ignore) {}
 
                                 if (_qz.websocket.connection.semver.length < 4) {
                                     _qz.websocket.connection.semver[3] = 0;
@@ -356,12 +356,12 @@ var qz = (function () {
 
                             //algorithm can be declared before a connection, check for incompatibilities now that we have one
                             _qz.compatible.algorithm(true);
-                        }).then(function () {
+                        }).then(function() {
                             _qz.websocket.connection.sendData({ certificate: cert, promise: openPromise });
                         });
                     }
 
-                    _qz.security.callCert().then(sendCert).catch(function (error) {
+                    _qz.security.callCert().then(sendCert).catch(function(error) {
                         _qz.log.warn("Failed to get certificate:", error);
 
                         if (_qz.security.rejectOnCertFailure) {
@@ -373,14 +373,14 @@ var qz = (function () {
                 },
 
                 /** Generate unique ID used to map a response to a call. */
-                newUID: function () {
+                newUID: function() {
                     var len = 6;
                     return (new Array(len + 1).join("0") + (Math.random() * Math.pow(36, len) << 0).toString(36)).slice(-len)
                 }
             },
 
-            dataPromise: function (callName, params, signature, signingTimestamp) {
-                return _qz.tools.promise(function (resolve, reject) {
+            dataPromise: function(callName, params, signature, signingTimestamp) {
+                return _qz.tools.promise(function(resolve, reject) {
                     var msg = {
                         call: callName,
                         promise: { resolve: resolve, reject: reject },
@@ -399,9 +399,9 @@ var qz = (function () {
             /** List of functions to call on error from the websocket. */
             errorCallbacks: [],
             /** Calls all functions registered to listen for errors. */
-            callError: function (evt) {
+            callError: function(evt) {
                 if (Array.isArray(_qz.websocket.errorCallbacks)) {
-                    for (var i = 0; i < _qz.websocket.errorCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.websocket.errorCallbacks.length; i++) {
                         _qz.websocket.errorCallbacks[i](evt);
                     }
                 } else {
@@ -412,9 +412,9 @@ var qz = (function () {
             /** List of function to call on closing from the websocket. */
             closedCallbacks: [],
             /** Calls all functions registered to listen for closing. */
-            callClose: function (evt) {
+            callClose: function(evt) {
                 if (Array.isArray(_qz.websocket.closedCallbacks)) {
-                    for (var i = 0; i < _qz.websocket.closedCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.websocket.closedCallbacks.length; i++) {
                         _qz.websocket.closedCallbacks[i](evt);
                     }
                 } else {
@@ -459,9 +459,9 @@ var qz = (function () {
             /** List of functions called when receiving data from serial connection. */
             serialCallbacks: [],
             /** Calls all functions registered to listen for serial events. */
-            callSerial: function (streamEvent) {
+            callSerial: function(streamEvent) {
                 if (Array.isArray(_qz.serial.serialCallbacks)) {
-                    for (var i = 0; i < _qz.serial.serialCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.serial.serialCallbacks.length; i++) {
                         _qz.serial.serialCallbacks[i](streamEvent);
                     }
                 } else {
@@ -475,9 +475,9 @@ var qz = (function () {
             /** List of functions called when receiving data from network socket connection. */
             socketCallbacks: [],
             /** Calls all functions registered to listen for network socket events. */
-            callSocket: function (socketEvent) {
+            callSocket: function(socketEvent) {
                 if (Array.isArray(_qz.socket.socketCallbacks)) {
-                    for (var i = 0; i < _qz.socket.socketCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.socket.socketCallbacks.length; i++) {
                         _qz.socket.socketCallbacks[i](socketEvent);
                     }
                 } else {
@@ -491,9 +491,9 @@ var qz = (function () {
             /** List of functions called when receiving data from usb connection. */
             usbCallbacks: [],
             /** Calls all functions registered to listen for usb events. */
-            callUsb: function (streamEvent) {
+            callUsb: function(streamEvent) {
                 if (Array.isArray(_qz.usb.usbCallbacks)) {
-                    for (var i = 0; i < _qz.usb.usbCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.usb.usbCallbacks.length; i++) {
                         _qz.usb.usbCallbacks[i](streamEvent);
                     }
                 } else {
@@ -507,9 +507,9 @@ var qz = (function () {
             /** List of functions called when receiving data from hid connection. */
             hidCallbacks: [],
             /** Calls all functions registered to listen for hid events. */
-            callHid: function (streamEvent) {
+            callHid: function(streamEvent) {
                 if (Array.isArray(_qz.hid.hidCallbacks)) {
-                    for (var i = 0; i < _qz.hid.hidCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.hid.hidCallbacks.length; i++) {
                         _qz.hid.hidCallbacks[i](streamEvent);
                     }
                 } else {
@@ -523,9 +523,9 @@ var qz = (function () {
             /** List of functions called when receiving data from printer connection. */
             printerCallbacks: [],
             /** Calls all functions registered to listen for printer events. */
-            callPrinter: function (streamEvent) {
+            callPrinter: function(streamEvent) {
                 if (Array.isArray(_qz.printers.printerCallbacks)) {
-                    for (var i = 0; i < _qz.printers.printerCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.printers.printerCallbacks.length; i++) {
                         _qz.printers.printerCallbacks[i](streamEvent);
                     }
                 } else {
@@ -539,9 +539,9 @@ var qz = (function () {
             /** List of functions called when receiving info regarding file changes. */
             fileCallbacks: [],
             /** Calls all functions registered to listen for file events. */
-            callFile: function (streamEvent) {
+            callFile: function(streamEvent) {
                 if (Array.isArray(_qz.file.fileCallbacks)) {
-                    for (var i = 0; i < _qz.file.fileCallbacks.length; i++) {
+                    for(var i = 0; i < _qz.file.fileCallbacks.length; i++) {
                         _qz.file.fileCallbacks[i](streamEvent);
                     }
                 } else {
@@ -553,9 +553,9 @@ var qz = (function () {
 
         security: {
             /** Function used to resolve promise when acquiring site's public certificate. */
-            certHandler: function (resolve, reject) { reject(); },
+            certHandler: function(resolve, reject) { reject(); },
             /** Called to create new promise (using {@link _qz.security.certHandler}) for certificate retrieval. */
-            callCert: function () {
+            callCert: function() {
                 if (typeof _qz.security.certHandler.then === 'function') {
                     //already a promise
                     return _qz.security.certHandler;
@@ -569,9 +569,9 @@ var qz = (function () {
             },
 
             /** Function used to create promise resolver when requiring signed calls. */
-            signatureFactory: function () { return function (resolve) { resolve(); } },
+            signatureFactory: function() { return function(resolve) { resolve(); } },
             /** Called to create new promise (using {@link _qz.security.signatureFactory}) for signed calls. */
-            callSign: function (toSign) {
+            callSign: function(toSign) {
                 if (_qz.security.signatureFactory.constructor.name === "AsyncFunction") {
                     //use directly
                     return _qz.security.signatureFactory(toSign);
@@ -586,7 +586,7 @@ var qz = (function () {
 
             rejectOnCertFailure: false,
 
-            needsSigned: function (callName) {
+            needsSigned: function(callName) {
                 const undialoged = [
                     "printers.getStatus",
                     "printers.stopListening",
@@ -608,7 +608,7 @@ var qz = (function () {
 
         tools: {
             /** Create a new promise */
-            promise: function (resolver) {
+            promise: function(resolver) {
                 //prefer global object for historical purposes
                 if (typeof RSVP !== 'undefined') {
                     return new RSVP.Promise(resolver);
@@ -620,13 +620,13 @@ var qz = (function () {
             },
 
             /** Stub for rejecting with an Error from withing a Promise */
-            reject: function (error) {
-                return _qz.tools.promise(function (resolve, reject) {
+            reject: function(error) {
+                return _qz.tools.promise(function(resolve, reject) {
                     reject(error);
                 });
             },
 
-            stringify: function (object) {
+            stringify: function(object) {
                 //old versions of prototype affect stringify
                 var pjson = Array.prototype.toJSON;
                 delete Array.prototype.toJSON;
@@ -648,7 +648,7 @@ var qz = (function () {
                 return result;
             },
 
-            hash: function (data) {
+            hash: function(data) {
                 //prefer global object for historical purposes
                 if (typeof Sha256 !== 'undefined') {
                     return Sha256.hash(data);
@@ -659,7 +659,7 @@ var qz = (function () {
 
             ws: typeof WebSocket !== 'undefined' ? WebSocket : null,
 
-            absolute: function (loc) {
+            absolute: function(loc) {
                 if (typeof window !== 'undefined' && typeof document.createElement === 'function') {
                     var a = document.createElement("a");
                     a.href = loc;
@@ -671,8 +671,8 @@ var qz = (function () {
                 return loc;
             },
 
-            relative: function (data) {
-                for (var i = 0; i < data.length; i++) {
+            relative: function(data) {
+                for(var i = 0; i < data.length; i++) {
                     if (data[i].constructor === Object) {
                         var absolute = false;
 
@@ -708,17 +708,17 @@ var qz = (function () {
             },
 
             /** Performs deep copy to target from remaining params */
-            extend: function (target) {
+            extend: function(target) {
                 //special case when reassigning properties as objects in a deep copy
                 if (typeof target !== 'object') {
                     target = {};
                 }
 
-                for (var i = 1; i < arguments.length; i++) {
+                for(var i = 1; i < arguments.length; i++) {
                     var source = arguments[i];
                     if (!source) { continue; }
 
-                    for (var key in source) {
+                    for(var key in source) {
                         if (source.hasOwnProperty(key)) {
                             if (target === source[key]) { continue; }
 
@@ -741,7 +741,7 @@ var qz = (function () {
                 return target;
             },
 
-            versionCompare: function (major, minor, patch, build) {
+            versionCompare: function(major, minor, patch, build) {
                 if (_qz.tools.assertActive()) {
                     var semver = _qz.websocket.connection.semver;
                     if (semver[0] != major) {
@@ -760,15 +760,15 @@ var qz = (function () {
                 }
             },
 
-            isVersion: function (major, minor, patch, build) {
+            isVersion: function(major, minor, patch, build) {
                 return _qz.tools.versionCompare(major, minor, patch, build) == 0;
             },
 
-            isActive: function () {
+            isActive: function() {
                 return _qz.websocket.connection != null && _qz.websocket.connection.established;
             },
 
-            assertActive: function () {
+            assertActive: function() {
                 if (_qz.tools.isActive()) {
                     return true;
                 }
@@ -776,13 +776,13 @@ var qz = (function () {
                 throw new Error("A connection to QZ has not been established yet");
             },
 
-            uint8ArrayToHex: function (uint8) {
+            uint8ArrayToHex: function(uint8) {
                 return Array.from(uint8)
-                    .map(function (i) { return i.toString(16).padStart(2, '0'); })
+                    .map(function(i) { return i.toString(16).padStart(2, '0'); })
                     .join('');
             },
 
-            uint8ArrayToBase64: function (uint8) {
+            uint8ArrayToBase64: function(uint8) {
                 /**
                  * Adapted from Egor Nepomnyaschih's code under MIT Licence (C) 2020
                  * see https://gist.github.com/enepomnyaschih/72c423f727d395eeaa09697058238727
@@ -817,13 +817,13 @@ var qz = (function () {
 
         compatible: {
             /** Converts message format to a previous version's */
-            data: function (printData) {
+            data: function(printData) {
                 // special handling for Uint8Array
-                for (var i = 0; i < printData.length; i++) {
+                for(var i = 0; i < printData.length; i++) {
                     if (printData[i].constructor === Object && printData[i].data instanceof Uint8Array) {
                         if (printData[i].flavor) {
                             var flavor = printData[i].flavor.toString().toUpperCase();
-                            switch (flavor) {
+                            switch(flavor) {
                                 case 'BASE64':
                                     printData[i].data = _qz.tools.uint8ArrayToBase64(printData[i].data);
                                     break;
@@ -848,7 +848,7 @@ var qz = (function () {
                      flavor translates straight to 2.0 format (unless forced to 'raw'/'image')
                      */
                     _qz.log.trace("Converting print data to v2.0 for " + _qz.websocket.connection.version);
-                    for (var i = 0; i < printData.length; i++) {
+                    for(var i = 0; i < printData.length; i++) {
                         if (printData[i].constructor === Object) {
                             if (printData[i].type && printData[i].type.toUpperCase() === "RAW" && printData[i].format && printData[i].format.toUpperCase() === "IMAGE") {
                                 if (printData[i].flavor && printData[i].flavor.toUpperCase() === "BASE64") {
@@ -870,25 +870,25 @@ var qz = (function () {
             },
 
             /* Converts config defaults to match previous version */
-            config: function (config, dirty) {
+            config: function(config, dirty) {
                 if (_qz.tools.isVersion(2, 0)) {
                     if (!dirty.rasterize) {
                         config.rasterize = true;
                     }
                 }
-                if (_qz.tools.versionCompare(2, 2) < 0) {
-                    if (config.forceRaw !== 'undefined') {
+                if(_qz.tools.versionCompare(2, 2) < 0) {
+                    if(config.forceRaw !== 'undefined') {
                         config.altPrinting = config.forceRaw;
                         delete config.forceRaw;
                     }
                 }
-                if (_qz.tools.versionCompare(2, 1, 2, 11) < 0) {
-                    if (config.spool) {
-                        if (config.spool.size) {
+                if(_qz.tools.versionCompare(2, 1, 2, 11) < 0) {
+                    if(config.spool) {
+                        if(config.spool.size) {
                             config.perSpool = config.spool.size;
                             delete config.spool.size;
                         }
-                        if (config.spool.end) {
+                        if(config.spool.end) {
                             config.endOfDoc = config.spool.end;
                             delete config.spool.end;
                         }
@@ -899,14 +899,14 @@ var qz = (function () {
             },
 
             /** Compat wrapper with previous version **/
-            networking: function (hostname, port, signature, signingTimestamp, mappingCallback) {
+            networking: function(hostname, port, signature, signingTimestamp, mappingCallback) {
                 // Use 2.0
                 if (_qz.tools.isVersion(2, 0)) {
-                    return _qz.tools.promise(function (resolve, reject) {
+                    return _qz.tools.promise(function(resolve, reject) {
                         _qz.websocket.dataPromise('websocket.getNetworkInfo', {
                             hostname: hostname,
                             port: port
-                        }, signature, signingTimestamp).then(function (data) {
+                        }, signature, signingTimestamp).then(function(data) {
                             if (typeof mappingCallback !== 'undefined') {
                                 resolve(mappingCallback(data));
                             } else {
@@ -916,18 +916,18 @@ var qz = (function () {
                     });
                 }
                 // Wrap 2.1
-                return _qz.tools.promise(function (resolve, reject) {
+                return _qz.tools.promise(function(resolve, reject) {
                     _qz.websocket.dataPromise('networking.device', {
                         hostname: hostname,
                         port: port
-                    }, signature, signingTimestamp).then(function (data) {
+                    }, signature, signingTimestamp).then(function(data) {
                         resolve({ ipAddress: data.ip, macAddress: data.mac });
                     }, reject);
                 });
             },
 
             /** Check if QZ version supports chosen algorithm */
-            algorithm: function (quiet) {
+            algorithm: function(quiet) {
                 //if not connected yet we will assume compatibility exists for the time being
                 if (_qz.tools.isActive()) {
                     if (_qz.tools.isVersion(2, 0)) {
@@ -948,7 +948,7 @@ var qz = (function () {
          */
         SHA: {
             //@formatter:off - keep this block compact
-            hash: function (msg) {
+            hash: function(msg) {
                 // add trailing '1' bit (+ 0's padding) to string [§5.1.1]
                 msg = _qz.SHA._utf8Encode(msg) + String.fromCharCode(0x80);
 
@@ -964,16 +964,16 @@ var qz = (function () {
                     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
                 ];
                 // initial hash value [§5.3.1]
-                var H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+                var H = [ 0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 ];
 
                 // convert string msg into 512-bit/16-integer blocks arrays of ints [§5.2.1]
                 var l = msg.length / 4 + 2; // length (in 32-bit integers) of msg + ‘1’ + appended length
                 var N = Math.ceil(l / 16);  // number of 16-integer-blocks required to hold 'l' ints
                 var M = new Array(N);
 
-                for (var i = 0; i < N; i++) {
+                for(var i = 0; i < N; i++) {
                     M[i] = new Array(16);
-                    for (var j = 0; j < 16; j++) {  // encode 4 chars per integer, big-endian encoding
+                    for(var j = 0; j < 16; j++) {  // encode 4 chars per integer, big-endian encoding
                         M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) |
                             (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
                     } // note running off the end of msg is ok 'cos bitwise ops on NaN return 0
@@ -981,28 +981,28 @@ var qz = (function () {
                 // add length (in bits) into final pair of 32-bit integers (big-endian) [§5.1.1]
                 // note: most significant word would be (len-1)*8 >>> 32, but since JS converts
                 // bitwise-op args to 32 bits, we need to simulate this by arithmetic operators
-                M[N - 1][14] = ((msg.length - 1) * 8) / Math.pow(2, 32);
-                M[N - 1][14] = Math.floor(M[N - 1][14]);
-                M[N - 1][15] = ((msg.length - 1) * 8) & 0xffffffff;
+                M[N-1][14] = ((msg.length - 1) * 8) / Math.pow(2, 32);
+                M[N-1][14] = Math.floor(M[N-1][14]);
+                M[N-1][15] = ((msg.length - 1) * 8) & 0xffffffff;
 
                 // HASH COMPUTATION [§6.1.2]
                 var W = new Array(64); var a, b, c, d, e, f, g, h;
-                for (var i = 0; i < N; i++) {
+                for(var i = 0; i < N; i++) {
                     // 1 - prepare message schedule 'W'
-                    for (var t = 0; t < 16; t++) { W[t] = M[i][t]; }
-                    for (var t = 16; t < 64; t++) { W[t] = (_qz.SHA._dev1(W[t - 2]) + W[t - 7] + _qz.SHA._dev0(W[t - 15]) + W[t - 16]) & 0xffffffff; }
+                    for(var t = 0; t < 16; t++) { W[t] = M[i][t]; }
+                    for(var t = 16; t < 64; t++) { W[t] = (_qz.SHA._dev1(W[t-2]) + W[t-7] + _qz.SHA._dev0(W[t-15]) + W[t-16]) & 0xffffffff; }
                     // 2 - initialise working variables a, b, c, d, e, f, g, h with previous hash value
                     a = H[0]; b = H[1]; c = H[2]; d = H[3]; e = H[4]; f = H[5]; g = H[6]; h = H[7];
                     // 3 - main loop (note 'addition modulo 2^32')
-                    for (var t = 0; t < 64; t++) {
+                    for(var t = 0; t < 64; t++) {
                         var T1 = h + _qz.SHA._sig1(e) + _qz.SHA._ch(e, f, g) + K[t] + W[t];
                         var T2 = _qz.SHA._sig0(a) + _qz.SHA._maj(a, b, c);
                         h = g; g = f; f = e; e = (d + T1) & 0xffffffff;
                         d = c; c = b; b = a; a = (T1 + T2) & 0xffffffff;
                     }
                     // 4 - compute the new intermediate hash value (note 'addition modulo 2^32')
-                    H[0] = (H[0] + a) & 0xffffffff; H[1] = (H[1] + b) & 0xffffffff; H[2] = (H[2] + c) & 0xffffffff; H[3] = (H[3] + d) & 0xffffffff;
-                    H[4] = (H[4] + e) & 0xffffffff; H[5] = (H[5] + f) & 0xffffffff; H[6] = (H[6] + g) & 0xffffffff; H[7] = (H[7] + h) & 0xffffffff;
+                    H[0] = (H[0]+a) & 0xffffffff; H[1] = (H[1]+b) & 0xffffffff; H[2] = (H[2]+c) & 0xffffffff; H[3] = (H[3]+d) & 0xffffffff;
+                    H[4] = (H[4]+e) & 0xffffffff; H[5] = (H[5]+f) & 0xffffffff; H[6] = (H[6]+g) & 0xffffffff; H[7] = (H[7]+h) & 0xffffffff;
                 }
 
                 return _qz.SHA._hexStr(H[0]) + _qz.SHA._hexStr(H[1]) + _qz.SHA._hexStr(H[2]) + _qz.SHA._hexStr(H[3]) +
@@ -1010,19 +1010,19 @@ var qz = (function () {
             },
 
             // Rotates right (circular right shift) value x by n positions
-            _rotr: function (n, x) { return (x >>> n) | (x << (32 - n)); },
+            _rotr: function(n, x) { return (x >>> n) | (x << (32 - n)); },
             // logical functions
-            _sig0: function (x) { return _qz.SHA._rotr(2, x) ^ _qz.SHA._rotr(13, x) ^ _qz.SHA._rotr(22, x); },
-            _sig1: function (x) { return _qz.SHA._rotr(6, x) ^ _qz.SHA._rotr(11, x) ^ _qz.SHA._rotr(25, x); },
-            _dev0: function (x) { return _qz.SHA._rotr(7, x) ^ _qz.SHA._rotr(18, x) ^ (x >>> 3); },
-            _dev1: function (x) { return _qz.SHA._rotr(17, x) ^ _qz.SHA._rotr(19, x) ^ (x >>> 10); },
-            _ch: function (x, y, z) { return (x & y) ^ (~x & z); },
-            _maj: function (x, y, z) { return (x & y) ^ (x & z) ^ (y & z); },
+            _sig0: function(x) { return _qz.SHA._rotr(2, x) ^ _qz.SHA._rotr(13, x) ^ _qz.SHA._rotr(22, x); },
+            _sig1: function(x) { return _qz.SHA._rotr(6, x) ^ _qz.SHA._rotr(11, x) ^ _qz.SHA._rotr(25, x); },
+            _dev0: function(x) { return _qz.SHA._rotr(7, x) ^ _qz.SHA._rotr(18, x) ^ (x >>> 3); },
+            _dev1: function(x) { return _qz.SHA._rotr(17, x) ^ _qz.SHA._rotr(19, x) ^ (x >>> 10); },
+            _ch: function(x, y, z) { return (x & y) ^ (~x & z); },
+            _maj: function(x, y, z) { return (x & y) ^ (x & z) ^ (y & z); },
             // note can't use toString(16) as it is implementation-dependant, and in IE returns signed numbers when used on full words
-            _hexStr: function (n) { var s = "", v; for (var i = 7; i >= 0; i--) { v = (n >>> (i * 4)) & 0xf; s += v.toString(16); } return s; },
+            _hexStr: function(n) { var s = "", v; for(var i = 7; i >= 0; i--) { v = (n >>> (i * 4)) & 0xf; s += v.toString(16); } return s; },
             // implementation of deprecated unescape() based on https://cwestblog.com/2011/05/23/escape-unescape-deprecated/ (and comments)
-            _unescape: function (str) {
-                return str.replace(/%(u[\da-f]{4}|[\da-f]{2})/gi, function (seq) {
+            _unescape: function(str) {
+                return str.replace(/%(u[\da-f]{4}|[\da-f]{2})/gi, function(seq) {
                     if (seq.length - 1) {
                         return String.fromCharCode(parseInt(seq.substring(seq.length - 3 ? 2 : 1), 16))
                     } else {
@@ -1031,7 +1031,7 @@ var qz = (function () {
                     }
                 });
             },
-            _utf8Encode: function (str) {
+            _utf8Encode: function(str) {
                 return _qz.SHA._unescape(encodeURIComponent(str));
             }
             //@formatter:on
@@ -1039,7 +1039,7 @@ var qz = (function () {
     };
 
 
-    ///// CONFIG CLASS ////
+///// CONFIG CLASS ////
 
     /** Object to handle configured printer options. */
     function Config(printer, opts) {
@@ -1055,14 +1055,14 @@ var qz = (function () {
          *  @param {string} [newPrinter.host] IP address or host name to send printing.
          *  @param {string} [newPrinter.port] Port used by &lt;printer.host>.
          */
-        this.setPrinter = function (newPrinter) {
+        this.setPrinter = function(newPrinter) {
             if (typeof newPrinter === 'string') {
                 newPrinter = { name: newPrinter };
             }
 
-            if (newPrinter && newPrinter.file) {
+            if(newPrinter && newPrinter.file) {
                 // TODO: Warn for UNC paths too https://github.com/qzind/tray/issues/730
-                if (newPrinter.file.indexOf("\\\\") != 0) {
+                if(newPrinter.file.indexOf("\\\\") != 0) {
                     _qz.log.warn("Printing to file is deprecated.  See https://github.com/qzind/tray/issues/730");
                 }
             }
@@ -1073,7 +1073,7 @@ var qz = (function () {
         /**
          *  @returns {Object} The printer currently assigned to this config.
          */
-        this.getPrinter = function () {
+        this.getPrinter = function() {
             return this.printer;
         };
 
@@ -1083,8 +1083,8 @@ var qz = (function () {
          *
          * @see qz.configs.setDefaults
          */
-        this.reconfigure = function (newOpts) {
-            for (var key in newOpts) {
+        this.reconfigure = function(newOpts) {
+            for(var key in newOpts) {
                 if (newOpts[key] !== undefined) {
                     this._dirtyOpts[key] = true;
                 }
@@ -1096,7 +1096,7 @@ var qz = (function () {
         /**
          * @returns {Object} The currently applied options on this config.
          */
-        this.getOptions = function () {
+        this.getOptions = function() {
             return _qz.compatible.config(this.config, this._dirtyOpts);
         };
 
@@ -1117,12 +1117,12 @@ var qz = (function () {
      *
      * @see qz.print
      */
-    Config.prototype.print = function (data, signature, signingTimestamp) {
+    Config.prototype.print = function(data, signature, signingTimestamp) {
         qz.print(this, data, signature, signingTimestamp);
     };
 
 
-    ///// PUBLIC METHODS /////
+///// PUBLIC METHODS /////
 
     /** @namespace qz */
     var qz = {
@@ -1141,7 +1141,7 @@ var qz = (function () {
              *
              * @memberof  qz.websocket
              */
-            isActive: function () {
+            isActive: function() {
                 return _qz.tools.isActive();
             },
 
@@ -1162,8 +1162,8 @@ var qz = (function () {
              *
              * @memberof qz.websocket
              */
-            connect: function (options) {
-                return _qz.tools.promise(function (resolve, reject) {
+            connect: function(options) {
+                return _qz.tools.promise(function(resolve, reject) {
                     if (_qz.tools.isActive()) {
                         reject(new Error("An open connection with QZ Tray already exists"));
                         return;
@@ -1197,9 +1197,9 @@ var qz = (function () {
                         options.host = [options.host];
                     }
 
-                    var attempt = function (count) {
+                    var attempt = function(count) {
                         var tried = false;
-                        var nextAttempt = function () {
+                        var nextAttempt = function() {
                             if (!tried) {
                                 tried = true;
 
@@ -1212,7 +1212,7 @@ var qz = (function () {
                             }
                         };
 
-                        var delayed = function () {
+                        var delayed = function() {
                             var config = _qz.tools.extend({}, _qz.websocket.connectConfig, options);
                             _qz.websocket.setup.findConnection(config, resolve, nextAttempt)
                         };
@@ -1234,8 +1234,8 @@ var qz = (function () {
              *
              * @memberof qz.websocket
              */
-            disconnect: function () {
-                return _qz.tools.promise(function (resolve, reject) {
+            disconnect: function() {
+                return _qz.tools.promise(function(resolve, reject) {
                     if (_qz.tools.isActive()) {
                         _qz.websocket.connection.close();
                         _qz.websocket.connection.promise = { resolve: resolve, reject: reject };
@@ -1253,7 +1253,7 @@ var qz = (function () {
              *
              * @memberof qz.websocket
              */
-            setErrorCallbacks: function (calls) {
+            setErrorCallbacks: function(calls) {
                 _qz.websocket.errorCallbacks = calls;
             },
 
@@ -1265,7 +1265,7 @@ var qz = (function () {
              *
              * @memberof qz.websocket
              */
-            setClosedCallbacks: function (calls) {
+            setClosedCallbacks: function(calls) {
                 _qz.websocket.closedCallbacks = calls;
             },
 
@@ -1288,7 +1288,7 @@ var qz = (function () {
              *
              * @memberof qz.websocket
              */
-            getConnectionInfo: function () {
+            getConnectionInfo: function() {
                 if (_qz.tools.assertActive()) {
                     var url = _qz.websocket.connection.url.split(/[:\/]+/g);
                     return { socket: url[0], host: url[1], port: +url[2] };
@@ -1310,7 +1310,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            getDefault: function (signature, signingTimestamp) {
+            getDefault: function(signature, signingTimestamp) {
                 return _qz.websocket.dataPromise('printers.getDefault', null, signature, signingTimestamp);
             },
 
@@ -1324,7 +1324,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            find: function (query, signature, signingTimestamp) {
+            find: function(query, signature, signingTimestamp) {
                 return _qz.websocket.dataPromise('printers.find', { query: query }, signature, signingTimestamp);
             },
 
@@ -1335,7 +1335,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            details: function () {
+            details: function() {
                 return _qz.websocket.dataPromise('printers.detail');
             },
 
@@ -1356,7 +1356,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            startListening: function (printers, options) {
+            startListening: function(printers, options) {
                 if (!Array.isArray(printers)) {
                     printers = [printers];
                 }
@@ -1379,7 +1379,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            stopListening: function () {
+            stopListening: function() {
                 return _qz.websocket.dataPromise('printers.stopListening');
             },
 
@@ -1393,7 +1393,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            getStatus: function () {
+            getStatus: function() {
                 return _qz.websocket.dataPromise('printers.getStatus');
             },
 
@@ -1409,7 +1409,7 @@ var qz = (function () {
              *
              * @memberof qz.printers
              */
-            setPrinterCallbacks: function (calls) {
+            setPrinterCallbacks: function(calls) {
                 _qz.printers.printerCallbacks = calls;
             }
         },
@@ -1474,7 +1474,7 @@ var qz = (function () {
              *
              * @memberof qz.configs
              */
-            setDefaults: function (options) {
+            setDefaults: function(options) {
                 _qz.tools.extend(_qz.printing.defaultConfig, options);
             },
 
@@ -1494,7 +1494,7 @@ var qz = (function () {
              *
              * @memberof qz.configs
              */
-            create: function (printer, options) {
+            create: function(printer, options) {
                 return new Config(printer, options);
             }
         },
@@ -1551,7 +1551,7 @@ var qz = (function () {
          *
          * @memberof qz
          */
-        print: function (configs, data) {
+        print: function(configs, data) {
             var resumeOnError = false,
                 signatures = [],
                 signaturesTimestamps = [];
@@ -1579,12 +1579,12 @@ var qz = (function () {
             if (!Array.isArray(data[0])) { data = [data]; } //single data array -> array of data arrays
 
             //clean up data formatting
-            for (var d = 0; d < data.length; d++) {
+            for(var d = 0; d < data.length; d++) {
                 _qz.tools.relative(data[d]);
                 _qz.compatible.data(data[d]);
             }
 
-            var sendToPrint = function (mapping) {
+            var sendToPrint = function(mapping) {
                 var params = {
                     printer: mapping.config.getPrinter(),
                     options: mapping.config.getOptions(),
@@ -1596,8 +1596,8 @@ var qz = (function () {
 
             //chain instead of Promise.all, so resumeOnError can collect each error
             var chain = [];
-            for (var i = 0; i < configs.length || i < data.length; i++) {
-                (function (i_) {
+            for(var i = 0; i < configs.length || i < data.length; i++) {
+                (function(i_) {
                     var map = {
                         config: configs[Math.min(i_, configs.length - 1)],
                         data: data[Math.min(i_, data.length - 1)],
@@ -1605,7 +1605,7 @@ var qz = (function () {
                         timestamp: signaturesTimestamps[i_]
                     };
 
-                    chain.push(function () { return sendToPrint(map) });
+                    chain.push(function() { return sendToPrint(map) });
                 })(i);
             }
 
@@ -1613,21 +1613,21 @@ var qz = (function () {
             var fallThrough = null;
             if (resumeOnError) {
                 var fallen = [];
-                fallThrough = function (err) { fallen.push(err); };
+                fallThrough = function(err) { fallen.push(err); };
 
                 //final promise to reject any errors as a group
-                chain.push(function () {
-                    return _qz.tools.promise(function (resolve, reject) {
+                chain.push(function() {
+                    return _qz.tools.promise(function(resolve, reject) {
                         fallen.length ? reject(fallen) : resolve();
                     });
                 });
             }
 
             var last = null;
-            chain.reduce(function (sequence, link) {
+            chain.reduce(function(sequence, link) {
                 last = sequence.catch(fallThrough).then(link); //catch is ignored if fallThrough is null
                 return last;
-            }, _qz.tools.promise(function (r) { r(); })); //an immediately resolved promise to start off the chain
+            }, _qz.tools.promise(function(r) { r(); })); //an immediately resolved promise to start off the chain
 
             //return last promise so users can chain off final action or catch when stopping on error
             return last;
@@ -1644,7 +1644,7 @@ var qz = (function () {
              *
              * @memberof qz.serial
              */
-            findPorts: function () {
+            findPorts: function() {
                 return _qz.websocket.dataPromise('serial.findPorts');
             },
 
@@ -1658,7 +1658,7 @@ var qz = (function () {
              *
              * @memberof qz.serial
              */
-            setSerialCallbacks: function (calls) {
+            setSerialCallbacks: function(calls) {
                 _qz.serial.serialCallbacks = calls;
             },
 
@@ -1695,7 +1695,7 @@ var qz = (function () {
              *
              * @memberof qz.serial
              */
-            openPort: function (port, options) {
+            openPort: function(port, options) {
                 var params = {
                     port: port,
                     options: options
@@ -1720,7 +1720,7 @@ var qz = (function () {
              *
              * @memberof qz.serial
              */
-            sendData: function (port, data, options) {
+            sendData: function(port, data, options) {
                 if (_qz.tools.versionCompare(2, 1, 0, 12) >= 0) {
                     if (typeof data !== 'object') {
                         data = {
@@ -1749,7 +1749,7 @@ var qz = (function () {
              *
              * @memberof qz.serial
              */
-            closePort: function (port) {
+            closePort: function(port) {
                 return _qz.websocket.dataPromise('serial.closePort', { port: port });
             }
         },
@@ -1769,7 +1769,7 @@ var qz = (function () {
              *
              * @memberof qz.socket
              */
-            open: function (host, port, options) {
+            open: function(host, port, options) {
                 var params = {
                     host: host,
                     port: port,
@@ -1784,7 +1784,7 @@ var qz = (function () {
              *
              * @memberof qz.socket
              */
-            close: function (host, port) {
+            close: function(host, port) {
                 var params = {
                     host: host,
                     port: port
@@ -1803,7 +1803,7 @@ var qz = (function () {
              *
              * @memberof qz.socket
              */
-            sendData: function (host, port, data) {
+            sendData: function(host, port, data) {
                 if (typeof data !== 'object') {
                     data = {
                         data: data,
@@ -1829,7 +1829,7 @@ var qz = (function () {
              *
              * @memberof qz.socket
              */
-            setSocketCallbacks: function (calls) {
+            setSocketCallbacks: function(calls) {
                 _qz.socket.socketCallbacks = calls;
             }
         },
@@ -1848,7 +1848,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            listDevices: function (includeHubs) {
+            listDevices: function(includeHubs) {
                 return _qz.websocket.dataPromise('usb.listDevices', { includeHubs: includeHubs });
             },
 
@@ -1860,7 +1860,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            listInterfaces: function (deviceInfo) {
+            listInterfaces: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('usb.listInterfaces', deviceInfo);
@@ -1875,7 +1875,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            listEndpoints: function (deviceInfo) {
+            listEndpoints: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -1898,7 +1898,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            setUsbCallbacks: function (calls) {
+            setUsbCallbacks: function(calls) {
                 _qz.usb.usbCallbacks = calls;
             },
 
@@ -1913,7 +1913,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            claimDevice: function (deviceInfo) {
+            claimDevice: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -1937,7 +1937,7 @@ var qz = (function () {
              * @since 2.0.2
              * @memberOf qz.usb
              */
-            isClaimed: function (deviceInfo) {
+            isClaimed: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('usb.isClaimed', deviceInfo);
@@ -1956,7 +1956,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            sendData: function (deviceInfo) {
+            sendData: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -1995,7 +1995,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            readData: function (deviceInfo) {
+            readData: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2024,7 +2024,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            openStream: function (deviceInfo) {
+            openStream: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2050,7 +2050,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            closeStream: function (deviceInfo) {
+            closeStream: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2073,7 +2073,7 @@ var qz = (function () {
              *
              * @memberof qz.usb
              */
-            releaseDevice: function (deviceInfo) {
+            releaseDevice: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('usb.releaseDevice', deviceInfo);
@@ -2098,7 +2098,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            listDevices: function () {
+            listDevices: function() {
                 return _qz.websocket.dataPromise('hid.listDevices');
             },
 
@@ -2113,7 +2113,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            startListening: function () {
+            startListening: function() {
                 return _qz.websocket.dataPromise('hid.startListening');
             },
 
@@ -2127,7 +2127,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            stopListening: function () {
+            stopListening: function() {
                 return _qz.websocket.dataPromise('hid.stopListening');
             },
 
@@ -2143,7 +2143,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            setHidCallbacks: function (calls) {
+            setHidCallbacks: function(calls) {
                 _qz.hid.hidCallbacks = calls;
             },
 
@@ -2160,7 +2160,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            claimDevice: function (deviceInfo) {
+            claimDevice: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('hid.claimDevice', deviceInfo);
@@ -2179,7 +2179,7 @@ var qz = (function () {
              * @since 2.0.2
              * @memberOf qz.hid
              */
-            isClaimed: function (deviceInfo) {
+            isClaimed: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('hid.isClaimed', deviceInfo);
@@ -2203,7 +2203,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            sendData: function (deviceInfo) {
+            sendData: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2253,7 +2253,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            readData: function (deviceInfo) {
+            readData: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2283,7 +2283,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            sendFeatureReport: function (deviceInfo) {
+            sendFeatureReport: function(deviceInfo) {
                 return _qz.websocket.dataPromise('hid.sendFeatureReport', deviceInfo);
             },
 
@@ -2300,7 +2300,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            getFeatureReport: function (deviceInfo) {
+            getFeatureReport: function(deviceInfo) {
                 return _qz.websocket.dataPromise('hid.getFeatureReport', deviceInfo);
             },
 
@@ -2321,7 +2321,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            openStream: function (deviceInfo) {
+            openStream: function(deviceInfo) {
                 //backwards compatibility
                 if (typeof deviceInfo !== 'object') {
                     deviceInfo = {
@@ -2348,7 +2348,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            closeStream: function (deviceInfo) {
+            closeStream: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('hid.closeStream', deviceInfo);
@@ -2367,7 +2367,7 @@ var qz = (function () {
              *
              * @memberof qz.hid
              */
-            releaseDevice: function (deviceInfo) {
+            releaseDevice: function(deviceInfo) {
                 if (typeof deviceInfo !== 'object') { deviceInfo = { vendorId: arguments[0], productId: arguments[1] }; } //backwards compatibility
 
                 return _qz.websocket.dataPromise('hid.releaseDevice', deviceInfo);
@@ -2393,7 +2393,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            list: function (path, params) {
+            list: function(path, params) {
                 var param = _qz.tools.extend({ path: path }, params);
                 return _qz.websocket.dataPromise('file.list', param);
             },
@@ -2411,7 +2411,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            read: function (path, params) {
+            read: function(path, params) {
                 var param = _qz.tools.extend({ path: path }, params);
                 return _qz.websocket.dataPromise('file.read', param);
             },
@@ -2431,7 +2431,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            write: function (path, params) {
+            write: function(path, params) {
                 var param = _qz.tools.extend({ path: path }, params);
                 return _qz.websocket.dataPromise('file.write', param);
             },
@@ -2448,7 +2448,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            remove: function (path, params) {
+            remove: function(path, params) {
                 var param = _qz.tools.extend({ path: path }, params);
                 return _qz.websocket.dataPromise('file.remove', param);
             },
@@ -2474,7 +2474,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            startListening: function (path, params) {
+            startListening: function(path, params) {
                 if (params && typeof params.include !== 'undefined' && !Array.isArray(params.include)) {
                     params.include = [params.include];
                 }
@@ -2496,7 +2496,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            stopListening: function (path, params) {
+            stopListening: function(path, params) {
                 var param = _qz.tools.extend({ path: path }, params);
                 return _qz.websocket.dataPromise('file.stopListening', param);
             },
@@ -2511,7 +2511,7 @@ var qz = (function () {
              *
              * @memberof qz.file
              */
-            setFileCallbacks: function (calls) {
+            setFileCallbacks: function(calls) {
                 _qz.file.fileCallbacks = calls;
             }
         },
@@ -2530,10 +2530,10 @@ var qz = (function () {
              * @memberof qz.networking
              * @since 2.1.0
              */
-            device: function (hostname, port) {
+            device: function(hostname, port) {
                 // Wrap 2.0
                 if (_qz.tools.isVersion(2, 0)) {
-                    return _qz.compatible.networking(hostname, port, null, null, function (data) {
+                    return _qz.compatible.networking(hostname, port, null, null, function(data) {
                         return { ip: data.ipAddress, mac: data.macAddress };
                     });
                 }
@@ -2554,11 +2554,11 @@ var qz = (function () {
              * @memberof qz.networking
              * @since 2.2.2
              */
-            hostname: function (hostname, port) {
+            hostname: function(hostname, port) {
                 // Wrap < 2.2.2
                 if (_qz.tools.versionCompare(2, 2, 2) < 0) {
-                    return _qz.tools.promise(function (resolve, reject) {
-                        _qz.websocket.dataPromise('networking.device', { hostname: hostname, port: port }).then(function (device) {
+                    return _qz.tools.promise(function(resolve, reject) {
+                        _qz.websocket.dataPromise('networking.device', { hostname: hostname, port: port }).then(function(device) {
                             console.log(device);
                             resolve(device.hostname);
                         });
@@ -2576,10 +2576,10 @@ var qz = (function () {
              * @memberof qz.networking
              * @since 2.1.0
              */
-            devices: function (hostname, port) {
+            devices: function(hostname, port) {
                 // Wrap 2.0
                 if (_qz.tools.isVersion(2, 0)) {
-                    return _qz.compatible.networking(hostname, port, null, null, function (data) {
+                    return _qz.compatible.networking(hostname, port, null, null, function(data) {
                         return [{ ip: data.ipAddress, mac: data.macAddress }];
                     });
                 }
@@ -2606,7 +2606,7 @@ var qz = (function () {
              *  @param {boolean} [options.rejectOnFailure=[false]] Overrides default behavior to call resolve with a blank certificate on failure.
              * @memberof qz.security
              */
-            setCertificatePromise: function (promiseHandler, options) {
+            setCertificatePromise: function(promiseHandler, options) {
                 _qz.security.certHandler = promiseHandler;
                 _qz.security.rejectOnCertFailure = !!(options && options.rejectOnFailure);
             },
@@ -2628,7 +2628,7 @@ var qz = (function () {
              *
              * @memberof qz.security
              */
-            setSignaturePromise: function (promiseFactory) {
+            setSignaturePromise: function(promiseFactory) {
                 _qz.security.signatureFactory = promiseFactory;
             },
 
@@ -2640,7 +2640,7 @@ var qz = (function () {
              *
              * @memberof qz.security
              */
-            setSignatureAlgorithm: function (algorithm) {
+            setSignatureAlgorithm: function(algorithm) {
                 //warn for incompatibilities if known
                 if (!_qz.compatible.algorithm()) {
                     return;
@@ -2661,7 +2661,7 @@ var qz = (function () {
              *
              * @memberof qz.security
              */
-            getSignatureAlgorithm: function () {
+            getSignatureAlgorithm: function() {
                 return _qz.security.signAlgorithm;
             }
         },
@@ -2678,7 +2678,7 @@ var qz = (function () {
              * @returns {boolean} Value of debugging flag
              * @memberof qz.api
              */
-            showDebug: function (show) {
+            showDebug: function(show) {
                 return (_qz.DEBUG = show);
             },
 
@@ -2689,7 +2689,7 @@ var qz = (function () {
              *
              * @memberof qz.api
              */
-            getVersion: function () {
+            getVersion: function() {
                 return _qz.websocket.dataPromise('getVersion');
             },
 
@@ -2716,7 +2716,7 @@ var qz = (function () {
              * @memberof qz.api
              * @since 2.1.0-4
              */
-            isVersionGreater: function (major, minor, patch, build) {
+            isVersionGreater: function(major, minor, patch, build) {
                 return _qz.tools.versionCompare(major, minor, patch, build) > 0;
             },
 
@@ -2732,7 +2732,7 @@ var qz = (function () {
              * @memberof qz.api
              * @since 2.1.0-4
              */
-            isVersionLess: function (major, minor, patch, build) {
+            isVersionLess: function(major, minor, patch, build) {
                 return _qz.tools.versionCompare(major, minor, patch, build) < 0;
             },
 
@@ -2744,7 +2744,7 @@ var qz = (function () {
              *
              * @memberof qz.api
              */
-            setPromiseType: function (promiser) {
+            setPromiseType: function(promiser) {
                 _qz.tools.promise = promiser;
             },
 
@@ -2756,7 +2756,7 @@ var qz = (function () {
              *
              * @memberof qz.api
              */
-            setSha256Type: function (hasher) {
+            setSha256Type: function(hasher) {
                 _qz.tools.hash = hasher;
             },
 
@@ -2768,7 +2768,7 @@ var qz = (function () {
              *
              * @memberof qz.api
              */
-            setWebSocketType: function (ws) {
+            setWebSocketType: function(ws) {
                 _qz.tools.ws = ws;
             }
         },
@@ -2787,7 +2787,7 @@ var qz = (function () {
 })();
 
 
-(function () {
+(function() {
     if (typeof define === 'function' && define.amd) {
         define(qz);
     } else if (typeof exports === 'object') {

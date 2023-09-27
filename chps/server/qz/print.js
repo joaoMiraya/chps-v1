@@ -78,6 +78,7 @@ export function print() {
         }
     };
 
+
     qz.websocket.connect().then(function () {
         return qz.printers.find("HPFDD95B (HP Ink Tank Wireless 410 series)");              // Pass the printer name into the next Promise
     }).then(function (printer) {

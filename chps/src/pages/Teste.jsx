@@ -1,17 +1,18 @@
 import { print } from "../../server/qz/print";
-
+import { getUser } from "../services/redux/users/authSlice";
 
 function Teste() {
 
 
-    const handlePrint = () => {
-        print();
+    const handleClick = async () => {
+        const user = await getUser();
+        console.log(user);
     };
     return (
 
         <>
             <div className="flex h-screen justify-center items-center">
-                <button onClick={handlePrint}>print</button>
+                <button onClick={handleClick}>print</button>
             </div>
         </>
     )

@@ -38,6 +38,8 @@ function Cart() {
         dispatch(clearCart())
     };
 
+
+
     return (
 
 
@@ -49,7 +51,11 @@ function Cart() {
                         <CartPlaceholder />
                     </div>
                     <div className={`${nextStep ? 'flex' : 'hidden'}`}>
-                        <NextStepForm />
+                        <NextStepForm
+                            total={total}
+                            cartItems={cartItems}
+                            handleBackStep={handleBackStep}
+                        />
                     </div>
                     <div className={`${nextStep ? 'hidden' : 'flex'} flex-col`}>
                         <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
@@ -75,10 +81,9 @@ function Cart() {
                             <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                         </div>
                     </div>
-                    <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 mr-6`}>
-                        <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={`${nextStep ? 'flex' : 'hidden'} py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
-                        <button onClick={handleNextStep} aria-label='Avançar/Finalizar o pedido' tabIndex={0} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
-                            {nextStep ? 'Finalizar' : 'Avançar'}
+                    <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 `}>
+                        <button onClick={handleNextStep} aria-label='Avançar com o pedido' tabIndex={0} className={`${nextStep ? 'hidden' : 'flex'} py-2 px-6 shadow-inner mr-6 font-semibold border-[1px] border-solid border-gray-300`}>
+                            Avançar
                         </button>
                     </div>
                 </div>

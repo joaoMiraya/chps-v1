@@ -12,6 +12,7 @@ import pratosSlice from './items/pratosSlice';
 import porcoesSlice from './items/porcoesSlice';
 import appSlice from './app/appSlice';
 import usersSlice from './users/usersSlice';
+import pedidosSlice from './pedidos/pedidosSlice';
 
 const rootReducer = combineReducers({
     images: imageReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     register: authRegister,
     users: usersSlice,
     cart: cartSlice,
+    pedidos: pedidosSlice,
     acrescimos: acrescimosSlice,
     bebidas: bebidasSlice,
     lanches: lanchesSlice,

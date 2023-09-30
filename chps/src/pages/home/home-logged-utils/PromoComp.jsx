@@ -40,7 +40,7 @@ function PromoComp() {
     }, [dispatch]);
 
     return (
-        <div className=" bg-gradient-to-t from-[#FFDD86] to-[#D4AA3C] pt-12 flex flex-col h-screen items-center">
+        <div className=" bg-gradient-to-t from-[#FFDD86] to-[#D4AA3C] pt-12 flex flex-col h-full items-center">
             <h1 className="text-2xl text-center font-semibold">Boa noite, {user ? user : 'Usuario'}!</h1>
             <div className="w-[375px] h-[375px] mt-12">
                 <VemProChapas />

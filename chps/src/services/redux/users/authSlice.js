@@ -52,6 +52,19 @@ const verifyAuth = () => {
 };
 verifyAuth();
 
+//PEGAR O USUARIO ATUAL NO FIRESTORE
+export const getUser = async () => {
+    const { uid } = auth.currentUser;
+    let user = [];
+    const usersRef = collection(db, "usuarios");
+    const q = query(usersRef, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        user = doc.data();
+    });
+    return user
+};
+
 //AUTENTICAÇÃO COM O EMAIL E SENHA
 export const userLogin = createAsyncThunk(
     'auth/login',

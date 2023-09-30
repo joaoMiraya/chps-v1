@@ -55,7 +55,7 @@ var qz = (function() {
 
             /** Default parameters used on new connections. Override values using options parameter on {@link qz.websocket.connect}. */
             connectConfig: {
-                host: ["localhost", "*.chapas-lanches.com.br", "localhost.qz.io"], //hosts QZ Tray can be running on
+                host: ["localhost", "192.168.0.114", "localhost.qz.io"], //hosts QZ Tray can be running on
                 hostIndex: 0,                           //internal var - index on host array
                 usingSecure: true,                      //boolean use of secure protocol
                 protocol: {

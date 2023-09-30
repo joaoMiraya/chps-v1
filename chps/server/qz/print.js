@@ -78,8 +78,9 @@ export function print() {
         }
     };
 
+    
 
-    qz.websocket.connect().then(function () {
+    qz.websocket.connect({host: "192.168.0.114"}).then(function () {
         return qz.printers.find("HPFDD95B (HP Ink Tank Wireless 410 series)");              // Pass the printer name into the next Promise
     }).then(function (printer) {
         var config = qz.configs.create(printer);       // Create a default config for the found printer
@@ -92,8 +93,8 @@ export function print() {
             }
         ];   // Raw ZPL
         return qz.print(config, data);
-    }).catch(function (e) { console.error(e); }).finally({
-
+    }).catch(function (e) { console.error(e); }).finally(() => {
+        qz.websocket.disconnect();
     });
 
 };

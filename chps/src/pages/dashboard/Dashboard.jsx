@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import PedidosAndamento from './pedidos/PedidosAndamento';
 
 const AddTempoRetirar = lazy(() => import("./utils/AddTempoRetirar"))
 const AddTempoEntrega = lazy(() => import("./utils/AddTempoEntrega"))
@@ -22,7 +23,7 @@ function Dashboard() {
             </div>
             <div className="flex flex-col items-center w-full">
                 <h2>Pedidos em Andamento</h2>
-
+                <PedidosAndamento />
             </div>
         </div>
     )

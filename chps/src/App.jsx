@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     const dataAtual = new Date();
     const horaAtual = dataAtual.getHours();
-    if (horaAtual > 18) {
+    if (horaAtual >= 18) {
       setInterval(async () => {
         try {
           dispatch(fetchWaitTime());

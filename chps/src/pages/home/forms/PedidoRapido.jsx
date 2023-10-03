@@ -1,15 +1,15 @@
-import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { userAnonymous } from "../../../services/redux/users/authSlice";
 
 function PedidoRapido() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleAuthAnonymously = () => {
-        Cookies.set("UserAnonymous", true, { expires: 0.5 });
-        toast.warn("Não se esqueça de se registrar para participar de promoções e plano fidelidade");
-        navigate("/menu");
+        dispatch(userAnonymous());
+        navigate('/menu');
     };
 
     return (

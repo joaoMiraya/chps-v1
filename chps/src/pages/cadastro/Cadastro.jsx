@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,8 +9,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 
 import { userRegister } from '../../services/redux/users/registerSlice';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { getDate } from '../../javascript/main';
 
 
 
@@ -39,13 +40,6 @@ function Cadastro() {
             setShowPass(false)
         }
     }
-    /* PEGAR A DATA ATUAL */
-    let date = new Date();
-    let dia = date.getDate();
-    let mes = date.getMonth() + 1;
-    let ano = date.getFullYear();
-    const formatedDate = dia + '/' + mes + '/' + ano;
-
 
     const { register,
         handleSubmit,
@@ -78,7 +72,7 @@ function Cadastro() {
                 Email: data.emailRegister,
                 Password: data.passwordRegister,
                 Tel: formatedTel,
-                Date: formatedDate
+                Date: getDate()
             };
             // Faça a chamada assíncrona para criar o usuário
             dispatch(userRegister(values));

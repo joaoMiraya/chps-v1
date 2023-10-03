@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getUser } from "../../../services/redux/users/authSlice";
+import { getUser } from "../../../services/redux/users/usersSlice";
 import FormaDePagamento from "./FormaDePagamento";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPedidosEntrega } from "../../../services/redux/pedidos/pedidosSlice";
+import { getDate, getHours, numberGenerator } from "../../../javascript/main";
+import ToggleEndress from "./ToggleEndress";
 
 function NextStepForm({ handleBackStep, cartItems, total }) {
     NextStepForm.propTypes = {
@@ -14,8 +17,9 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     };
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
     const [selected, setSelected] = useState(false);
+    const [autoEnd, setAutoEnd] = useState(false);
     const [troco, setTroco] = useState('');
 
     const [bairro, setBairro] = useState('');
@@ -24,41 +28,53 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const [nome, setNome] = useState('');
     const [tel, setTel] = useState('');
     const [referencia, setReferencia] = useState('');
-    const [userId, setUserId] = useState('');
 
-    useEffect(() => {
-        const checkEndress = async () => {
+    const { isLogged } = useSelector((state) => state.auth);
+    const { isAnonymous } = useSelector((state) => state.auth);
+
+
+
+    //PREENCHER CAMPOS COM ENDEREÇO PADRAO
+    const checkEndress = async () => {
+        if (isLogged) {
             const user = await getUser();
-            if (user.bairro) {
-                setBairro(user.bairro)
-                setRua(user.rua)
-                setNumero(user.numero_casa)
-                setNome(user.name)
-                setReferencia(user.referencia)
-                setTel(user.tel)
-                setUserId(user.uid)
+            if (user.bairro != null) {
+                setAutoEnd(!autoEnd);
+                if (autoEnd) {
+                    resetAddressFields();
+                } else {
+                    setUserData(user);
+                }
             }
-        };
-        checkEndress()
-    }, []);
+        } else {
+            toast.error("Você precisa criar uma conta para adicionar um endereço como padrão!")
+            navigator.vibrate(200);
+            return
+        }
+    };
 
-    function numberGenerator() {
-        const numeroAleatorio = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
-        return numeroAleatorio + Date.now();
-    }
+    const resetAddressFields = () => {
+        setBairro('');
+        setRua('');
+        setNumero('');
+        setNome('');
+        setReferencia('');
+        setTel('');
+    };
 
-    const handleSubmitOrder = () => {
-        /* PEGAR A DATA E HORA ATUAL */
-        let date = new Date();
-        let hora = date.getHours();
-        let minutos = date.getMinutes();
-        let dia = date.getDate();
-        let mes = date.getMonth() + 1;
-        let ano = date.getFullYear();
-        const formatedDate = dia + '/' + mes + '/' + ano;
-        const horaPedido = hora + ':' + minutos;
-        const endress = (bairro, rua, numero, nome, tel).length > 3;
-        if (!endress) {
+    const setUserData = (user) => {
+        setBairro(user.bairro);
+        setRua(user.rua);
+        setNumero(user.numero_casa);
+        setNome(user.name);
+        setReferencia(user.referencia);
+        setTel(user.tel);
+    };
+
+    const handleSubmitOrder = async () => {
+        const user = ( isAnonymous || !isLogged ? '' : await getUser());
+        const endress = (bairro, rua, nome, tel).length > 3;
+        if (!endress || numero < 1) {
             toast.error("Preencha os campos obrigatórios!")
             window.scrollTo({
                 top: 0,
@@ -70,18 +86,24 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     itens: cartItems,
                     numero_pedido: numberGenerator(),
                     nome: nome,
-                    uid: userId,
+                    uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
                     telefone: tel,
                     bairro: bairro,
                     rua: rua,
                     numero_casa: numero,
                     referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                    total: total,
+                    total: total.toFixed(2).replace('.', ','),
                     pagamento: 'Cartão',
-                    data: formatedDate,
-                    hora_pedido: horaPedido
+                    data: getDate(),
+                    hora_pedido: getHours()
                 }
                 dispatch(setPedidosEntrega(order))
+                toast.success('Pedido enviado com sucesso!')
+                setTimeout(() => {
+                    navigate('/perfil')
+                }, 3000);
+
+
             } else {
                 if (troco.length >= 2) {
                     const trocoTo = `Troco para ${troco}`;
@@ -89,19 +111,24 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         itens: cartItems,
                         numero_pedido: numberGenerator(),
                         nome: nome,
-                        uid: userId,
+                        uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
                         telefone: tel,
                         bairro: bairro,
                         rua: rua,
                         numero_casa: numero,
                         referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                        total: total,
+                        total: total.toFixed(2).replace('.', ','),
                         pagamento: trocoTo,
-                        data: formatedDate,
-                        hora_pedido: horaPedido
+                        data: getDate(),
+                        hora_pedido: getHours()
                     }
                     dispatch(setPedidosEntrega(order))
+                    toast.success('Pedido enviado com sucesso!')
+                    setTimeout(() => {
+                        navigate('/perfil')
+                    }, 3000);
                 } else {
+                    navigator.vibrate(200);
                     toast.error("Informe o troco")
                 }
             }
@@ -112,6 +139,12 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     return (
 
         <div>
+            <div className="flex justify-end">
+                <div className="flex flex-col items-center gap-2 text-center w-[180px]">
+                    <span className="text-sm">Deseja preencher com seu endereço salvo?!</span>
+                    <ToggleEndress autoEnd={autoEnd} setAutoEnd={checkEndress} />
+                </div>
+            </div>
             <form >
                 <div className="flex flex-col ">
                     <label className="text-gray-400 ml-4" htmlFor="nome">Seu nome</label>

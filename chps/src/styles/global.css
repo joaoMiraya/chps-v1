@@ -30,9 +30,10 @@ textarea {
 .linear-gradient {
     background: linear-gradient(180deg, #C55300, #D4AA3C)
 }
-
-
-
+.active-shadow {
+    box-shadow: 0 0 16px rgba(0, 255, 0, .5); 
+  }
+ 
 .openMenu {
     position: absolute;
     top: 0;

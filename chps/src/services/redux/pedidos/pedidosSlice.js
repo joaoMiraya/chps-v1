@@ -1,29 +1,37 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { database } from '../../firebase/firebase';
-import { set, ref, get } from 'firebase/database';
+import { set, ref, get, getDatabase, push, onValue, child } from 'firebase/database';
 
-export const fetchWaitTime = createAsyncThunk(
-    'app/fetchWaitTime',
+
+//RECUPERA OS PEDIDOS EM ANDAMENTO
+export const fetchPedidosAndamento = createAsyncThunk(
+    'app/fetchPedidosAndamento',
     async (_, { rejectWithValue }) => {
-        try {
-            const tempoEntregaRef = ref(database, 'app-config/tempo-entrega');
-            const tempoRetirarRef = ref(database, 'app-config/tempo-retirar');
-            const [tempoEntregaSnapshot, tempoRetirarSnapshot] = await Promise.all([
-                get(tempoEntregaRef),
-                get(tempoRetirarRef),
-            ]);
-            const tempoEntregaData = tempoEntregaSnapshot.val();
-            const tempoRetirarData = tempoRetirarSnapshot.val();
-            return { tempo_entrega: tempoEntregaData, tempo_retirar: tempoRetirarData };
-        } catch (error) {
-            console.error(error.message);
-            return rejectWithValue(error.message);
-        }
+      try {
+        const db = getDatabase();
+        const dbRef = ref(db, 'pedidos-entregas');
+  
+        const snapshot = await get(dbRef); // Usamos await para esperar a consulta
+  
+        const pedidos = [];
+  
+        snapshot.forEach((childSnapshot) => {
+          const childKey = childSnapshot.key;
+          const childData = childSnapshot.val();
+          pedidos.push(childData);
+        });
+  
+        return pedidos;
+      } catch (error) {
+        console.error(error.message);
+        return rejectWithValue(error.message);
+      }
     }
-);
+  );
 
 
 const initialState = {
+    entregas: [],
     pedidos_entrega: [],
     pedidos_mesa: []
 };
@@ -34,8 +42,12 @@ const pedidosSlice = createSlice({
     reducers: {
         setPedidosEntrega(state, action) {
             state.pedidos_entrega = action.payload;
-            set(ref(database, 'pedidos-andamento/' + 'pedidos-entrega'), {
-                pedido: action.payload
+            const db = getDatabase();
+            const orderListRef = ref(db, 'pedidos-entregas');
+            const newOrderRef = push(orderListRef);
+            console.log(action.payload);
+            set(newOrderRef, {
+                ...action.payload
             });
         },
         setPedidosMesa(state, action) {
@@ -47,11 +59,10 @@ const pedidosSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchWaitTime.fulfilled, (state, action) => {
-                state.tempoEntregar = action.payload.tempo_entrega.tempo_entrega;
-                state.tempoRetirar = action.payload.tempo_retirar.tempo_retirar;
+            .addCase(fetchPedidosAndamento.fulfilled, (state, action) => {
+                state.entregas = action.payload;
             })
-            .addCase(fetchWaitTime.rejected, (action) => {
+            .addCase(fetchPedidosAndamento.rejected, (action) => {
                 console.error(action.error);
             });
     },

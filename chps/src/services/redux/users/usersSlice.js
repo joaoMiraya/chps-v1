@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { auth, db } from "../../firebase/firebase";
-import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
 export const fetchUsers = createAsyncThunk(
@@ -24,6 +24,19 @@ export const fetchUsers = createAsyncThunk(
     }
 );
 
+
+//PEGAR O USUARIO ATUAL NO FIRESTORE
+export const getUser = async () => {
+    const { uid } = auth.currentUser;
+    let user = [];
+    const usersRef = collection(db, "usuarios");
+    const q  = query(usersRef, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        user = doc.data();
+    });
+    return user
+};
 
 export const setUserRole = createAsyncThunk(
     'users/waiter',

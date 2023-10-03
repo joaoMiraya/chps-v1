@@ -52,18 +52,6 @@ const verifyAuth = () => {
 };
 verifyAuth();
 
-//PEGAR O USUARIO ATUAL NO FIRESTORE
-export const getUser = async () => {
-    const { uid } = auth.currentUser;
-    let user = [];
-    const usersRef = collection(db, "usuarios");
-    const q = query(usersRef, where("uid", "==", uid));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-        user = doc.data();
-    });
-    return user
-};
 
 //AUTENTICAÇÃO COM O EMAIL E SENHA
 export const userLogin = createAsyncThunk(
@@ -73,6 +61,22 @@ export const userLogin = createAsyncThunk(
             await signInWithEmailAndPassword(auth, Email, Password)
             const { displayName, accessToken } = auth.currentUser;
             return { accessToken: accessToken, name: displayName }
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message)
+            } else {
+                return rejectWithValue(error.message)
+            }
+        }
+    }
+);
+//AUTENTICAÇÃO ANONIMA
+export const userAnonymous = createAsyncThunk(
+    'auth/anonymous',
+    async (_, { rejectWithValue }) => {
+        try {
+            Cookies.set("UserAnonymous", true, { expires: 0.5 });
+            toast.warn("Não se esqueça de se registrar para participar de promoções e plano fidelidade");
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
@@ -140,6 +144,7 @@ export const redefinePassword = createAsyncThunk(
 
 const initialState = {
     loading: false,
+    isAnonymous: Cookies.get("UserAnonymous") ? true : false,
     isLogged: Cookies.get("User") ? true : false,
     isAdm: Cookies.get("isAdm") ? true : false,
     isWaiter: Cookies.get("isWaiter") ? true : false,
@@ -168,6 +173,15 @@ const authSlice = createSlice({
             .addCase(userLogin.rejected, (state) => {
                 let message = "Email ou senha inválidos"
                 state.error = message
+            })
+            .addCase(userAnonymous.fulfilled, (state, action) => {
+                state.isAnonymous = true
+                state.error = null
+                state.success = true
+            })
+            .addCase(userAnonymous.rejected, (state, action) => {
+                state.error = action.payload
+                console.log(action.payload);
             })
             .addDefaultCase((state) => {
                 return state;

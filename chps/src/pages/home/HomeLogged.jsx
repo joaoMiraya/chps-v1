@@ -11,7 +11,7 @@ function HomeLogged() {
         <>
             <PromoComp />
             <CarouselHome />
-            <h2 className="text-2xl font-semibold text-center my-6">Venha conhecer nosso ambiente</h2>
+            <h2 className="text-2xl font-semibold text-center my-6">Venha nos conhecer!!!</h2>
             <Qualidades />
             <Localizacao />
         </>

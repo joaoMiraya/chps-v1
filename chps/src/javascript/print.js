@@ -1,6 +1,6 @@
 
-export function print() {
-  
+export function print(order) {
+
     qz.security.setCertificatePromise(function (resolve, reject) {
         resolve("-----BEGIN CERTIFICATE-----\n" +
             "MIIERTCCAy2gAwIBAgIUW8rcQa4DjaUdU/6GxqTRKFhKfjgwDQYJKoZIhvcNAQEL\n" +
@@ -30,32 +30,32 @@ export function print() {
     });
 
     var privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
-    "MIIEpAIBAAKCAQEAtqysybd77jnHvxGczMklasCxYJdaYeB5NMtKsoA9kkkXgyIr\n" +
-    "HjwrYFEJD7WWTqwVPsMyFFy4qwPOhVARWhFR2l40H6WFZVm6iwtDu2igE81j5BeE\n" +
-    "aT+VJnWTuT95nDGtTga7miRT71hT+GUI8pKEhTJX2zmUDZ4hJ+weTaVHSl5nTVDU\n" +
-    "+dfTNYwyTy9XQvWHaM5DtUy6t4qPWJkFD5Yjve9b140pfHhg0w85R7IwJnkOGaJM\n" +
-    "vhoG7WzOYuEMnIGNrN5rg7BtTTQxMT5kKOwnUTilxaop+ZDJf2vcb0ssuoEbtnVt\n" +
-    "kGtOyce/dLHBAFYiOwSr735G9lgia5iWsJ8fvwIDAQABAoIBAQCZ7bdL4skTXKzs\n" +
-    "XDL8fSKCag0Nj3whrb10tzkiYN2BPwYJAenDeIA0kRRJoIIfmPHuCR1R+y/BK1wD\n" +
-    "Cg0VEDMhBvB1Gkzlsk52i+9vJCJ/jTr3ILn61hEgb0MjflFDRLj8XsAGi0YPESbw\n" +
-    "0HJRtRTmCB3wJPyU3QKjWVvPoc4I40cyhGOViP7+01h8Waye+fmiEAGoCmaI7tz1\n" +
-    "nFYJ3Ahl+6kYWY7W2OhGpKXwPBl1bqChlsBpzmHf6VLm7jQGhjjUH0OShx1Ue7SN\n" +
-    "UuZnSwpuZTRwgR4C2ndjx3IRjtLAQuBwc59VvQgn7ZJq7NpUiBiz39rle6VAZrI1\n" +
-    "CK1fKGNBAoGBANy1W8yvJIFHaQ6sytXXEuJFol2SzRzmxfODbHMY5tt2QnFsAtMz\n" +
-    "bTjYWYEeKOHQhcp48mH6N0ToOduk3IrFNfkhyfnT/3tXv14wwhL5To9UhJ8AdJ5H\n" +
-    "squhlzkyTh1HCYaID12pI3w7ss2I8IZWm/Lrug2wVWYG1n2L7LJ2SDErAoGBANPi\n" +
-    "aGnkNmVKIpYLQofoiR5GxAr11Db2YnQhc95LJ8yXUN/Lir+uEK+aOmOyQrAMaN7n\n" +
-    "JvOgQJqRxk/vvnB2kPhKvIQlf7JNwG+4PvXyKJTdhCLaxF4/MpYt8LihvsYsuCUh\n" +
-    "jF9L++soG5KI//2AvJuxFTiSM1L0Rao72imwgPm9AoGAfPfjhr4UuW6publ1ECe7\n" +
-    "dYtgKAObSCYTJ5LesT0EWndXn8k8wEF6Mpmt9EITe+kKGF7rPzbiXI3xVMDAb4LC\n" +
-    "0NGk/2ReYISKwtZwzTWEmfuNLEqhvY1zSWMxsR0exc0XQ6l+qdW/VfSnhWFob2hS\n" +
-    "3PVEX8PcVuzAPk4gM9xtfAkCgYEAnSH4wR7nYDKcd52eF2BR38wnMuGgIaqS1QDC\n" +
-    "BwbBWy6UYYN3QDN8WF4OE0Vtw1VQqI3QCzi68GZPJZTsLEcht6DlMTMGAls67R88\n" +
-    "QfT2N4AXsCmBG0vO3iTvslzxN9KONastiLa2+mviFsfW4E8KkIPA8xUpTsmsqFR+\n" +
-    "tBAbdhkCgYAYQPnALTB4aUZTr+IJN980hAgBhFHRoGln8qs0wmWL4ukKxsUarvWg\n" +
-    "A4il33jtWZXA1LoaecQSddWB9SRmpkzvDtBFdKKBKgZ6TMXmSPXpG7UKTGW4iYaG\n" +
-    "ABHM0ZYeIafq118I/wRZRcgMdVYQtLG0hLuZct7yjfls+9oJIws0kw==\n" +
-    "-----END RSA PRIVATE KEY-----";
+        "MIIEpAIBAAKCAQEAtqysybd77jnHvxGczMklasCxYJdaYeB5NMtKsoA9kkkXgyIr\n" +
+        "HjwrYFEJD7WWTqwVPsMyFFy4qwPOhVARWhFR2l40H6WFZVm6iwtDu2igE81j5BeE\n" +
+        "aT+VJnWTuT95nDGtTga7miRT71hT+GUI8pKEhTJX2zmUDZ4hJ+weTaVHSl5nTVDU\n" +
+        "+dfTNYwyTy9XQvWHaM5DtUy6t4qPWJkFD5Yjve9b140pfHhg0w85R7IwJnkOGaJM\n" +
+        "vhoG7WzOYuEMnIGNrN5rg7BtTTQxMT5kKOwnUTilxaop+ZDJf2vcb0ssuoEbtnVt\n" +
+        "kGtOyce/dLHBAFYiOwSr735G9lgia5iWsJ8fvwIDAQABAoIBAQCZ7bdL4skTXKzs\n" +
+        "XDL8fSKCag0Nj3whrb10tzkiYN2BPwYJAenDeIA0kRRJoIIfmPHuCR1R+y/BK1wD\n" +
+        "Cg0VEDMhBvB1Gkzlsk52i+9vJCJ/jTr3ILn61hEgb0MjflFDRLj8XsAGi0YPESbw\n" +
+        "0HJRtRTmCB3wJPyU3QKjWVvPoc4I40cyhGOViP7+01h8Waye+fmiEAGoCmaI7tz1\n" +
+        "nFYJ3Ahl+6kYWY7W2OhGpKXwPBl1bqChlsBpzmHf6VLm7jQGhjjUH0OShx1Ue7SN\n" +
+        "UuZnSwpuZTRwgR4C2ndjx3IRjtLAQuBwc59VvQgn7ZJq7NpUiBiz39rle6VAZrI1\n" +
+        "CK1fKGNBAoGBANy1W8yvJIFHaQ6sytXXEuJFol2SzRzmxfODbHMY5tt2QnFsAtMz\n" +
+        "bTjYWYEeKOHQhcp48mH6N0ToOduk3IrFNfkhyfnT/3tXv14wwhL5To9UhJ8AdJ5H\n" +
+        "squhlzkyTh1HCYaID12pI3w7ss2I8IZWm/Lrug2wVWYG1n2L7LJ2SDErAoGBANPi\n" +
+        "aGnkNmVKIpYLQofoiR5GxAr11Db2YnQhc95LJ8yXUN/Lir+uEK+aOmOyQrAMaN7n\n" +
+        "JvOgQJqRxk/vvnB2kPhKvIQlf7JNwG+4PvXyKJTdhCLaxF4/MpYt8LihvsYsuCUh\n" +
+        "jF9L++soG5KI//2AvJuxFTiSM1L0Rao72imwgPm9AoGAfPfjhr4UuW6publ1ECe7\n" +
+        "dYtgKAObSCYTJ5LesT0EWndXn8k8wEF6Mpmt9EITe+kKGF7rPzbiXI3xVMDAb4LC\n" +
+        "0NGk/2ReYISKwtZwzTWEmfuNLEqhvY1zSWMxsR0exc0XQ6l+qdW/VfSnhWFob2hS\n" +
+        "3PVEX8PcVuzAPk4gM9xtfAkCgYEAnSH4wR7nYDKcd52eF2BR38wnMuGgIaqS1QDC\n" +
+        "BwbBWy6UYYN3QDN8WF4OE0Vtw1VQqI3QCzi68GZPJZTsLEcht6DlMTMGAls67R88\n" +
+        "QfT2N4AXsCmBG0vO3iTvslzxN9KONastiLa2+mviFsfW4E8KkIPA8xUpTsmsqFR+\n" +
+        "tBAbdhkCgYAYQPnALTB4aUZTr+IJN980hAgBhFHRoGln8qs0wmWL4ukKxsUarvWg\n" +
+        "A4il33jtWZXA1LoaecQSddWB9SRmpkzvDtBFdKKBKgZ6TMXmSPXpG7UKTGW4iYaG\n" +
+        "ABHM0ZYeIafq118I/wRZRcgMdVYQtLG0hLuZct7yjfls+9oJIws0kw==\n" +
+        "-----END RSA PRIVATE KEY-----";
 
     qz.security.setSignaturePromise(function (toSign) {
         return function (resolve, reject) {
@@ -71,16 +71,16 @@ export function print() {
             }
         };
     });
-    
+
     function strip(key) {
         if (key.indexOf('-----') !== -1) {
             return key.split('-----')[2].replace(/\r?\n|\r/g, '');
         }
     };
 
-    
 
-    qz.websocket.connect({host: "192.168.0.114"}).then(function () {
+
+    qz.websocket.connect({ host: "192.168.0.114" }).then(function () {
         return qz.printers.find("HPFDD95B (HP Ink Tank Wireless 410 series)");              // Pass the printer name into the next Promise
     }).then(function (printer) {
         var config = qz.configs.create(printer);       // Create a default config for the found printer
@@ -89,10 +89,10 @@ export function print() {
                 type: 'pixel',
                 format: 'html',
                 flavor: 'plain',
-                data: '<h1>HELLO WORLD</h1>',
+                data: `<h1>${order.numero_pedido}</h1>`,
             }
         ];   // Raw ZPL
-        return qz.print(config, data);
+      /*   return qz.print(config, data); */ //REMOVER COMENTÁRIO <---
     }).catch(function (e) { console.error(e); }).finally(() => {
         qz.websocket.disconnect();
     });

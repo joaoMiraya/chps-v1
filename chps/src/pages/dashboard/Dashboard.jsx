@@ -22,7 +22,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className="flex flex-col items-center w-full">
-                <h2>Pedidos em Andamento</h2>
+                <h2 className='text-2xl font-semibold'>Pedidos em Andamento</h2>
                 <PedidosAndamento />
             </div>
         </div>

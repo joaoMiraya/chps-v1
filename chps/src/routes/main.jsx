@@ -80,6 +80,7 @@ import PizzaMesa from '../pages/mesas/utils/PizzaMesa';
 import WaiterApp from '../pages/mesas/WaiterApp';
 import LancheMesa from '../pages/mesas/utils/LancheMesa';
 import WaiterRoute from './WaiterRoute';
+import PedidoDetalhes from '../pages/dashboard/pedidos/PedidoDetalhes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -96,6 +97,8 @@ root.render(
           {/* DASHBOARD ROUTES */}
           <Route path='/dashboard' element={<AdminRoute> <DashApp /> </AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
+
+            <Route path='/dashboard/pedidos/:id' element={<PedidoDetalhes />} />
 
             <Route path='/dashboard/usuarios' element={<Usuarios />} />
             <Route path='/dashboard/usuarios/:id' element={<UsuarioDetalhes />} />

@@ -14,6 +14,7 @@ function InfoPedido({ pedido }) {
                     <div key={item.id} className="flex justify-between border-b-[1px] border-solid border-gray-300">
                         <div className="flex flex-col">
                             <li>{item.qnt + ' ' + item.nome}</li>
+                            <li>{item.tamanho ? 'Tamanho: ' + item.tamanho : ''}</li>
                             {item.acrescimos?.map((acrescimo) => (
                                 <span key={acrescimo.id} className="flex justify-between">
                                     <p>+ {acrescimo.nome}</p>

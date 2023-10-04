@@ -25,7 +25,7 @@ function PedidoDetalhes() {
 
     const pedido = pedidosAndamento.find((pedido) => pedido.numero_pedido == id);
 
-
+    console.log(pedido);
     const handlePrintOrder = (order) => {
         return new Promise((resolve, reject) => {
             try {
@@ -49,8 +49,8 @@ function PedidoDetalhes() {
     }
     return (
         <>
-            <div className="flex justify-center my-16 h-screen ">
-                <div className="shadow-xl flex flex-col  px-6 rounded-lg">
+            <div className="flex justify-center  my-16">
+                <div className="shadow-xl flex flex-col p-6 rounded-lg">
                     <InfoGeral pedido={pedido} />
                     <Endereço pedido={pedido} />
                     <InfoPedido pedido={pedido} />
@@ -60,7 +60,7 @@ function PedidoDetalhes() {
                         <p className="font-semibold">R$ {pedido.total}</p>
                     </span>
 
-                    <div className="">
+                    <div className="mt-4">
                         <button onClick={() => handlePrintOrder(pedido)} className={` ${pedidoEncontrado ? 'bg-yellow-600' : 'bg-green-500'}  shadow-xl py-2 px-4 rounded-md hover:scale-105 cursor-pointer`}>
                             {pedidoEncontrado ? '2° Via' : 'Imprimir'}
                         </button>

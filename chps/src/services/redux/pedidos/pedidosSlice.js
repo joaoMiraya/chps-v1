@@ -1,33 +1,68 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { database } from '../../firebase/firebase';
-import { set, ref, get, getDatabase, push, onValue, child } from 'firebase/database';
+import { database, db } from '../../firebase/firebase';
+import { set, ref, get, getDatabase, push, onValue, child, remove } from 'firebase/database';
+import { addDoc, collection, where } from 'firebase/firestore';
 
 
 //RECUPERA OS PEDIDOS EM ANDAMENTO
 export const fetchPedidosAndamento = createAsyncThunk(
-    'app/fetchPedidosAndamento',
+    'pedidos/fetchPedidosAndamento',
     async (_, { rejectWithValue }) => {
-      try {
-        const db = getDatabase();
-        const dbRef = ref(db, 'pedidos-entregas');
-  
-        const snapshot = await get(dbRef); // Usamos await para esperar a consulta
-  
-        const pedidos = [];
-  
-        snapshot.forEach((childSnapshot) => {
-          const childKey = childSnapshot.key;
-          const childData = childSnapshot.val();
-          pedidos.push(childData);
-        });
-  
-        return pedidos;
-      } catch (error) {
-        console.error(error.message);
-        return rejectWithValue(error.message);
-      }
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, 'pedidos-entregas');
+            const snapshot = await get(dbRef);
+            const pedidos = [];
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key;
+                const childData = childSnapshot.val();
+                const objData = {
+                    ...childData,
+                    key: childKey
+                }
+                pedidos.push(objData);
+            });
+
+            return pedidos;
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
     }
-  );
+);
+
+//CANCELA O PEDIDO EM ANDAMENTO
+export const deleteOrder = createAsyncThunk(
+    'pedidos/delete',
+    async (key, { rejectWithValue }) => {
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-entregas/${key}`);
+            return remove(dbRef);
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+//SALVA O CANCELAMENTO EM UMA COLEÇÃO
+export const addCancelOrder = createAsyncThunk(
+    'pedidos/cancelamento',
+    async ({ Reason, Order, Time }, { rejectWithValue }) => {
+        try {
+            //SALVA O CANCELAMENTO NO FIRESTORE DB
+            const docRef = await addDoc(collection(db, "cancelamentos"), {
+                motivo: Reason,
+                pedido: Order,
+                hora_cancelamento: Time
+            });
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 
 const initialState = {
@@ -45,8 +80,7 @@ const pedidosSlice = createSlice({
             const db = getDatabase();
             const orderListRef = ref(db, 'pedidos-entregas');
             const newOrderRef = push(orderListRef);
-            console.log(action.payload);
-            set(newOrderRef, {
+               set(newOrderRef, {
                 ...action.payload
             });
         },

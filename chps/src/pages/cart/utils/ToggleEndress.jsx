@@ -12,7 +12,7 @@ function ToggleEndress({  autoEnd, setAutoEnd }) {
 
     return (
 
-        <div onClick={() => setAutoEnd(!autoEnd)} tabIndex={0} aria-label='Alternar o metodo de pagamento' className={`flex w-10 h-50  rounded-full transition-all duration-300 ${autoEnd ? 'bg-green-600 shadow-inner ' : 'bg-gray-400'}`}>
+        <div onClick={() => setAutoEnd(!autoEnd)} tabIndex={0} aria-label='Alternar o metodo de pagamento' className={`cursor-pointer flex w-10 h-50  rounded-full transition-all duration-300 ${autoEnd ? 'bg-green-600 shadow-inner ' : 'bg-gray-400'}`}>
             <span className={`h-5 w-5 rounded-full  transition-all duration-300 ${autoEnd ? 'ml-5 bg-white active-shadow ' : 'bg-gray-300'}`}></span>
         </div>
     )

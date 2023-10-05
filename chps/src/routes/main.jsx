@@ -44,6 +44,10 @@ import PorcoesDashDetail from '../pages/dashboard/cardapio/porcoes/PorcoesDashDe
 import Usuarios from '../pages/dashboard/usuarios/Usuarios';
 import UsuarioDetalhes from '../pages/dashboard/usuarios/UsuarioDetalhes';
 
+import PedidoDetalhes from '../pages/dashboard/pedidos/PedidoDetalhes';
+import EntregasDash from '../pages/dashboard/entregas/EntregasDash';
+
+
 //PAGES DO APP
 import Home from '../pages/home/Home';
 import Cadastro from '../pages/cadastro/Cadastro';
@@ -74,13 +78,17 @@ import CartPorcaoDetalhes from '../pages/cart/detalhes/CartPorcaoDetalhes';
 import CartBebidasDetalhes from '../pages/cart/detalhes/CartBebidasDetalhes';
 import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 
+
 import Mesas from '../pages/mesas/Mesas';
 import MesaDetalhe from '../pages/mesas/MesaDetalhe';
 import PizzaMesa from '../pages/mesas/utils/PizzaMesa';
 import WaiterApp from '../pages/mesas/WaiterApp';
 import LancheMesa from '../pages/mesas/utils/LancheMesa';
 import WaiterRoute from './WaiterRoute';
-import PedidoDetalhes from '../pages/dashboard/pedidos/PedidoDetalhes';
+
+import MotoboyRoute from './MotoboyRoute';
+import EntregaApp from '../pages/entregadores/EntregaApp';
+import Entregas from '../pages/entregadores/Entregas';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -89,7 +97,7 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       <Suspense fallback={<Loading />}>
-        <Routes> 
+        <Routes>
 
           <Route path='/teste' element={<Teste />} />
           <Route path='*' element={<NotFound />} />
@@ -102,6 +110,9 @@ root.render(
 
             <Route path='/dashboard/usuarios' element={<Usuarios />} />
             <Route path='/dashboard/usuarios/:id' element={<UsuarioDetalhes />} />
+
+            <Route path='/dashboard/entregas' element={<EntregasDash />} />
+            <Route path='/dashboard/entregas/:id' element={<UsuarioDetalhes />} />
 
             <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
             <Route path='/dashboard/acrescimos/:id' element={<AcrescimosEdit />} />
@@ -128,6 +139,12 @@ root.render(
             <Route path='/mesas/:id' element={<MesaDetalhe />} />
             <Route path='/mesas/:id/pizzas' element={<PizzaMesa />} />
             <Route path='/mesas/:id/lanches' element={<LancheMesa />} />
+          </Route>
+
+          {/* ENTREGAS ROUTES */}
+          <Route path='/entregas' element={<MotoboyRoute> <EntregaApp /></MotoboyRoute>}>
+            <Route path='/entregas' element={<Entregas />} />
+            <Route path='/entregas/:id' element={<MesaDetalhe />} />
           </Route>
 
           {/* DETALHES DOS ITENS NO MENU */}

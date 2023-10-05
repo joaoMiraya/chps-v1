@@ -16,7 +16,7 @@ function WaiterRoute({ children }) {
     } else {
         const toastMessage = "Você precisa de permissão para acessar está página.";
         const customId = "custom-id-yes"
-        toast.error(toastMessage, {
+        toast.warn(toastMessage, {
             toastId: customId
         });
         return <Navigate to={"/"} />

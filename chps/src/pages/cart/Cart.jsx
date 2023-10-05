@@ -77,7 +77,7 @@ function Cart() {
                             })}
                         </div>
                         <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} justify-between w-full my-12`} >
-                            <span onClick={handleclearCart} aria-label='Limpar o carrinho' tabIndex={0} className='underline  text-gray-400'>Limpar Carrinho</span>
+                            <span onClick={handleclearCart} aria-label='Limpar o carrinho' tabIndex={0} className='underline cursor-pointer text-gray-400'>Limpar Carrinho</span>
                             <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                         </div>
                     </div>

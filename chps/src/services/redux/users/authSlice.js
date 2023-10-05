@@ -29,6 +29,7 @@ const verifyAuth = () => {
             querySnapshot.forEach((doc) => {
                 const userInf = doc.data();
                 const userCred = { token: accessToken, name: userInf.name, email: userInf.email, tel: userInf.tel }
+                //VERIFICA E SETA A FUNÇÃO DO USUARIO
                 switch (userInf.role) {
                     case 'garçom':
                         Cookies.set("User", JSON.stringify(userCred), { expires: 365 });

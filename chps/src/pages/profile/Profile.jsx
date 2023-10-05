@@ -12,7 +12,7 @@ function Profile() {
     const user = JSON.parse(Cookies.get("User"));
     const [letter, setLetter] = useState('');
 
-        //RESPONSÁVEL POR CAPTURAR A PRIMEIRA LETRA DO NOME DO USUARIO
+    //RESPONSÁVEL POR CAPTURAR A PRIMEIRA LETRA DO NOME DO USUARIO
     useEffect(() => {
         if (user) {
             const firstLetter = user.name.charAt(0);

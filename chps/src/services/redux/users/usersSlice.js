@@ -24,13 +24,35 @@ export const fetchUsers = createAsyncThunk(
     }
 );
 
+export const getMotoboys = createAsyncThunk(
+    'users/motoboys',
+    async (_, { rejectWithValue }) => {
+        let motoboys = [];
+        try {
+            const usersRef = collection(db, "usuarios");
+            const q = query(usersRef, where("role", "==", "motoboy"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                motoboys.push(doc.data());
+
+            });
+            return motoboys
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message)
+            } else {
+                return rejectWithValue(error.message)
+            }
+        }
+    }
+);
 
 //PEGAR O USUARIO ATUAL NO FIRESTORE
 export const getUser = async () => {
     const { uid } = auth.currentUser;
     let user = [];
     const usersRef = collection(db, "usuarios");
-    const q  = query(usersRef, where("uid", "==", uid));
+    const q = query(usersRef, where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         user = doc.data();
@@ -39,10 +61,10 @@ export const getUser = async () => {
 };
 
 export const setUserRole = createAsyncThunk(
-    'users/waiter',
+    'users/role',
     async ({ role, id }, { rejectWithValue }) => {
         try {
-            const userRef = await doc(db, 'usuarios', id);
+            const userRef = doc(db, 'usuarios', id);
             await setDoc(userRef, {
                 role: role,
             }, { merge: true });
@@ -56,7 +78,6 @@ export const setUserRole = createAsyncThunk(
         }
     }
 );
-
 
 export const addEndress = createAsyncThunk(
     'users/endress',
@@ -99,7 +120,7 @@ const initialState = {
     loading: false,
     users: [],
     waiter: [],
-    motoboy: [],
+    motoboys: [],
     error: null,
     success: false,
 };
@@ -115,6 +136,13 @@ const usersSlice = createSlice({
                 state.users = action.payload
             })
             .addCase(fetchUsers.rejected, (state, action) => {
+                state.error = action.payload
+                console.log(action.payload);
+            })
+            .addCase(getMotoboys.fulfilled, (state, action) => {
+                state.motoboys = action.payload
+            })
+            .addCase(getMotoboys.rejected, (state, action) => {
                 state.error = action.payload
                 console.log(action.payload);
             })

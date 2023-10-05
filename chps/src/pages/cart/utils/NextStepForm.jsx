@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPedidosEntrega } from "../../../services/redux/pedidos/pedidosSlice";
 import { getDate, getHours, numberGenerator } from "../../../javascript/main";
 import ToggleEndress from "./ToggleEndress";
+import { clearCart } from "../../../services/redux/cart/cartSlice";
 
 function NextStepForm({ handleBackStep, cartItems, total }) {
     NextStepForm.propTypes = {
@@ -31,8 +32,6 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
 
     const { isLogged } = useSelector((state) => state.auth);
     const { isAnonymous } = useSelector((state) => state.auth);
-
-
 
     //PREENCHER CAMPOS COM ENDEREÇO PADRAO
     const checkEndress = async () => {
@@ -72,7 +71,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     };
 
     const handleSubmitOrder = async () => {
-        const user = ( isAnonymous || !isLogged ? '' : await getUser());
+        const user = (isAnonymous || !isLogged ? '' : await getUser());
         const endress = (bairro, rua, nome, tel).length > 3;
         if (!endress || numero < 1) {
             toast.error("Preencha os campos obrigatórios!")
@@ -94,6 +93,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     referencia: referencia.length > 3 ? referencia : 'Sem referência',
                     total: total.toFixed(2).replace('.', ','),
                     pagamento: 'Cartão',
+                    status: 50,
                     data: getDate(),
                     hora_pedido: getHours()
                 }
@@ -102,7 +102,6 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                 setTimeout(() => {
                     navigate('/perfil')
                 }, 3000);
-
 
             } else {
                 if (troco.length >= 2) {
@@ -119,10 +118,12 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         referencia: referencia.length > 3 ? referencia : 'Sem referência',
                         total: total.toFixed(2).replace('.', ','),
                         pagamento: trocoTo,
+                        status: 50,
                         data: getDate(),
                         hora_pedido: getHours()
                     }
                     dispatch(setPedidosEntrega(order))
+                    dispatch(clearCart())
                     toast.success('Pedido enviado com sucesso!')
                     setTimeout(() => {
                         navigate('/perfil')

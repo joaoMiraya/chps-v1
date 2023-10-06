@@ -89,6 +89,7 @@ import WaiterRoute from './WaiterRoute';
 import MotoboyRoute from './MotoboyRoute';
 import EntregaApp from '../pages/entregadores/EntregaApp';
 import Entregas from '../pages/entregadores/Entregas';
+import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -144,7 +145,7 @@ root.render(
           {/* ENTREGAS ROUTES */}
           <Route path='/entregas' element={<MotoboyRoute> <EntregaApp /></MotoboyRoute>}>
             <Route path='/entregas' element={<Entregas />} />
-            <Route path='/entregas/:id' element={<MesaDetalhe />} />
+            <Route path='/entregas/:id' element={<EntregaDetalhes />} />
           </Route>
 
           {/* DETALHES DOS ITENS NO MENU */}

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { database, db } from '../../firebase/firebase';
-import { set, ref, get, getDatabase, push, onValue, child, remove } from 'firebase/database';
+import { set, ref, get, getDatabase, push, update, onValue, child, remove } from 'firebase/database';
 import { addDoc, collection, where } from 'firebase/firestore';
 
 
@@ -46,6 +46,26 @@ export const deleteOrder = createAsyncThunk(
     }
 );
 
+//ALTERA O STATUS DO PEDIDO PARA À CAMINHO (75)
+export const setOnCourse = createAsyncThunk(
+    'pedidos/onCourse',
+    async ({ Key, Order, Motoboy }, { rejectWithValue }) => {
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-entregas/${Key}`);
+            const updates = {
+                ...Order[0],
+                status: 75,
+                motoboy: Motoboy
+            }
+            return update(dbRef, updates)
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 //SALVA O CANCELAMENTO EM UMA COLEÇÃO
 export const addCancelOrder = createAsyncThunk(
     'pedidos/cancelamento',
@@ -80,7 +100,7 @@ const pedidosSlice = createSlice({
             const db = getDatabase();
             const orderListRef = ref(db, 'pedidos-entregas');
             const newOrderRef = push(orderListRef);
-               set(newOrderRef, {
+            set(newOrderRef, {
                 ...action.payload
             });
         },

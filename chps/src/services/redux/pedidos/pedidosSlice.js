@@ -65,6 +65,11 @@ export const setOnCourse = createAsyncThunk(
         }
     }
 );
+export const getEntregasOnCourse = (entregas) => {
+    const entregasFiltred = entregas.filter(entrega => entrega.status === 75);
+    return entregasFiltred
+};
+
 
 //SALVA O CANCELAMENTO EM UMA COLEÇÃO
 export const addCancelOrder = createAsyncThunk(

@@ -31,13 +31,13 @@ function EntregaDetalhes() {
         <>
             <GoBackBtn />
             <div className="px-6 flex flex-col mt-12">
-                {/*  <Mapa address={address} /> */}
+                 <Mapa address={address} />
                 <div className="my-6">
                     <ul className="text-xl flex flex-col gap-2">
                         <li>Cliente: {entrega?.nome}</li>
-                        {entrega?.itens.map((item) => {
+                        {entrega?.itens.map((item, i) => {
                             return (
-                                <li key={item.id}>
+                                <li key={i}>
                                     {item.nome}
                                 </li>
                             )

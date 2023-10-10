@@ -90,6 +90,7 @@ import MotoboyRoute from './MotoboyRoute';
 import EntregaApp from '../pages/entregadores/EntregaApp';
 import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
+import UserEntregas from '../pages/entregadores/UserEntregas';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -146,6 +147,7 @@ root.render(
           <Route path='/entregas' element={<MotoboyRoute> <EntregaApp /></MotoboyRoute>}>
             <Route path='/entregas' element={<Entregas />} />
             <Route path='/entregas/:id' element={<EntregaDetalhes />} />
+            <Route path='/entregas/andamento/:id' element={<UserEntregas />} />
           </Route>
 
           {/* DETALHES DOS ITENS NO MENU */}

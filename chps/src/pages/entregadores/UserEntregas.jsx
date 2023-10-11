@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getEntregasOnCourse } from "../../services/redux/pedidos/pedidosSlice";
+import { getEntregasAwaiting, getEntregasOnCourse } from "../../services/redux/pedidos/pedidosSlice";
 
 
 function UserEntregas() {
@@ -11,15 +11,14 @@ function UserEntregas() {
     const [userEntregas, setUserEntregas] = useState([]);
 
 
-    useEffect(() => {
+  
         const handleFetchUserEntregas = async () => {
             const entregasFiltered = await getEntregasOnCourse(entregas);
-            console.log(entregasFiltered);
-            const filteredEntregas = entregasFiltered.filter(entrega => entrega.motoboy === id);
+            const filteredEntregas = entregasFiltered?.filter(entrega => entrega.motoboy === id);
             setUserEntregas(filteredEntregas);
         };
         handleFetchUserEntregas();
-    }, [id, entregas]);
+  
 
     return (
 

@@ -63,13 +63,44 @@ export const setOnCourse = createAsyncThunk(
             console.error(error.message);
             return rejectWithValue(error.message);
         }
+
     }
 );
 export const getEntregasOnCourse = (entregas) => {
     const entregasFiltred = entregas.filter(entrega => entrega.status === 75);
     return entregasFiltred
 };
+export const getEntregasAwaiting = (entregas) => {
+    const entregasFiltred = entregas.filter(entrega => entrega.status === 50);
+    return entregasFiltred
+};
 
+//SALVA O PEDIDO FINALIZADO EM UMA COLEÇÃO
+export const submitOrder = createAsyncThunk(
+    'pedidos/finalizados',
+    async ({ Order, Time, Key }, { rejectWithValue }) => {
+        try {
+            //SALVA O PEDIDO FINALIZADO NO FIRESTORE DB
+            const docRef = await addDoc(collection(db, "pedidos"), {
+                pedido: Order,
+                hora_finalizado: Time
+            });
+        }
+        catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+        //REMOVE O PEDIDO DO REALTIME DATABASE
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-entregas/${Key}`);
+            return remove(dbRef);
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 //SALVA O CANCELAMENTO EM UMA COLEÇÃO
 export const addCancelOrder = createAsyncThunk(

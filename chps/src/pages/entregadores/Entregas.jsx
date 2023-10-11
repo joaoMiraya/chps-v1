@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPedidosAndamento, getEntregasOnCourse } from "../../services/redux/pedidos/pedidosSlice";
+import { fetchPedidosAndamento, getEntregasAwaiting, getEntregasOnCourse } from "../../services/redux/pedidos/pedidosSlice";
 import SearchEntregas from "./utils/SearchEntregas";
 import { auth } from "../../services/firebase/firebase";
 import { getUser } from "../../services/redux/users/usersSlice";
@@ -17,7 +17,8 @@ function Entregas() {
 
     const { entregas } = useSelector(state => state.pedidos);
 
-    const entregasFiltred = getEntregasOnCourse(entregas);
+    const entregasAwaiting = getEntregasAwaiting(entregas);
+    const entregasOnCourse = getEntregasOnCourse(entregas);
 
     const [userEntregas, setUserEntregas] = useState(false);
     const [user, setUser] = useState('');
@@ -26,16 +27,14 @@ function Entregas() {
         const handleFetchUserEntregas = async () => {
             const user = await getUser();
             setUser(user.uid)
-            for (const entrega of entregasFiltred) {
+            for (const entrega of entregasOnCourse) {
                 if (entrega.motoboy == user.uid) {
                     setUserEntregas(true);
                 }
             }
         };
         handleFetchUserEntregas();
-    }, [entregasFiltred]);
-
-    console.log(userEntregas);
+    }, [entregasOnCourse]);
 
     return (
         <>
@@ -47,7 +46,7 @@ function Entregas() {
             </div>
             <SearchEntregas entregas={entregas} />
             <div className="flex justify-center flex-wrap gap-4 px-12">
-                {entregas?.map((entrega) => {
+                {entregasAwaiting?.map((entrega) => {
                     return (
                         <Link to={`/entregas/${entrega.numero_pedido}`} key={entrega.key} className="flex flex-col shadow-xl p-4 rounded-xl hover:scale-105 cursor-pointer">
                             {entrega.itens.map((item, i) => {

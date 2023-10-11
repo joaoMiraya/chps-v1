@@ -7,6 +7,7 @@ import GoBackBtn from "../../components/utils/buttons/GoBackBtn";
 import { getUser } from "../../services/redux/users/usersSlice";
 
 
+
 function EntregaDetalhes() {
 
     const { id } = useParams();
@@ -19,11 +20,12 @@ function EntregaDetalhes() {
     const { entregas } = useSelector(state => state.pedidos);
     const entrega = entregas?.find((entrega) => entrega.numero_pedido == id);
 
-    const address = 'Rua ' + entrega?.rua + ',' + ' ' + entrega?.numero_casa + ' ' + '- Álvares Machado, SP, 19160-000';
+    const address = 'Rua ' + entrega?.rua + ', ' + entrega?.numero_casa + ' - Álvares Machado, SP, 19160-000';
 
     const handleSetOnCourse = async () => {
         const { uid } = await getUser();
         dispatch(setOnCourse({ Key: entrega.key, Order: entrega, Motoboy: uid }));
+        window.history.back();
     };
 
     return (
@@ -31,7 +33,7 @@ function EntregaDetalhes() {
         <>
             <GoBackBtn />
             <div className="px-6 flex flex-col mt-12">
-                 <Mapa address={address} />
+                <Mapa address={address} />
                 <div className="my-6">
                     <ul className="text-xl flex flex-col gap-2">
                         <li>Cliente: {entrega?.nome}</li>

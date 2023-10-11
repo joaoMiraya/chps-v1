@@ -24,7 +24,7 @@ function PedidosAndamento() {
 
     return (
         <>
-            <div className="flex gap-4 flex-wrap items-center justify-center pt-6">
+            <div className="flex gap-4 flex-wrap items-center justify-center pt-6 relative">
                 {pedidosAndamento.length > 0 ? < PedidosComp pedidosAndamento={pedidosAndamento} /> : <h2>Ainda não há pedidos em andamento</h2>}
             </div>
         </>

@@ -6,7 +6,10 @@
     --background-color: #E1E1E1;
     --background-alternative-color: #FFFFE0
 }
-
+.leaflet-container{
+    width: 100vw;
+    height: 30vh;
+}
 h1 {
     color: var(--primary-dark-color)
 }

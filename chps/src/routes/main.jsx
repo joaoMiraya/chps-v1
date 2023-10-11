@@ -91,6 +91,7 @@ import EntregaApp from '../pages/entregadores/EntregaApp';
 import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
 import UserEntregas from '../pages/entregadores/UserEntregas';
+import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -114,7 +115,7 @@ root.render(
             <Route path='/dashboard/usuarios/:id' element={<UsuarioDetalhes />} />
 
             <Route path='/dashboard/entregas' element={<EntregasDash />} />
-            <Route path='/dashboard/entregas/:id' element={<UsuarioDetalhes />} />
+            <Route path='/dashboard/entregas/:id' element={<EntregaMotoDetalhes />} />
 
             <Route path='/dashboard/acrescimos' element={<AcrescimosDash />} />
             <Route path='/dashboard/acrescimos/:id' element={<AcrescimosEdit />} />

@@ -1,11 +1,12 @@
-import { storage } from "../../../services/firebase/firebase";
-import { setimageCarousel1, setimageCarousel2, setimageCarousel3 } from "../../../services/redux/images/relativeImageSLice";
+import { lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { lazy, useEffect } from 'react';
-import Carousel from "../../../components/utils/components/Carousel";
+import { storage } from "@services/firebase/firebase";
+import { setimageCarousel1, setimageCarousel2, setimageCarousel3 } from "@services/redux/images/relativeImageSLice";
 
-const Loading = lazy(() => import("../../../components/partials/Loading"));
+import Carousel from "@components/utils/components/Carousel";
+
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function CarouselMenu() {
 

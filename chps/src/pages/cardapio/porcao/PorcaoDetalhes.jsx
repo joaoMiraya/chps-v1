@@ -1,18 +1,18 @@
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineInfoCircle } from 'react-icons/ai';
-
-import { addToCart } from "../../services/redux/cart/cartSlice";
-
-import { fetchPorcoes } from "../../services/redux/items/porcoesSlice";
 import { ToastContainer } from "react-toastify";
 
-const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
-const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
-const Loading = lazy(() => import("../../components/partials/Loading"));
-const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
+import { addToCart } from "@services/redux/cart/cartSlice";
+import { fetchPorcoes } from "@services/redux/items/porcoesSlice";
+
+const Note = lazy(() => import("@components/utils/Note"));
 const PorcaoToggle = lazy(() => import("./utils/PorcaoToggle"));
+
+const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
 
 
 function PorcaoDetalhes() {
@@ -30,6 +30,7 @@ function PorcaoDetalhes() {
 
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
+    const [note, setNote] = useState('');
 
     const [inteira, setInteira] = useState(true);
 
@@ -50,7 +51,8 @@ function PorcaoDetalhes() {
             classe: porcao.classe,
             tamanho: inteira ? 'Inteira' : 'Meia',
             valor: valorTotal,
-            qnt: qnt
+            qnt: qnt,
+            nota: note.length < 3 ? 'Sem exigências' : note
         };
         dispatch(addToCart(values))
     };
@@ -82,9 +84,7 @@ function PorcaoDetalhes() {
                 <PorcaoToggle inteira={inteira} setInteira={setInteira} />
                 <div className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
-                    <div className="flex justify-center text-center my-4 bg-[#9C9C9C40] p-2 rounded-xl">
-                        <span className="mb-4"><AiOutlineInfoCircle color="#9C9C9C" size={25} />Você pode remover ingredientes adicionando uma nota na hora de finalizar o pedido</span>
-                    </div>
+                    <Note setNote={setNote} note={note} />
                     <BebidasSection />
                 </div>
 

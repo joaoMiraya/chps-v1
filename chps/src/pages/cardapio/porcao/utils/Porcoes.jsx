@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPorcoes } from "../../../services/redux/items/porcoesSlice";
+import { fetchPorcoes } from "@services/redux/items/porcoesSlice";
 import { Link } from "react-router-dom";
+
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 
 function Porcoes() {
@@ -13,7 +15,10 @@ function Porcoes() {
         dispatch(fetchPorcoes())
     }, [dispatch])
 
-    return (
+    if (!porcoes) {
+        return <Loading />
+    }
+       return (
 
         <div className="flex justify-center flex-wrap gap-4">
             {porcoes.map((porcao) => {

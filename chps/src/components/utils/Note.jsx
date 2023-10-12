@@ -5,7 +5,7 @@ function Note({ setNote, note }) {
     Note.propTypes = {
         setNote: PropTypes.func.isRequired,
         note: PropTypes.string,
-          };
+    };
     return (
 
         <div className="mt-6 flex flex-col items-center gap-4 px-6">
@@ -20,7 +20,7 @@ function Note({ setNote, note }) {
                 value={note}
                 placeholder="Adicione sua nota">
             </textarea>
-           <span className='text-center'>Você pode pedir para retirar ingredientes...</span>
+            <span className='text-center'>Você pode pedir para retirar ingredientes, deixar o ponto ao seu gosto ou outras exigências...</span>
         </div>
     )
 }

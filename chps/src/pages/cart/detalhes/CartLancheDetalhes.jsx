@@ -1,17 +1,16 @@
-
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
-import { editItemInCart } from "../../../services/redux/cart/cartSlice";
 import { ToastContainer } from "react-toastify";
 
-const AcrescimoSection = lazy(() => import("../../../components/utils/cards/AcrescimoSection"));
-const Note = lazy(() => import("./utils/Note"));
-const Loading = lazy(() => import("../../../components/partials/Loading"));
-const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+import { fetchLanches } from "@services/redux/items/lanchesSlice";
+import { editItemInCart } from "@services/redux/cart/cartSlice";
+
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
+const Note = lazy(() => import("@components/utils/Note"));
+const AcrescimoSection = lazy(() => import("@components/utils/cards/AcrescimoSection"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
 
 function CartLancheDetalhes() {
 
@@ -32,7 +31,7 @@ function CartLancheDetalhes() {
         dispatch(fetchLanches());
     }, [dispatch]);
 
-   
+
     //RESPONSÁVEL POR ENCONTRAR O ITEM DO PEDIDO E SETAR SUAS INFORMAÇÕES
     useEffect(() => {
         const fetchCartItems = async () => {

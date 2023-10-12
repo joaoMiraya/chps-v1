@@ -1,18 +1,19 @@
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { ToastContainer } from "react-toastify";
 
-import { addToCart } from "../../services/redux/cart/cartSlice";
-import { fetchPizzas } from "../../services/redux/items/pizzasSlice";
+import { addToCart } from "@services/redux/cart/cartSlice";
+import { fetchPizzas } from "@services/redux/items/pizzasSlice";
 
-const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
+const Note = lazy(() => import("@components/utils/Note"));
 const PizzaToggle = lazy(() => import("./utils/PizzaToggle"));
 const SegundoSabor = lazy(() => import("./utils/SegundoSabor"));
-const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
-const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
-const Loading = lazy(() => import("../../components/partials/Loading"));
+
+const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
+const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function PizzaDetalhes() {
 
@@ -33,13 +34,13 @@ function PizzaDetalhes() {
 
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
+    const [note, setNote] = useState('');
 
     const [sizeF, setSizeF] = useState(true);
     const [umSabor, setUmSabor] = useState(true);
     const [segundoSabor, setSegundoSabor] = useState([]);
 
     //RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DA PIZZA
-
     useEffect(() => {
         if (pizza) {
             const { valorP, valorF } = pizza;
@@ -95,7 +96,8 @@ function PizzaDetalhes() {
             nome: pizza.nome,
             classe: pizza.classe,
             valor: valorTotal,
-            qnt: qnt
+            qnt: qnt,
+            nota: note.length < 3 ? 'Sem exigências' : note
         };
         if (umSabor && sizeF) {
             values = {
@@ -124,6 +126,7 @@ function PizzaDetalhes() {
                 tamanho: "Individual"
             }
         }
+
         dispatch(addToCart(values));
     };
 
@@ -170,9 +173,7 @@ function PizzaDetalhes() {
 
                 <div className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
-                    <div className="flex justify-center text-center my-4 bg-[#9C9C9C40] p-2 rounded-xl">
-                        <span className="mb-4"><AiOutlineInfoCircle color="#9C9C9C" size={25} />Você pode remover ingredientes adicionando uma nota na hora de finalizar o pedido</span>
-                    </div>
+                    <Note setNote={setNote} note={note} />
                     <BebidasSection />
                 </div>
 

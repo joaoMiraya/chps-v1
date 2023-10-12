@@ -1,10 +1,11 @@
 import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchLanches } from "../../services/redux/items/lanchesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
-const Loading = lazy(() => import("../../components/partials/Loading"));
+import { fetchLanches } from "@services/redux/items/lanchesSlice";
+
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function Lanches() {
 

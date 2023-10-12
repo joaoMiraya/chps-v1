@@ -1,9 +1,9 @@
 import { Link, useParams } from "react-router-dom";
-import { fetchLanches } from "../../services/redux/items/lanchesSlice";
+import { fetchLanches } from "@services/redux/items/lanchesSlice";
 import { lazy, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const Loading = lazy(() => import("../../components/partials/Loading"));
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function TodosLanches() {
 

@@ -1,14 +1,14 @@
 import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-
-import { fetchBebidas } from "../../../services/redux/items/bebidasSlice";
-import { editItemInCart } from "../../../services/redux/cart/cartSlice";
 import { ToastContainer } from "react-toastify";
 
-const Loading = lazy(() => import("../../../components/partials/Loading"));
-const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+import { fetchBebidas } from "@services/redux/items/bebidasSlice";
+import { editItemInCart } from "@services/redux/cart/cartSlice";
+
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
 
 function CartBebidasDetalhes() {
 

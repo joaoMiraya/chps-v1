@@ -52,25 +52,27 @@ import EntregasDash from '../pages/dashboard/entregas/EntregasDash';
 import Home from '../pages/home/Home';
 import Cadastro from '../pages/cadastro/Cadastro';
 import Profile from '../pages/profile/Profile';
-import Menu from '../pages/menu/Menu';
+import Menu from '../pages/cardapio/menu/Menu';
 import Promocao from '../pages/promocoes/Promocao';
 
-import Lanche from '../pages/lanche/Lanche';
-import TodosLanches from '../pages/lanche/TodosLanches';
-import LancheDetalhes from '../pages/lanche/LancheDetalhes';
 
-import Pizza from '../pages/pizza/Pizza';
-import PizzaDetalhes from '../pages/pizza/PizzaDetalhes';
+import Lanche from '@lanches/Lanche';
+import TodosLanches from '@lanches/TodosLanches';
+import LancheDetalhes from '@lanches/LancheDetalhes';
 
-import Porcao from '../pages/porcao/Porcao';
-import PorcaoDetalhes from '../pages/porcao/PorcaoDetalhes';
+import Pizza from '@pizzas/Pizza';
+import PizzaDetalhes from '@pizzas/PizzaDetalhes';
 
-import Prato from '../pages/pratos/Prato';
-import PratoDetalhes from '../pages/pratos/PratoDetalhes';
+import Porcao from '@porcoes/Porcao';
+import PorcaoDetalhes from '@porcoes/PorcaoDetalhes';
 
-import Bebidas from '../pages/bebidas/Bebidas';
-import BebidasDetalhes from '../pages/bebidas/BebidasDetalhes';
+import Prato from "@pratos/Prato";
+import PratoDetalhes from "@pratos/PratoDetalhes";
 
+import Bebidas from '@bebidas/Bebidas';
+import BebidasDetalhes from '@bebidas/BebidasDetalhes';
+
+//CARRINHO ROUTES
 import Cart from '../pages/cart/Cart';
 import CartLancheDetalhes from '../pages/cart/detalhes/CartLancheDetalhes';
 import CartPizzaDetalhes from '../pages/cart/detalhes/CartPizzaDetalhes';
@@ -78,7 +80,7 @@ import CartPorcaoDetalhes from '../pages/cart/detalhes/CartPorcaoDetalhes';
 import CartBebidasDetalhes from '../pages/cart/detalhes/CartBebidasDetalhes';
 import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 
-
+//GARÇONS ROUTES
 import Mesas from '../pages/mesas/Mesas';
 import MesaDetalhe from '../pages/mesas/MesaDetalhe';
 import PizzaMesa from '../pages/mesas/utils/PizzaMesa';
@@ -86,13 +88,13 @@ import WaiterApp from '../pages/mesas/WaiterApp';
 import LancheMesa from '../pages/mesas/utils/LancheMesa';
 import WaiterRoute from './WaiterRoute';
 
+//ENTREGADORES ROUTES
 import MotoboyRoute from './MotoboyRoute';
 import EntregaApp from '../pages/entregadores/EntregaApp';
 import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
 import UserEntregas from '../pages/entregadores/UserEntregas';
 import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes';
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

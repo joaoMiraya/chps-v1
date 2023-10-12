@@ -2,15 +2,15 @@
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { editItemInCart } from "../../../services/redux/cart/cartSlice";
-import { fetchPratos } from "../../../services/redux/items/pratosSlice";
 import { ToastContainer } from "react-toastify";
 
-const Loading = lazy(() => import("../../../components/partials/Loading"));
-const AcrescimoSection = lazy(() => import("../../../components/utils/cards/AcrescimoSection"));
-const Note = lazy(() => import("./utils/Note"));
-const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+import { editItemInCart } from "@services/redux/cart/cartSlice";
+import { fetchPratos } from "@services/redux/items/pratosSlice";
+
+const Loading = lazy(() => import("@components/partials/Loading"));
+const AcrescimoSection = lazy(() => import("@components/utils/cards/AcrescimoSection"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const Note = lazy(() => import("@components/utils/Note"));
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
 
 function CartPratosDetalhes() {

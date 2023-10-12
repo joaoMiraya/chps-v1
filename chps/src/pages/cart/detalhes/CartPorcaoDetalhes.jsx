@@ -1,18 +1,16 @@
-
-
 import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { editItemInCart } from "../../../services/redux/cart/cartSlice";
-import { fetchPorcoes } from "../../../services/redux/items/porcoesSlice";
 import { ToastContainer } from "react-toastify";
 
-const Loading = lazy(() => import("../../../components/partials/Loading"));
-const PorcaoToggle = lazy(() => import("../../porcao/utils/PorcaoToggle"));
-const Note = lazy(() => import("./utils/Note"));
-const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+import { editItemInCart } from "@services/redux/cart/cartSlice";
+import { fetchPorcoes } from "@services/redux/items/porcoesSlice";
+
+const PorcaoToggle = lazy(() => import("@porcoes/utils/PorcaoToggle"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
+const Note = lazy(() => import("@components/utils/Note"));
 
 function CartPorcaoDetalhes() {
 

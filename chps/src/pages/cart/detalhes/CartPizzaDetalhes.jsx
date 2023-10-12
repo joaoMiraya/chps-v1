@@ -2,16 +2,16 @@ import { lazy, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { editItemInCart } from "../../../services/redux/cart/cartSlice";
-import { fetchPizzas } from "../../../services/redux/items/pizzasSlice";
+import { editItemInCart } from "@services/redux/cart/cartSlice";
+import { fetchPizzas } from "@services/redux/items/pizzasSlice";
 import { ToastContainer } from "react-toastify";
 
-const SegundoSabor = lazy(() => import("../../pizza/utils/SegundoSabor"));
-const Note = lazy(() => import("./utils/Note"));
-const Loading = lazy(() => import("../../../components/partials/Loading"));
-const IncresDecresBtn = lazy(() => import("../../../components/utils/buttons/IncresDecresBtn"));
+const SegundoSabor = lazy(() => import("@pizzas/utils/SegundoSabor"));
+const PizzaToggle = lazy(() => import("@pizzas/utils/PizzaToggle"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const Note = lazy(() => import("@components/utils/Note"));
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
-const PizzaToggle = lazy(() => import("../../pizza/utils/PizzaToggle"));
 
 
 function CartPizzaDetalhes() {

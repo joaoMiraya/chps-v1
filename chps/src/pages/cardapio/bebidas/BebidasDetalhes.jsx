@@ -1,17 +1,15 @@
 import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Link, useParams } from "react-router-dom";
-import { fetchBebidas } from "../../services/redux/items/bebidasSlice";
-import { addToCart } from "../../services/redux/cart/cartSlice";
-
 import { ToastContainer } from "react-toastify";
+import { Link, useParams } from "react-router-dom";
 
+import { fetchBebidas } from "@services/redux/items/bebidasSlice";
+import { addToCart } from "@services/redux/cart/cartSlice";
 
-const Loading = lazy(() => import("../../components/partials/Loading"));
-const IncresDecresBtn = lazy(() => import("../../components/utils/buttons/IncresDecresBtn"));
-const BebidasSection = lazy(() => import("../../components/utils/cards/BebidasSection"));
-const ButtonAddFixo = lazy(() => import("../../components/utils/cards/detalhes/ButtonAddFixo"));
+const Loading = lazy(() => import("@components/partials/Loading"));
+const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
+const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
 
 
 

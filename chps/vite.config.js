@@ -1,10 +1,21 @@
-import { defineConfig, searchForWorkspaceRoot } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import CompressionPlugin from 'vite-plugin-compression';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@lanches": "/src/pages/cardapio/lanche",
+      "@pizzas": "/src/pages/cardapio/pizza",
+      "@porcoes": "/src/pages/cardapio/porcao",
+      "@pratos": "/src/pages/cardapio/pratos",
+      "@bebidas": "/src/pages/cardapio/bebidas",
+      "@components": "/src/components",
+      "@services": "/src/services",
+    },
+  },
   plugins: [
     react(),
     CompressionPlugin({

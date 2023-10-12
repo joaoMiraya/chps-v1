@@ -66,14 +66,39 @@ export const setOnCourse = createAsyncThunk(
 
     }
 );
+//REMOVE A ENTREGA DE A CAMINHO
+export const removeOnCourse = createAsyncThunk(
+    'pedidos/removeOnCourse',
+    async ({ Key, Order }, { rejectWithValue }) => {
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-entregas/${Key}`);
+            const { status, motoboy, ...rest } = Order;
+            const updates = {
+                ...rest,
+                status: 50,
+            }
+             return update(dbRef, updates)
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+
+    }
+);
+
+//PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
 export const getEntregasOnCourse = (entregas) => {
     const entregasFiltred = entregas.filter(entrega => entrega.status === 75);
     return entregasFiltred
 };
+
+//PEGA TODAS AS ENTREGAS COM O STATUS DE AGUARDANDO
 export const getEntregasAwaiting = (entregas) => {
     const entregasFiltred = entregas.filter(entrega => entrega.status === 50);
     return entregasFiltred
 };
+
 
 //SALVA O PEDIDO FINALIZADO EM UMA COLEÇÃO
 export const submitOrder = createAsyncThunk(

@@ -9,6 +9,7 @@ import { setPedidosEntrega } from "@services/redux/pedidos/pedidosSlice";
 import { getDate, getHours, numberGenerator } from "@javascript/main";
 import { clearCart } from "@services/redux/cart/cartSlice";
 import { telFormater } from '../../../javascript/main';
+import ToggleRetirada from './ToggleRetirada';
 
 const FormaDePagamento = lazy(() => import("./FormaDePagamento"));
 const ToggleEndress = lazy(() => import("./ToggleEndress"));
@@ -23,6 +24,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [retirar, setRetirar] = useState(false);
     const [selected, setSelected] = useState(false);
     const [autoEnd, setAutoEnd] = useState(false);
     const [troco, setTroco] = useState('');
@@ -35,6 +37,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const [referencia, setReferencia] = useState('');
 
     const { isLogged, isAnonymous } = useSelector((state) => state.auth);
+    const { appOnline } = useSelector((state) => state.app);
 
     //PREENCHER CAMPOS COM ENDEREÇO PADRAO
     const checkEndress = async () => {
@@ -77,82 +80,109 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const handleSubmitOrder = async () => {
         const user = (isAnonymous || !isLogged ? '' : await getUser());
         const endress = (bairro, rua, nome, tel).length > 3;
-        if (!endress || numero < 1) {
-            toast.error("Preencha os campos obrigatórios!")
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        } else {
-            if (selected) {
+        const retirada = (nome, tel).length > 3;
+        if (retirar) {
+            if (retirada) {
                 let order = {
                     itens: cartItems,
                     numero_pedido: numberGenerator(),
                     nome: nome,
                     uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
                     telefone: tel,
-                    bairro: bairro,
-                    rua: rua,
-                    numero_casa: numero,
-                    referencia: referencia.length > 3 ? referencia : 'Sem referência',
                     total: total.toFixed(2).replace('.', ','),
                     pagamento: 'Cartão',
-                    status: 50,
                     data: getDate(),
-                    hora_pedido: getHours()
+                    hora_pedido: getHours(),
                 }
-                dispatch(setPedidosEntrega(order))
+                /* DISPACHAR PARA PEDIDOS RETIRADA  dispatch(setPedidosEntrega(order)) */
                 dispatch(clearCart())
-                toast.success('Pedido enviado com sucesso!')
-                setTimeout(() => {
-                    navigate('/perfil')
-                }, 3000);
-
+                toast.success('Pedido enviado com sucesso!');
             } else {
-                if (troco.length >= 2) {
-                    const trocoTo = `Troco para ${troco}`;
+                toast.error("Preencha os campos obrigatórios!")
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        } else {
+            if (!endress || numero < 1) {
+                toast.error("Preencha os campos obrigatórios!")
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                if (selected) {
                     let order = {
                         itens: cartItems,
                         numero_pedido: numberGenerator(),
                         nome: nome,
                         uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                        telefone: telFormater(tel),
+                        telefone: tel,
                         bairro: bairro,
                         rua: rua,
                         numero_casa: numero,
                         referencia: referencia.length > 3 ? referencia : 'Sem referência',
                         total: total.toFixed(2).replace('.', ','),
-                        pagamento: trocoTo,
+                        pagamento: 'Cartão',
                         status: 50,
                         data: getDate(),
                         hora_pedido: getHours()
                     }
-                    dispatch(clearCart())
                     dispatch(setPedidosEntrega(order))
+                    dispatch(clearCart())
                     toast.success('Pedido enviado com sucesso!')
                     setTimeout(() => {
                         navigate('/perfil')
                     }, 3000);
+
                 } else {
-                    navigator.vibrate(200);
-                    toast.error("Informe o troco")
+                    if (troco.length >= 2) {
+                        const trocoTo = `Troco para ${troco}`;
+                        let order = {
+                            itens: cartItems,
+                            numero_pedido: numberGenerator(),
+                            nome: nome,
+                            uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
+                            telefone: telFormater(tel),
+                            bairro: bairro,
+                            rua: rua,
+                            numero_casa: numero,
+                            referencia: referencia.length > 3 ? referencia : 'Sem referência',
+                            total: total.toFixed(2).replace('.', ','),
+                            pagamento: trocoTo,
+                            status: 50,
+                            data: getDate(),
+                            hora_pedido: getHours()
+                        }
+                        dispatch(clearCart())
+                        dispatch(setPedidosEntrega(order))
+                        toast.success('Pedido enviado com sucesso!')
+                        setTimeout(() => {
+                            navigate('/perfil')
+                        }, 3000);
+                    } else {
+                        navigator.vibrate(200);
+                        toast.error("Informe o troco")
+                    }
                 }
             }
         }
-
     };
 
     return (
 
         <div>
-            <div className="flex justify-end">
+            <ToggleRetirada retirar={retirar} setRetirar={setRetirar} />
+            <h3 className='text-center font-semibold text-xl my-4'>Dados para {retirar ? 'retirada' : 'entrega'}</h3>
+            <div className={`${retirar ? 'hidden' : 'flex'} justify-end`}>
                 <div className="flex flex-col items-center gap-2 text-center w-[180px]">
                     <span className="text-sm">Deseja preencher com seu endereço salvo?!</span>
                     <ToggleEndress autoEnd={autoEnd} setAutoEnd={checkEndress} />
                 </div>
             </div>
-            <form >
-                <div className="flex flex-col ">
+            <form>
+                <div className="flex flex-col">
                     <label className="text-gray-400 ml-4" htmlFor="nome">Seu nome</label>
                     <input
                         aria-label="Insira seu nome"
@@ -176,50 +206,52 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         value={tel}
                         placeholder='Digite com DDD e sem espaços'
                     />
-                    <label className="text-gray-400 ml-4" htmlFor="bairro">Bairro</label>
-                    <input
-                        aria-label="Insira seu bairro"
-                        className="pl-2 border-b-[1px] border-solid border-gray-300"
-                        name="bairro"
-                        id="bairro"
-                        required
-                        type="text"
-                        onChange={(e) => setBairro(e.target.value)}
-                        value={bairro}
-                    />
-                    <label className="text-gray-400 ml-4" htmlFor="rua">Rua</label>
-                    <input
-                        aria-label="Insira sua rua"
-                        className="pl-2 border-b-[1px] border-solid border-gray-300"
-                        name="rua"
-                        id="rua"
-                        required
-                        type="text"
-                        onChange={(e) => setRua(e.target.value)}
-                        value={rua}
-                    />
-                    <label className="text-gray-400 ml-4" htmlFor="nmrCasa">Numero Casa</label>
-                    <input
-                        aria-label="Insira seu numero da casa"
-                        className="pl-2 border-b-[1px] border-solid border-gray-300"
-                        name="nmrCasa"
-                        id="nmrCasa"
-                        required
-                        type="text"
-                        onChange={(e) => setNumero(e.target.value)}
-                        value={numero}
-                    />
-                    <label className="text-gray-400 ml-4" htmlFor="referencia">Referência: <span className="text-sm">{'(Opcional)'}</span></label>
-                    <input
-                        aria-label="Insira seu numero da casa"
-                        className="pl-2 border-b-[1px] border-solid border-gray-300"
-                        name="referencia"
-                        id="referencia"
-                        required
-                        type="text"
-                        onChange={(e) => setReferencia(e.target.value)}
-                        value={referencia}
-                    />
+                    <div className={`${retirar ? 'hidden' : 'flex'}  flex-col `}>
+                        <label className="text-gray-400 ml-4" htmlFor="bairro">Bairro</label>
+                        <input
+                            aria-label="Insira seu bairro"
+                            className="pl-2 border-b-[1px] border-solid border-gray-300"
+                            name="bairro"
+                            id="bairro"
+                            required
+                            type="text"
+                            onChange={(e) => setBairro(e.target.value)}
+                            value={bairro}
+                        />
+                        <label className="text-gray-400 ml-4" htmlFor="rua">Rua</label>
+                        <input
+                            aria-label="Insira sua rua"
+                            className="pl-2 border-b-[1px] border-solid border-gray-300"
+                            name="rua"
+                            id="rua"
+                            required
+                            type="text"
+                            onChange={(e) => setRua(e.target.value)}
+                            value={rua}
+                        />
+                        <label className="text-gray-400 ml-4" htmlFor="nmrCasa">Numero Casa</label>
+                        <input
+                            aria-label="Insira seu numero da casa"
+                            className="pl-2 border-b-[1px] border-solid border-gray-300"
+                            name="nmrCasa"
+                            id="nmrCasa"
+                            required
+                            type="text"
+                            onChange={(e) => setNumero(e.target.value)}
+                            value={numero}
+                        />
+                        <label className="text-gray-400 ml-4" htmlFor="referencia">Referência: <span className="text-sm">{'(Opcional)'}</span></label>
+                        <input
+                            aria-label="Insira seu numero da casa"
+                            className="pl-2 border-b-[1px] border-solid border-gray-300"
+                            name="referencia"
+                            id="referencia"
+                            required
+                            type="text"
+                            onChange={(e) => setReferencia(e.target.value)}
+                            value={referencia}
+                        />
+                    </div>
                     <FormaDePagamento
                         selected={selected}
                         setSelected={setSelected}
@@ -231,10 +263,11 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
             </form>
             <div className=" flex justify-center my-4">
                 <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={` py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
-                <button onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className='py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300 '>
+                <button disabled={!appOnline} onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className={`${appOnline ? '' : 'opacity-60'} py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300`}>
                     Finalizar
                 </button>
             </div>
+            <span className={`${appOnline ? 'hidden' : 'flex'} justify-center text-red-400`}>Abriremos às 18:00 horas</span>
         </div>
     )
 }

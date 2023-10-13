@@ -47,7 +47,7 @@ function Cart() {
     return (
 
 
-        <div className="flex items-center flex-col h-screen">
+        <div className="flex items-center flex-col">
             <div className="mt-16 shadow-xl w-[20rem] rounded-lg ">
                 <h1 className="text-2xl font-semibold text-center">{nextStep ? 'Finalize seu pedido' : 'Carrinho de compras'}</h1>
                 <div className="flex flex-col items-center  gap-4 h-full mt-4">

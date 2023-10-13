@@ -1,9 +1,10 @@
 
 import axios from 'axios';
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
-import Loading from '../../../components/partials/Loading';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+
+const EntregaPlaceholder = lazy(() => import("./EntregaPlaceholder"));
 
 function Mapa({ address }) {
     Mapa.propTypes = {
@@ -14,6 +15,7 @@ function Mapa({ address }) {
     const [position, setPosition] = useState([0, 0]);
     const [isSetting, setIsSetting] = useState(true);
 
+    //PEGA AS COORDENADAS DO ENDEREÇO
     useEffect(() => {
         async function fetchCoordinates() {
             try {
@@ -30,10 +32,9 @@ function Mapa({ address }) {
         fetchCoordinates();
     }, [address]);
 
-    console.log(position);
 
     if (isSetting) {
-        return <Loading />
+        return <EntregaPlaceholder />
     }
     return (
 

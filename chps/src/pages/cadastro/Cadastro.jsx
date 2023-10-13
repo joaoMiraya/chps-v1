@@ -8,8 +8,8 @@ import * as yup from "yup";
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 
-import { userRegister } from '../../services/redux/users/registerSlice';
-import { getDate } from '../../javascript/main';
+import { userRegister } from '@services/redux/users/registerSlice';
+import { getDate, telFormater } from '@javascript/main';
 
 
 
@@ -54,24 +54,11 @@ function Cadastro() {
         setSubmiting(true)
 
         try {
-            const telFormater = () => {
-                const number = data.tel;
-                const numberClean = number.replace(/\s/g, "");
-                const regex = /^(\d{2})(\d{5})(\d{4})$/;
-                const match = numberClean.match(regex);
-                if (match) {
-                    return `(${match[1]}) ${match[2]}-${match[3]}`;
-                } else {
-                    return numberClean; // Retorna o número sem alterações se não estiver no formato esperado
-                }
-            };
-            const formatedTel = telFormater(data.tel);
-            
             const values = {
                 Name: data.nameRegister,
                 Email: data.emailRegister,
                 Password: data.passwordRegister,
-                Tel: formatedTel,
+                Tel: telFormater({ tel: data.tel }),
                 Date: getDate()
             };
             // Faça a chamada assíncrona para criar o usuário

@@ -3,6 +3,7 @@ import CartPlaceholder from './utils/CartPlaceholder';
 import { removeFromCart, clearCart } from '../../services/redux/cart/cartSlice';
 import { Link } from 'react-router-dom';
 import { lazy, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const NextStepForm = lazy(() => import("./utils/NextStepForm"));
 
@@ -36,6 +37,9 @@ function Cart() {
     };
     const handleclearCart = () => {
         dispatch(clearCart())
+        toast.error(`Seu carrinho está vazio`, {
+            position: "top-left"
+        });
     };
 
 

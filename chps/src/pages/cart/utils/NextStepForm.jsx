@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getUser } from "../../../services/redux/users/usersSlice";
-import FormaDePagamento from "./FormaDePagamento";
-import { toast } from "react-toastify";
+import { lazy, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { setPedidosEntrega } from "../../../services/redux/pedidos/pedidosSlice";
-import { getDate, getHours, numberGenerator } from "../../../javascript/main";
-import ToggleEndress from "./ToggleEndress";
-import { clearCart } from "../../../services/redux/cart/cartSlice";
+import { toast } from "react-toastify";
+
+import { getUser } from "@services/redux/users/usersSlice";
+import { setPedidosEntrega } from "@services/redux/pedidos/pedidosSlice";
+import { getDate, getHours, numberGenerator } from "@javascript/main";
+import { clearCart } from "@services/redux/cart/cartSlice";
+import { telFormater } from '../../../javascript/main';
+
+const FormaDePagamento = lazy(() => import("./FormaDePagamento"));
+const ToggleEndress = lazy(() => import("./ToggleEndress"));
 
 function NextStepForm({ handleBackStep, cartItems, total }) {
     NextStepForm.propTypes = {
@@ -18,7 +21,8 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     };
 
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
     const [selected, setSelected] = useState(false);
     const [autoEnd, setAutoEnd] = useState(false);
     const [troco, setTroco] = useState('');
@@ -30,14 +34,13 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const [tel, setTel] = useState('');
     const [referencia, setReferencia] = useState('');
 
-    const { isLogged } = useSelector((state) => state.auth);
-    const { isAnonymous } = useSelector((state) => state.auth);
+    const { isLogged, isAnonymous } = useSelector((state) => state.auth);
 
     //PREENCHER CAMPOS COM ENDEREÇO PADRAO
     const checkEndress = async () => {
         if (isLogged) {
             const user = await getUser();
-            if (user.bairro != null) {
+            if (user.bairro) {
                 setAutoEnd(!autoEnd);
                 if (autoEnd) {
                     resetAddressFields();
@@ -45,10 +48,11 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     setUserData(user);
                 }
             }
-        } else {
-            toast.error("Você precisa criar uma conta para adicionar um endereço como padrão!")
-            navigator.vibrate(200);
-            return
+            else {
+                toast.error("Você precisa adicionar um endereço como padrão. Vá em perfil para fazer isso!")
+                navigator.vibrate(200);
+                return
+            }
         }
     };
 
@@ -98,6 +102,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     hora_pedido: getHours()
                 }
                 dispatch(setPedidosEntrega(order))
+                dispatch(clearCart())
                 toast.success('Pedido enviado com sucesso!')
                 setTimeout(() => {
                     navigate('/perfil')
@@ -111,7 +116,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         numero_pedido: numberGenerator(),
                         nome: nome,
                         uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                        telefone: tel,
+                        telefone: telFormater(tel),
                         bairro: bairro,
                         rua: rua,
                         numero_casa: numero,
@@ -122,8 +127,8 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         data: getDate(),
                         hora_pedido: getHours()
                     }
-                    dispatch(setPedidosEntrega(order))
                     dispatch(clearCart())
+                    dispatch(setPedidosEntrega(order))
                     toast.success('Pedido enviado com sucesso!')
                     setTimeout(() => {
                         navigate('/perfil')
@@ -169,6 +174,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         type="text"
                         onChange={(e) => setTel(e.target.value)}
                         value={tel}
+                        placeholder='Digite com DDD e sem espaços'
                     />
                     <label className="text-gray-400 ml-4" htmlFor="bairro">Bairro</label>
                     <input

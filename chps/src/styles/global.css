@@ -6,10 +6,12 @@
     --background-color: #E1E1E1;
     --background-alternative-color: #FFFFE0
 }
-.leaflet-container{
+
+.leaflet-container {
     width: 100vw;
     height: 30vh;
 }
+
 h1 {
     color: var(--primary-dark-color)
 }
@@ -33,10 +35,11 @@ textarea {
 .linear-gradient {
     background: linear-gradient(180deg, #C55300, #D4AA3C)
 }
+
 .active-shadow {
-    box-shadow: 0 0 16px rgba(0, 255, 0, .5); 
-  }
- 
+    box-shadow: 0 0 16px rgba(0, 255, 0, .5);
+}
+
 .openMenu {
     position: absolute;
     top: 0;
@@ -127,13 +130,15 @@ textarea {
     }
 }
 
-.mesa{
+.mesa {
     border-radius: 16px 0px 16px 0px;
-   }
+}
+
 .mesaDefault {
     border-radius: 16px 0px 16px 0px;
     background: linear-gradient(180deg, #C1C1C1, #AAACB2, #8C8C8C);
 }
+
 .mesaActive {
     border-radius: 16px 0px 16px 0px;
     background: linear-gradient(180deg, #C55300, #ED724E, #D4AA3C, #FFB44D);

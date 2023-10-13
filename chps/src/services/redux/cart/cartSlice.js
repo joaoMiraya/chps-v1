@@ -77,9 +77,6 @@ const cartSlice = createSlice({
         },
         clearCart(state) {
             state.cartItems = [];
-            toast.error(`Seu carrinho está vazio`, {
-                position: "top-left"
-            });
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
     },

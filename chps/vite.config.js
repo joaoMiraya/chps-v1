@@ -14,6 +14,7 @@ export default defineConfig({
       "@bebidas": "/src/pages/cardapio/bebidas",
       "@components": "/src/components",
       "@services": "/src/services",
+      "@javascript": "/src/javascript",
     },
   },
   plugins: [

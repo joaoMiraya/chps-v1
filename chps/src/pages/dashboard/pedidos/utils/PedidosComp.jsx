@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-function PedidosComp({ pedidos }) {
+function PedidosComp({ entregas }) {
     PedidosComp.propTypes = {
-        pedidos: PropTypes.array.isRequired
+        entregas: PropTypes.array.isRequired
     };
 
     return (
         <>
-            {pedidos.map((order) => {
+            {entregas.map((order) => {
                 return (
 
                     <Link to={`/dashboard/pedidos/${order.numero_pedido}`} key={order.numero_pedido} className=" hover:scale-105 flex h-[26rem]: cursor-pointer bg-white drop-shadow-lg border-[1px] border-gray-300 border-solid p-4 ">

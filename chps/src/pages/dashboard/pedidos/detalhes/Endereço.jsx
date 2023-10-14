@@ -7,7 +7,7 @@ function Endereço({ pedido }) {
 
     return (
 
-        <>
+        <div className={`${pedido.retirar ? 'hidden' : 'flex flex-col'}`}>
             <h2 className="text-2xl font-semibold text-center my-2">Endereço:</h2>
 
             <span className="flex gap-2">
@@ -26,7 +26,7 @@ function Endereço({ pedido }) {
                 <p className="font-semibold">Referência </p>{pedido.referencia}
             </span>
             <hr />
-        </>
+        </div>
     )
 }
 

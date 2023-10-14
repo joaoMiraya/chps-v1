@@ -21,7 +21,10 @@ function PedidoEmAndamento({ pedidos }) {
                             <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
                                 <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: `${pedido.status}%` }}></div>
                             </div>
-                            <div className='flex text-sm gap-2 text-center'>
+                            <span className={`${pedido.retirar ? 'flex' : 'hidden'}`}>
+                                <p className='font-semibold'>Ir retirar</p>
+                            </span>
+                            <div className={`${pedido.retirar ? 'hidden' : 'flex'} text-sm gap-2 text-center`}>
                                 <span className={`${pedido.status >= 25 ? 'text-blue-400' : 'text-gray-300'} flex flex-col justify-between items-center`}>
                                     Pedido Aprovado
                                     <BsCheckCircle size={25} />

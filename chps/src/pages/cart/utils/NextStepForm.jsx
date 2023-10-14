@@ -79,8 +79,8 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
 
     const handleSubmitOrder = async () => {
         const user = (isAnonymous || !isLogged ? '' : await getUser());
-        const endress = (bairro, rua, nome, tel).length > 3;
-        const retirada = (nome, tel).length > 3;
+        const endress = (bairro, rua, nome).length > 3 && tel.length >= 10;
+        const retirada = (nome.length > 3 && tel.length >= 10);
         if (retirar) {      //CASO FOR RETIRADA
             if (retirada) {
                 let order = {
@@ -95,9 +95,12 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     hora_pedido: getHours(),
                     retirar: true
                 }
-                /* DISPACHAR PARA PEDIDOS RETIRADA  dispatch(setPedidosEntrega(order)) */
+                dispatch(setPedidos(order))
                 dispatch(clearCart())
                 toast.success('Pedido enviado com sucesso!');
+                setTimeout(() => {
+                    navigate('/perfil')
+                }, 3000);
             } else {
                 toast.error("Preencha os campos obrigatórios!")
                 window.scrollTo({

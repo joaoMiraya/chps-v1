@@ -21,6 +21,7 @@ function Entregas() {
     //PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
     const entregasOnCourse = getEntregasOnCourse(pedidos);
 
+    
     const [userEntregas, setUserEntregas] = useState(false);
     const [userUID, setUserUID] = useState('');
 

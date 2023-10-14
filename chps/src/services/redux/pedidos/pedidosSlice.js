@@ -4,6 +4,34 @@ import { set, ref, get, getDatabase, push, update, remove } from 'firebase/datab
 import { addDoc, collection, where } from 'firebase/firestore';
 
 
+
+//SALVA O PEDIDO FINALIZADO EM UMA COLEÇÃO
+export const submitOrder = createAsyncThunk(
+    'pedidos/finalizados',
+    async ({ Order, Time, Key }, { rejectWithValue }) => {
+        try {
+            //SALVA O PEDIDO FINALIZADO NO FIRESTORE DB
+            const docRef = await addDoc(collection(db, "pedidos"), {
+                pedido: Order,
+                hora_finalizado: Time
+            });
+        }
+        catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+        //REMOVE O PEDIDO DO REALTIME DATABASE
+        try {
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-andamento/${Key}`);
+            return remove(dbRef);
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 //RECUPERA OS PEDIDOS EM ANDAMENTO
 export const fetchPedidosAndamento = createAsyncThunk(
     'pedidos/fetch',
@@ -107,48 +135,41 @@ export const removeOnCourse = createAsyncThunk(
 );
 
 //PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
-export const getEntregasOnCourse = (entregas) => {
-    const entregasFiltred = entregas.filter(entrega => entrega.status === 75);
-    return entregasFiltred
+export const getEntregasOnCourse = (pedidos) => {
+    const entregasFiltred = pedidos.filter(entrega => entrega.status === 75);
+    if (entregasFiltred) {
+        return entregasFiltred
+    } else return false
 };
 
 //PEGA TODAS AS ENTREGAS COM O STATUS DE AGUARDANDO
-export const getEntregasAwaiting = (entregas) => {
-    const entregasFiltred = entregas.filter(entrega => entrega.status === 50);
-    return entregasFiltred
+export const getEntregasAwaiting = (pedidos) => {
+    const entregasFiltred = pedidos.filter(entrega => entrega.status === 50);
+    if (entregasFiltred) {
+        return entregasFiltred
+    } else return false
 };
 
-//SALVA O PEDIDO FINALIZADO EM UMA COLEÇÃO
-export const submitOrder = createAsyncThunk(
-    'pedidos/finalizados',
-    async ({ Order, Time, Key }, { rejectWithValue }) => {
-        try {
-            //SALVA O PEDIDO FINALIZADO NO FIRESTORE DB
-            const docRef = await addDoc(collection(db, "pedidos"), {
-                pedido: Order,
-                hora_finalizado: Time
-            });
-        }
-        catch (error) {
-            console.error(error.message);
-            return rejectWithValue(error.message);
-        }
-        //REMOVE O PEDIDO DO REALTIME DATABASE
-        try {
-            const db = getDatabase();
-            const dbRef = ref(db, `pedidos-andamento/${Key}`);
-            return remove(dbRef);
-        } catch (error) {
-            console.error(error.message);
-            return rejectWithValue(error.message);
-        }
-    }
-);
+//PEGA TODAS OS PEDIDOS QUE VAI RETIRAR
+export const getRetiradas = (pedidos) => {
+    const entregasFiltred = pedidos.filter(entrega => entrega.retirar === true);
+    if (entregasFiltred) {
+        return entregasFiltred
+    } else return false
+};
+
+//PEGA TODAS OS PEDIDOS DAS MESAS
+export const getPedidosMesa = (pedidos) => {
+    const entregasFiltred = pedidos.filter(entrega => entrega.mesa === true);
+    if (entregasFiltred) {
+        return entregasFiltred
+    } else return false
+};
 
 const initialState = {
     pedidos: [],
     pedidos_entrega: [],
-    };
+};
 
 const pedidosSlice = createSlice({
     name: "pedidosSlice",

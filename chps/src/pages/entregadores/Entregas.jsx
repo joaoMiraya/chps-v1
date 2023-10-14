@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPedidosAndamento, getEntregasAwaiting, getEntregasOnCourse } from "../../services/redux/pedidos/pedidosSlice";
 import SearchEntregas from "./utils/SearchEntregas";
-import { auth } from "../../services/firebase/firebase";
 import { getUser } from "../../services/redux/users/usersSlice";
 import { AiFillCaretRight } from "react-icons/ai";
 
@@ -15,12 +14,12 @@ function Entregas() {
         dispatch(fetchPedidosAndamento());
     }, [dispatch]);
 
-    const { entregas } = useSelector(state => state.pedidos);
+    const { pedidos } = useSelector(state => state.pedidos);
 
     //PEGA TODAS AS ENTREGAS COM O STATUS DE AGUARDANDO
-    const entregasAwaiting = getEntregasAwaiting(entregas);
+    const entregasAwaiting = getEntregasAwaiting(pedidos);
     //PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
-    const entregasOnCourse = getEntregasOnCourse(entregas);
+    const entregasOnCourse = getEntregasOnCourse(pedidos);
 
     const [userEntregas, setUserEntregas] = useState(false);
     const [userUID, setUserUID] = useState('');
@@ -47,7 +46,7 @@ function Entregas() {
                         <AiFillCaretRight size={25} />
                     </Link>
                 </div>
-                <SearchEntregas entregas={entregas} />
+                <SearchEntregas entregas={pedidos} />
                 <div className="flex justify-center flex-wrap gap-4 px-12">
                     {entregasAwaiting?.map((entrega) => {
                         return (

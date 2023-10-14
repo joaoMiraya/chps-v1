@@ -1,13 +1,14 @@
 import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addCancelOrder, deleteOrder, fetchPedidosAndamento } from "../../../services/redux/pedidos/pedidosSlice";
-import Loading from "../../../components/partials/Loading";
-import { print } from "../../../javascript/print";
 import { toast } from "react-toastify";
-import { getMotoboys } from "../../../services/redux/users/usersSlice";
-import { getHours } from "../../../javascript/main";
 
+import { fetchPedidosAndamento } from "@services/redux/pedidos/pedidosSlice";
+import { print } from "@javascript/print";
+import { getMotoboys } from "@services/redux/users/usersSlice";
+
+const Loading = lazy(() => import('@components/partials/Loading'));
+const CancelPedido = lazy(() => import('./utils/CancelPedido'));
 const InfoPedido = lazy(() => import('./detalhes/InfoPedido'));
 const InfoGeral = lazy(() => import('./detalhes/InfoGeral'));
 const Endereço = lazy(() => import('./detalhes/Endereço'));
@@ -19,9 +20,6 @@ function PedidoDetalhes() {
     const dispatch = useDispatch();
     const [openModal, setOpenModal] = useState(false);
 
-    const [reason, setReason] = useState('');
-
-
     useEffect(() => {
         dispatch(fetchPedidosAndamento());
         dispatch(getMotoboys());
@@ -31,24 +29,11 @@ function PedidoDetalhes() {
         setOpenModal(!openModal)
     };
 
-
     const [orderPrinted, setOrderPrinted] = useState(localStorage.getItem("PedidoImpresso") || []);
-    const pedidosAndamento = useSelector((state) => state.pedidos.entregas);
+    const { pedidos } = useSelector((state) => state.pedidos);
 
-    const pedido = pedidosAndamento.find((pedido) => pedido.numero_pedido == id);
+    const pedido = pedidos.find((pedido) => pedido.numero_pedido == id);
 
-
-
-    const handleCancelOrder = (e) => {
-        e.preventDefault();
-        if (reason.length > 3) {
-            dispatch(addCancelOrder({ Reason: reason, Order: pedido, Time: getHours() }));
-            dispatch(deleteOrder(pedido.key));
-            window.history.back();
-        } else {
-            toast.error("Insira um motivo para o cancelamento do pedido")
-        }
-    };
 
     const handlePrintOrder = (order) => {
         return new Promise((resolve, reject) => {
@@ -95,23 +80,7 @@ function PedidoDetalhes() {
                 </div>
                 <div className={`${openModal ? 'flex' : 'hidden'} flex-col transition-all duration-300 self-end ml-4 rounded-lg pb-16 px-6 shadow-xl`}>
                     <h2 className="font-semibold">Descreva o motivo do cancelamento:</h2>
-                    <div className="flex flex-col">
-
-                        <form onSubmit={(e) => handleCancelOrder(e)}>
-                            <input
-                                className=" border-b-[1px] w-full border-slod border-gray-300"
-                                type="text"
-                                name="cancelamento"
-                                id="cancelamento"
-                                onChange={(e) => setReason(e.target.value)}
-                                value={reason}
-                            />
-                            <div className="flex flex-col pt-12">
-                                <button className="bg-red-900 text-white py-2 rounded-md shadow-lg hover:scale-105" type="submit">Cancelar pedido</button>
-                            </div>
-                        </form>
-
-                    </div>
+                    <CancelPedido pedido={pedido} />
                 </div>
             </div>
         </>

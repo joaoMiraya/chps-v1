@@ -11,7 +11,7 @@ function FormaDePagamento({ setSelected, troco, setTroco, selected }) {
     };
 
     return (
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-center bg-gray-100 shadow-inner pb-2">
             <h2 className="text-xl font-semibold text-center my-4">Escolha sua forma de pagamento</h2>
             <div className="flex w-full justify-evenly">
                 <div className={`flex flex-col items-baseline`}>

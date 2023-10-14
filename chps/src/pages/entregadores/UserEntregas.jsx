@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchPedidosAndamento, getEntregasAwaiting, getEntregasOnCourse, removeOnCourse } from "../../services/redux/pedidos/pedidosSlice";
+import { fetchPedidosAndamento, getEntregasOnCourse, removeOnCourse } from "@services/redux/pedidos/pedidosSlice";
 
 
 function UserEntregas() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const { entregas } = useSelector(state => state.pedidos);
+    const { pedidos } = useSelector(state => state.pedidos);
     const [userEntregas, setUserEntregas] = useState([]);
 
+    //PEGA AS ENTREGAS DO MOTOQUEIRO
     useEffect(() => {
         dispatch(fetchPedidosAndamento());
         const handleFetchUserEntregas = async () => {
-            const entregasFiltered = await getEntregasOnCourse(entregas);
+            const entregasFiltered = await getEntregasOnCourse(pedidos);
             const filteredEntregas = entregasFiltered?.filter(entrega => entrega.motoboy === id);
             setUserEntregas(filteredEntregas);
         };
         handleFetchUserEntregas();
-    }, [entregas, id]);
+    }, [pedidos, id]);
 
     //REMOVE A ENTREGA DE CURSO
     const handleRemoveOnCourse = (entrega) => {

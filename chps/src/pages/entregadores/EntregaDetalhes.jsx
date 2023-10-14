@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchPedidosAndamento, setOnCourse } from "../../services/redux/pedidos/pedidosSlice";
-import Mapa from "./utils/Mapa";
-import GoBackBtn from "../../components/utils/buttons/GoBackBtn";
-import { getUser } from "../../services/redux/users/usersSlice";
+import { fetchPedidosAndamento, setOnCourse } from "@services/redux/pedidos/pedidosSlice";
+import { getUser } from "@services/redux/users/usersSlice";
+import { lazy } from "react";
 
-
+const Mapa = lazy(() => import("./utils/Mapa"));
+const GoBackBtn = lazy(() => import("@components/utils/buttons/GoBackBtn"));
 
 function EntregaDetalhes() {
 
@@ -17,8 +17,8 @@ function EntregaDetalhes() {
         dispatch(fetchPedidosAndamento());
     }, [dispatch]);
 
-    const { entregas } = useSelector(state => state.pedidos);
-    const entrega = entregas?.find((entrega) => entrega.numero_pedido == id);
+    const { pedidos } = useSelector(state => state.pedidos);
+    const entrega = pedidos?.find((entrega) => entrega.numero_pedido == id);
 
     const address = 'Rua ' + entrega?.rua + ', ' + entrega?.numero_casa + ' - Álvares Machado, SP, 19160-000';
 

@@ -86,7 +86,7 @@ function Cart() {
                         </div>
                     </div>
                     <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 `}>
-                        <button onClick={handleNextStep} aria-label='Avançar com o pedido' tabIndex={0} className={`${nextStep ? 'hidden' : 'flex'} py-2 px-6 shadow-inner mr-6 font-semibold border-[1px] border-solid border-gray-300`}>
+                        <button onClick={handleNextStep} aria-label='Avançar com o pedido' tabIndex={0} className={`${nextStep ? 'hidden' : 'flex'} py-2 px-6 mr-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
                             Avançar
                         </button>
                     </div>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { getUser } from "@services/redux/users/usersSlice";
-import { setPedidosEntrega } from "@services/redux/pedidos/pedidosSlice";
+import { setPedidos } from "@services/redux/pedidos/pedidosSlice";
 import { getDate, getHours, numberGenerator } from "@javascript/main";
 import { clearCart } from "@services/redux/cart/cartSlice";
 import { telFormater } from '../../../javascript/main';
@@ -81,7 +81,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
         const user = (isAnonymous || !isLogged ? '' : await getUser());
         const endress = (bairro, rua, nome, tel).length > 3;
         const retirada = (nome, tel).length > 3;
-        if (retirar) {
+        if (retirar) {      //CASO FOR RETIRADA
             if (retirada) {
                 let order = {
                     itens: cartItems,
@@ -93,6 +93,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     pagamento: 'Cartão',
                     data: getDate(),
                     hora_pedido: getHours(),
+                    retirar: true
                 }
                 /* DISPACHAR PARA PEDIDOS RETIRADA  dispatch(setPedidosEntrega(order)) */
                 dispatch(clearCart())
@@ -112,7 +113,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     behavior: 'smooth'
                 });
             } else {
-                if (selected) {
+                if (selected) { //CASO O PAGAMENTO FOR CARTÃO
                     let order = {
                         itens: cartItems,
                         numero_pedido: numberGenerator(),
@@ -129,38 +130,44 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         data: getDate(),
                         hora_pedido: getHours()
                     }
-                    dispatch(setPedidosEntrega(order))
+                    dispatch(setPedidos(order))
                     dispatch(clearCart())
                     toast.success('Pedido enviado com sucesso!')
                     setTimeout(() => {
                         navigate('/perfil')
                     }, 3000);
 
-                } else {
+                } else {    //SE NÃO O PAGAMENTO SERA  DINHEIRO
                     if (troco.length >= 2) {
-                        const trocoTo = `Troco para ${troco}`;
-                        let order = {
-                            itens: cartItems,
-                            numero_pedido: numberGenerator(),
-                            nome: nome,
-                            uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                            telefone: telFormater(tel),
-                            bairro: bairro,
-                            rua: rua,
-                            numero_casa: numero,
-                            referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                            total: total.toFixed(2).replace('.', ','),
-                            pagamento: trocoTo,
-                            status: 50,
-                            data: getDate(),
-                            hora_pedido: getHours()
+                        if (troco > total) {
+                            const trocoTo = `Troco para ${troco}`;
+                            let order = {
+                                itens: cartItems,
+                                numero_pedido: numberGenerator(),
+                                nome: nome,
+                                uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
+                                telefone: telFormater(tel),
+                                bairro: bairro,
+                                rua: rua,
+                                numero_casa: numero,
+                                referencia: referencia.length > 3 ? referencia : 'Sem referência',
+                                total: total.toFixed(2).replace('.', ','),
+                                pagamento: trocoTo,
+                                status: 50,
+                                data: getDate(),
+                                hora_pedido: getHours()
+                            }
+
+                            dispatch(clearCart())
+                            dispatch(setPedidos(order))
+                            toast.success('Pedido enviado com sucesso!')
+                            setTimeout(() => {
+                                navigate('/perfil')
+                            }, 3000);
+                        } else {   //CASO O TROCO FOR MENOR QUE O VALOR TOTAL
+                            navigator.vibrate(200);
+                            toast.error("O troco deve ser maior que o valor total!")
                         }
-                        dispatch(clearCart())
-                        dispatch(setPedidosEntrega(order))
-                        toast.success('Pedido enviado com sucesso!')
-                        setTimeout(() => {
-                            navigate('/perfil')
-                        }, 3000);
                     } else {
                         navigator.vibrate(200);
                         toast.error("Informe o troco")
@@ -261,9 +268,9 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
 
                 </div>
             </form>
-            <div className=" flex justify-center my-4">
-                <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={` py-2 px-6 shadow-inner mr-12 font-semibold border-[1px] border-solid border-gray-300`}>Voltar</button>
-                <button disabled={!appOnline} onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className={`${appOnline ? '' : 'opacity-60'} py-2 px-6 shadow-inner  font-semibold border-[1px] border-solid border-gray-300`}>
+            <div className=" flex justify-around items-center my-4">
+                <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={` py-2 px-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>Voltar</button>
+                <button disabled={!appOnline} onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className={`${appOnline ? '' : 'opacity-60'} hover:scale-105 py-2 px-6 font-semibold bg-green-600 text-white rounded-lg drop-shadow-md`}>
                     Finalizar
                 </button>
             </div>

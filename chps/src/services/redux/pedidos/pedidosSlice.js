@@ -104,6 +104,8 @@ export const setOnCourse = createAsyncThunk(
                 status: 75,
                 motoboy: Motoboy
             }
+            //REMOVE O PEDIDO DOS PEDIDOS IMPRESSOS
+            sessionStorage.removeItem("PedidosImpressos", Order.numero_pedido)
             return update(dbRef, updates)
         } catch (error) {
             console.error(error.message);
@@ -144,7 +146,7 @@ export const getEntregasOnCourse = (pedidos) => {
 
 //PEGA TODAS AS ENTREGAS COM O STATUS DE AGUARDANDO
 export const getEntregasAwaiting = (pedidos) => {
-    const entregasFiltred = pedidos.filter(entrega => entrega.status === 50);
+    const entregasFiltred = pedidos.filter(pedido => pedido.status === 50);
     if (entregasFiltred) {
         return entregasFiltred
     } else return false
@@ -152,22 +154,23 @@ export const getEntregasAwaiting = (pedidos) => {
 
 //PEGA TODAS OS PEDIDOS QUE VAI RETIRAR
 export const getRetiradas = (pedidos) => {
-    const entregasFiltred = pedidos.filter(entrega => entrega.retirar === true);
-    if (entregasFiltred) {
-        return entregasFiltred
+    const pedidosFiltred = pedidos.filter(pedido => pedido.retirar === true);
+    if (pedidosFiltred) {
+        return pedidosFiltred
     } else return false
 };
 
 //PEGA TODAS OS PEDIDOS DAS MESAS
 export const getPedidosMesa = (pedidos) => {
-    const entregasFiltred = pedidos.filter(entrega => entrega.mesa === true);
-    if (entregasFiltred) {
-        return entregasFiltred
+    const pedidosFiltred = pedidos.filter(pedido => pedido.mesa === true);
+    if (pedidosFiltred) {
+        return pedidosFiltred
     } else return false
 };
 
 const initialState = {
     pedidos: [],
+    pedidos_impressos: sessionStorage.getItem("PedidoImpresso") ? sessionStorage.getItem("PedidoImpresso") : [],
     pedidos_entrega: [],
 };
 
@@ -184,6 +187,11 @@ const pedidosSlice = createSlice({
                 ...action.payload
             });
         },
+        setPedidosImpressos(state, action) {
+            state.pedidos_impressos = action.payload;
+            sessionStorage.setItem("PedidosImpressos", action.payload)
+            console.log(action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -196,6 +204,6 @@ const pedidosSlice = createSlice({
     },
 });
 
-export const { setPedidos, setPedidosMesa } = pedidosSlice.actions;
+export const { setPedidos, setPedidosMesa, setPedidosImpressos } = pedidosSlice.actions;
 
 export default pedidosSlice.reducer;

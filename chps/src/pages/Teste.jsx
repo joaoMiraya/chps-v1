@@ -1,3 +1,4 @@
+import DetalhesPlaceholder from "../components/utils/cards/DetalhesPlaceholder";
 import EntregaPlaceholder from "./entregadores/utils/EntregaPlaceholder";
 
 
@@ -10,7 +11,7 @@ function Teste() {
     return (
 
         <>
-            <EntregaPlaceholder />
+            <DetalhesPlaceholder />
         </>
     )
 }

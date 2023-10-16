@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { fetchPedidosAndamento } from "@services/redux/pedidos/pedidosSlice";
 import { print } from "@javascript/print";
 import { getMotoboys } from "@services/redux/users/usersSlice";
+import { setPedidosImpressos } from "../../../services/redux/pedidos/pedidosSlice";
 
 const Loading = lazy(() => import('@components/partials/Loading'));
 const CancelPedido = lazy(() => import('./utils/CancelPedido'));
@@ -29,8 +30,7 @@ function PedidoDetalhes() {
         setOpenModal(!openModal)
     };
 
-    const [orderPrinted, setOrderPrinted] = useState(localStorage.getItem("PedidoImpresso") || []);
-    const { pedidos } = useSelector((state) => state.pedidos);
+    const { pedidos, pedidos_impressos } = useSelector((state) => state.pedidos);
 
     const pedido = pedidos.find((pedido) => pedido.numero_pedido == id);
 
@@ -38,10 +38,9 @@ function PedidoDetalhes() {
     const handlePrintOrder = (order) => {
         return new Promise((resolve, reject) => {
             try {
-                print(order);
+                /*       print(order); */
                 toast.success('Imprimindo...')
-                setOrderPrinted((prevOrderPrinted) => [...prevOrderPrinted, order.numero_pedido]);
-                localStorage.setItem("PedidoImpresso", id)
+                dispatch(setPedidosImpressos(id))
                 resolve("Order printed successfully")
             } catch (error) {
                 toast.error("Algo deu errado!")
@@ -49,7 +48,7 @@ function PedidoDetalhes() {
             }
         });
     };
-    const pedidoEncontrado = orderPrinted.includes(id);
+    const pedidoEncontrado = pedidos_impressos.includes(id);
 
     if (!pedido) {
         return <Loading />

@@ -9,7 +9,7 @@ function MesaCard({ mesaNumero }) {
 
     return (
 
-        <Link to={`/mesas/${mesaNumero}`} className="flex mesa w-[10rem]  relative items-center shadow cursor-pointer hover:scale-105 transition-all duration-300  gap-2 ">
+        <Link to={`/mesas/${mesaNumero}`} className="flex rounded-xl w-[10rem]  relative items-center shadow-md cursor-pointer hover:scale-105 transition-all duration-300  gap-2 ">
             <span className=" mesaDefault flex justify-center items-center w-[4rem] h-[4rem] relative top-1/2">
                 <img className='absolute' src={icon} alt="" />
             </span>

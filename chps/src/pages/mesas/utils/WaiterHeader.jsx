@@ -7,7 +7,7 @@ function WaiterHeader() {
 
         <>
             <header>
-                <nav className="flex justify-start items-center py-2  px-12 border-b-[1px] border-solid brder-gray-300">
+                <nav className="flex justify-start items-center py-2 shadow-lg px-12 border-b-[1px] border-solid brder-gray-300">
                     <Logo />
                 </nav>
             </header>

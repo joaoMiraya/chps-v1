@@ -95,6 +95,8 @@ import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
 import UserEntregas from '../pages/entregadores/UserEntregas';
 import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes';
+import LancheMesaDetalhes from '../pages/mesas/detalhes/LancheMesaDetalhes';
+import MesaPedir from '../pages/mesas/MesaPedir';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -140,10 +142,15 @@ root.render(
 
           {/* MESAS ROUTES */}
           <Route path='/mesas' element={<WaiterRoute> <WaiterApp /> </WaiterRoute>}>
+            
             <Route path='/mesas' element={<Mesas />} />
             <Route path='/mesas/:id' element={<MesaDetalhe />} />
-            <Route path='/mesas/:id/pizzas' element={<PizzaMesa />} />
-            <Route path='/mesas/:id/lanches' element={<LancheMesa />} />
+            <Route path='/mesas/:id/pedido' element={<MesaPedir />} />
+
+            <Route path='/mesas/:id/pedido/lanches' element={<LancheMesa />} />
+            <Route path='/mesas/:id/pedido/lanches/:cat' element={<LancheMesaDetalhes />} />
+
+            <Route path='/mesas/:id/pedido/pizzas' element={<PizzaMesa />} />
           </Route>
 
           {/* ENTREGAS ROUTES */}

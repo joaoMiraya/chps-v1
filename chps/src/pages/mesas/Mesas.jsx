@@ -13,7 +13,7 @@ function Mesas() {
     return (
         <>
             <h2 className='text-3xl text-center pt-12 font-semibold'>Mesas</h2>
-            <div className="flex flex-wrap  gap-4  pt-12 justify-center items-center">
+            <div className="flex flex-wrap gap-4  pt-12 justify-center items-center">
                 {mesas}
             </div>
         </>

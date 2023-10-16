@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
 import CardItemMesa from "./CardItemMesa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function LancheMesa() {
     const dispatch = useDispatch();
 
+    const {id} = useParams();
+    
     useEffect(() => {
         dispatch(fetchLanches())
     }, []);
@@ -34,7 +36,7 @@ function LancheMesa() {
                             <div className="flex flex-col">
                                 {categorias[categoria].map(lanche => (
                                     <div key={lanche.id} className="p-2 cursor-pointer">
-                                        <Link tabIndex={0} aria-label={lanche.nome} to={`/menu/lanches/${lanche.id}`}>
+                                        <Link tabIndex={0} aria-label={lanche.nome} to={`/mesas/${id}/pedido/lanches/${lanche.id}`}>
                                             <CardItemMesa
                                                 urlImage={lanche.imagem}
                                                 itemId={lanche.id}

@@ -9,8 +9,7 @@ const NextStepForm = lazy(() => import("./utils/NextStepForm"));
 
 function Cart() {
 
-    const cart = useSelector((state) => state.cart);
-    const cartItems = cart.cartItems
+    const { cartItems } = useSelector((state) => state.cart);
 
     const [total, setTotal] = useState(0);
     const [nextStep, setNextStep] = useState(false);
@@ -41,9 +40,7 @@ function Cart() {
             position: "top-left"
         });
     };
-
-
-
+    
     return (
 
 

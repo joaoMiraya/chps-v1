@@ -104,7 +104,7 @@ function LoginComp({ handleShowPassword, showPass }) {
 
                     <button aria-label='Botão para fazer o login'
                         type="submit"
-                        className="bg-[#FFBC0D] rounded-md py-3 font-bold text-xl"
+                        className="bg-[#FFBC0D] shadow-md rounded-md py-3 font-bold text-xl"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ?

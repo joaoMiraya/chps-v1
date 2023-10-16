@@ -1,21 +1,23 @@
 import { lazy, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
+import { Link, useParams } from "react-router-dom";
 
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
-import { addToCart } from "@services/redux/cart/cartSlice";
+import { addToMesa } from "../../../services/redux/mesa/mesaSlice";
 
-const Note = lazy(() => import("@components/utils/Note"));
+
 const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
 const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
 const AcrescimoSection = lazy(() => import("@components/utils/cards/AcrescimoSection"));
 const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
+const Note = lazy(() => import("@components/utils/Note"));
 const DetalhesPlaceholder = lazy(() => import("@components/utils/cards/DetalhesPlaceholder"));
 
-function LancheDetalhes() {
 
-    const { id } = useParams();
+function LancheMesaDetalhes() {
+
+    const { cat, id } = useParams()
+
     const dispatch = useDispatch();
     const [note, setNote] = useState('');
 
@@ -24,7 +26,7 @@ function LancheDetalhes() {
     }, [dispatch]);
 
     const { lanches } = useSelector(state => state.lanches);
-    const lanche = lanches.find((lanche) => lanche.id === id);
+    const lanche = lanches.find((lanche) => lanche.id === cat);
 
     const { acrescimos } = useSelector(state => state.acrescimos);
 
@@ -64,14 +66,14 @@ function LancheDetalhes() {
     }, [lanche, acrescimos, selectedAcrescimos, qnt]);
 
 
-    const handleAddToCart = () => {
+    const handleTableOrder = () => {
         let values = {
-            id: id,
-            idPedido: id + Date.now(),
+            idPedido: cat + Date.now(),
             nome: lanche.nome,
             classe: lanche.classe,
             valor: valorTotal,
             qnt: qnt,
+            numero_mesa: id,
             nota: note.length < 3 ? 'Sem exigências' : note
         };
 
@@ -87,17 +89,16 @@ function LancheDetalhes() {
             };
         }
 
-        dispatch(addToCart(values));
+        dispatch(addToMesa(values));
     };
-
-
 
     if (!lanche) {
         return <DetalhesPlaceholder />
     }
     return (
+
         <>
-            <ToastContainer position="top-right" autoClose={3000} />
+
             <div className="p-4 w-full overflow-hidden">
 
                 <div className="my-4 flex flex-col gap-2">
@@ -106,7 +107,7 @@ function LancheDetalhes() {
                         <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
                     </div>
                     <div className=" self-end flex gap-2">
-                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/lanches"}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>
+                        <Link className="underline" to={"/mesas"}>{('mesas >')}</Link><Link className="underline" to={`/mesas/${id}/pedido/lanches`}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>
                     </div>
                 </div>
                 <div className="">
@@ -128,11 +129,9 @@ function LancheDetalhes() {
                     <BebidasSection />
                 </section>
             </div>
-            <ButtonAddFixo handleFunc={handleAddToCart} text={"Adicionar ao carrinho"} qnt={qnt} />
-
+            <ButtonAddFixo handleFunc={handleTableOrder} text={"Adicionar à mesa"} qnt={qnt} />
         </>
     )
 }
 
-
-export default LancheDetalhes;
+export default LancheMesaDetalhes;

@@ -5,6 +5,7 @@ import { fetchPizzas } from "../../services/redux/items/pizzasSlice";
 import { fetchLanches } from "../../services/redux/items/lanchesSlice";
 import MainCompMesa from "./utils/MainCompMesa";
 import { useParams } from "react-router-dom";
+import MesaItems from "./MesaItems";
 
 
 
@@ -22,7 +23,8 @@ function MesaDetalhe() {
     return (
         <>
             <div className="">
-                <MainCompMesa id={id} />
+                {/* <MainCompMesa id={id} /> */}
+                <MesaItems />
             </div>
 
 

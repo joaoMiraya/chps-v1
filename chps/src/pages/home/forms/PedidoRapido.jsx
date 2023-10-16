@@ -19,7 +19,7 @@ function PedidoRapido() {
             <div>
                 <button
                     aria-label="Botão para fazer pedido sem cadastro"
-                    className="bg-[#FFBC0D] py-3 px-20 mb-4 w-full  rounded-md font-semibold mt-2"
+                    className="bg-[#FFBC0D] py-3 px-20 mb-4 w-full shadow-md rounded-md font-semibold mt-2"
                     onClick={handleAuthAnonymously}
                 >
                     Pedido Rápido

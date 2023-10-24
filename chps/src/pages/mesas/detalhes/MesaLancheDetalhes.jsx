@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
-import { editItemInCart } from "@services/redux/cart/cartSlice";
+import { editItemInMesa } from "../../../services/redux/mesa/mesaSlice";
+
 
 const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
 const Note = lazy(() => import("@components/utils/Note"));
@@ -104,7 +105,8 @@ function MesaLancheDetalhes() {
             nome: lanche.nome,
             classe: lanche.classe,
             valor: valorTotal,
-            qnt: qnt
+            qnt: qnt,
+            numero_mesa: id,
         };
 
         if (selectedAcrescimos && selectedAcrescimos.length > 0) {
@@ -122,7 +124,7 @@ function MesaLancheDetalhes() {
                 nota: note
             }
         }
-        dispatch(editItemInCart(values));
+        dispatch(editItemInMesa(values));
     };
 
     if (!lanche) {

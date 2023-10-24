@@ -5,9 +5,9 @@ import { lazy, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { removeFromMesa, clearMesa, decreaseMesa } from '@services/redux/mesa/mesaSlice';
-import CartPlaceholder from '../cart/utils/CartPlaceholder';
-import MesaPlaceholder from '../../components/utils/cards/MesaPlaceholder';
 
+
+const MesaPlaceholder = lazy(() => import("@components/utils/cards/MesaPlaceholder"));
 
 function MesaItems() {
 
@@ -34,7 +34,7 @@ function MesaItems() {
     };
     const handleclearCart = () => {
         dispatch(clearMesa())
-        toast.error(`Seu carrinho está vazio`, {
+        toast.error(`Pedidos da mesa ${id} zerados`, {
             position: "top-left"
         });
     };
@@ -56,7 +56,7 @@ function MesaItems() {
                                 const { idPedido, classe } = mesaPedido;
                                 return (
                                     <div className='relative' key={idPedido}>
-                                        <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/carrinho/${classe + '/' + idPedido}`}>
+                                        <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/mesas/${id + '/' + classe + '/' + idPedido}`}>
                                             <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
                                                 <p>{mesaPedido.qnt + ' ' + mesaPedido.nome}</p>
                                                 <p>R$ {(mesaPedido.valor).replace(".", ",")}</p>

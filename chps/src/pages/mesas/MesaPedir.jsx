@@ -1,16 +1,20 @@
+import { lazy } from "react";
 import { useParams } from "react-router-dom";
 
-import MainCompMesa from "./utils/MainCompMesa";
-
+const MainCompMesa = lazy(() => import("./utils/MainCompMesa"));
 
 function MesaPedir() {
 
     const { id } = useParams();
 
+
     return (
 
         <>
-            <MainCompMesa id={id} />
+            <div className="py-12">
+                <MainCompMesa id={id} />
+
+            </div>
         </>
     )
 }

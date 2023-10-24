@@ -83,10 +83,12 @@ import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 //GARÇONS ROUTES
 import Mesas from '../pages/mesas/Mesas';
 import MesaDetalhe from '../pages/mesas/MesaDetalhe';
-import PizzaMesa from '../pages/mesas/utils/PizzaMesa';
+import LancheMesa from '../pages/mesas/cardapio/LancheMesa';
+import PizzaMesa from '../pages/mesas/cardapio/PizzaMesa';
 import WaiterApp from '../pages/mesas/WaiterApp';
-import LancheMesa from '../pages/mesas/utils/LancheMesa';
 import WaiterRoute from './WaiterRoute';
+import LancheMesaDetalhes from '../pages/mesas/cardapio/detalhes/LancheMesaDetalhes';
+import MesaPedir from '../pages/mesas/MesaPedir';
 
 //ENTREGADORES ROUTES
 import MotoboyRoute from './MotoboyRoute';
@@ -95,8 +97,9 @@ import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
 import UserEntregas from '../pages/entregadores/UserEntregas';
 import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes';
-import LancheMesaDetalhes from '../pages/mesas/detalhes/LancheMesaDetalhes';
-import MesaPedir from '../pages/mesas/MesaPedir';
+import PorcaoMesa from '../pages/mesas/cardapio/PorcaoMesa';
+import PratosMesa from '../pages/mesas/cardapio/PratosMesa';
+import MesaLancheDetalhes from '../pages/mesas/detalhes/MesaLancheDetalhes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -142,15 +145,18 @@ root.render(
 
           {/* MESAS ROUTES */}
           <Route path='/mesas' element={<WaiterRoute> <WaiterApp /> </WaiterRoute>}>
-            
+
             <Route path='/mesas' element={<Mesas />} />
             <Route path='/mesas/:id' element={<MesaDetalhe />} />
+            <Route path='/mesas/:id/lanche/:cat' element={<MesaLancheDetalhes />} />
             <Route path='/mesas/:id/pedido' element={<MesaPedir />} />
 
             <Route path='/mesas/:id/pedido/lanches' element={<LancheMesa />} />
             <Route path='/mesas/:id/pedido/lanches/:cat' element={<LancheMesaDetalhes />} />
 
             <Route path='/mesas/:id/pedido/pizzas' element={<PizzaMesa />} />
+            <Route path='/mesas/:id/pedido/porcoes' element={<PorcaoMesa />} />
+            <Route path='/mesas/:id/pedido/pratos' element={<PratosMesa />} />
           </Route>
 
           {/* ENTREGAS ROUTES */}

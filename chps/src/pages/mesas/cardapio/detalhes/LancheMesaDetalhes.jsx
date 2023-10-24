@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
-import { addToMesa } from "../../../services/redux/mesa/mesaSlice";
+import { addToMesa } from "@services/redux/mesa/mesaSlice";
 
 
 const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
@@ -68,6 +68,7 @@ function LancheMesaDetalhes() {
 
     const handleTableOrder = () => {
         let values = {
+            id: cat,
             idPedido: cat + Date.now(),
             nome: lanche.nome,
             classe: lanche.classe,

@@ -38,7 +38,7 @@ function PedidoDetalhes() {
     const handlePrintOrder = (order) => {
         return new Promise((resolve, reject) => {
             try {
-                /*       print(order); */
+                print(order);
                 toast.success('Imprimindo...')
                 dispatch(setPedidosImpressos(id))
                 resolve("Order printed successfully")

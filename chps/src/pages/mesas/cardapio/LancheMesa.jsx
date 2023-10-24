@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
-import CardItemMesa from "./CardItemMesa";
+import CardItemMesa from "../utils/CardItemMesa";
 import { Link, useParams } from "react-router-dom";
+import SearchItems from "../utils/SearchItems";
 
 function LancheMesa() {
     const dispatch = useDispatch();
 
-    const {id} = useParams();
-    
+    const { id } = useParams();
+
     useEffect(() => {
         dispatch(fetchLanches())
     }, []);
@@ -26,6 +27,9 @@ function LancheMesa() {
     return (
 
         <>
+           
+                <SearchItems items={lanches} cat={"lanches"} />
+           
             <div className='flex flex-col items-center pt-6 px-6 '>
                 <div className='flex flex-col'>
                     {Object.keys(categorias).map(categoria => (

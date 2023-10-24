@@ -84,7 +84,7 @@ const initialState = {
 };
 
 const pratosSlice = createSlice({
-    name: 'porcoes',
+    name: 'pratos',
     initialState,
     reducers: {
 

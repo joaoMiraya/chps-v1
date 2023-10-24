@@ -11,7 +11,7 @@ function Note({ setNote, note }) {
         <div className="mt-6 flex flex-col items-center gap-4 px-6">
             <h2 className="text-xl font-semibold  text-center">Gostaria de adicionar uma nota ao pedido?</h2>
             <textarea
-                className="bg-gray-100 p-2"
+                className="bg-gray-200 rounded-md shadow-md p-2"
                 name="notaPedido"
                 id="notaPedido"
                 cols="30"

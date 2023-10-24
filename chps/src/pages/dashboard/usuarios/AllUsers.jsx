@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../../services/redux/users/usersSlice";
-import { useEffect, useState } from "react";
-
+import { lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SearchUser from "./utils/SearchUser";
+
+import { fetchUsers } from "@services/redux/users/usersSlice";
+
+
+const SearchUser = lazy(() => import("./utils/SearchUser"));
 
 function AllUsers() {
-    
+
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -69,14 +69,17 @@ function MesaItems() {
                                 )
                             })}
                         </div>
-                        <div className={`${mesa >= 0 ? 'hidden' : 'flex'} justify-between w-full my-12`} >
-                            <span onClick={handleclearCart} aria-label='Limpar o carrinho' tabIndex={0} className='underline cursor-pointer text-gray-400'>Limpar Carrinho</span>
+                        <div className={`${mesa >= 0 ? 'hidden' : 'flex'} justify-end w-full my-12`} >
                             <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                         </div>
                     </div>
                     <div className={`${mesa >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 `}>
+                        {/* Adicionar o redux para enviar o pedido ao realtiem database */}
+                        <Link to={`/mesas/${id}/pedido`} tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-orange-600 text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                            Pedir Mais
+                        </Link>
                         <button aria-label='Avançar com o pedido' tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
-                            Avançar
+                            Finalizar
                         </button>
                     </div>
                 </div>

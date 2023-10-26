@@ -4,9 +4,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     mesaItems: localStorage.getItem("mesaItems") ? JSON.parse(localStorage.getItem("mesaItems")) : [],
-    /* cartTotalQuantity: 0,
-    cartTotalAmount: 0, */
-};
+    };
 
 const mesaSlice = createSlice({
     name: "mesa",
@@ -14,7 +12,7 @@ const mesaSlice = createSlice({
     reducers: {
         addToMesa(state, action) {
             const tempProduct = { ...action.payload }
-            state.mesaItems.push(tempProduct);
+                    state.mesaItems.push(tempProduct);
             toast.success(`${action.payload.nome} adicionado na mesa ${tempProduct.numero_mesa}`, {
                 position: "top-left"
             });
@@ -75,11 +73,7 @@ const mesaSlice = createSlice({
             }
             localStorage.setItem("mesaItems", JSON.stringify(state.mesaItems))
         },
-        clearMesa(state) {
-            state.mesaItems = [];
-            localStorage.setItem("mesaItems", JSON.stringify(state.mesaItems))
-        },
-    },
+          },
 });
 
 export const { addToMesa, removeFromMesa, decreaseMesa, editItemInMesa, clearMesa } = mesaSlice.actions;

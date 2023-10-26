@@ -126,9 +126,7 @@ function LancheMesaDetalhes() {
                     <Note setNote={setNote} note={note} />
 
                 </div>
-                <section className="py-6">
-                    <BebidasSection />
-                </section>
+       
             </div>
             <ButtonAddFixo handleFunc={handleTableOrder} text={"Adicionar à mesa"} qnt={qnt} />
         </>

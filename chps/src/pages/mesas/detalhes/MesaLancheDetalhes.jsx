@@ -134,16 +134,16 @@ function MesaLancheDetalhes() {
         <>
             <ToastContainer position="top-right" autoClose={3000} />
 
-            <div className="p-4 w-full overflow-hidden mb-12">
+            <div className="p-4 w-full  mb-12">
 
                 <div className="my-4 flex flex-col gap-2">
                     <div>
                         <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
                         <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
                     </div>
-                    <div className=" self-end flex gap-2 mt-2">
+                  {/*   <div className=" self-end flex gap-2 mt-2">
                         <Link className="underline" to={"/mesas"}>{('Mesas >')}</Link><span className="text-gray-400">{lanche.nome}</span>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="">
                     <img src={lanche.imagem} alt={lanche.nome} />

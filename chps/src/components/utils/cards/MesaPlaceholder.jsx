@@ -22,9 +22,9 @@ function MesaPlaceholder({ id }) {
 
 
                 </div>
-                <p>Esta mesa ainda não pediu</p>
+                <p>Sem pedidos na mesa!</p>
                 <Link tabIndex={0} className='py-2 px-12 shadow-md text-white font-semibold rounded-md bg-red-400 text-md' to={`/mesas/${id}/pedido`}>
-                    Fazer pedido
+                    Pedir
                 </Link>
             </div>
         </>

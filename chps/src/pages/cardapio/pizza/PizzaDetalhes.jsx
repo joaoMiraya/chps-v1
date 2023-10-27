@@ -10,10 +10,10 @@ const Note = lazy(() => import("@components/utils/Note"));
 const PizzaToggle = lazy(() => import("./utils/PizzaToggle"));
 const SegundoSabor = lazy(() => import("./utils/SegundoSabor"));
 
-const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
+const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
 const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
 const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
-const Loading = lazy(() => import("@components/partials/Loading"));
+const DetalhesPlaceholder = lazy(() => import("@components/utils/cards/DetalhesPlaceholder"));
 
 function PizzaDetalhes() {
 
@@ -24,14 +24,10 @@ function PizzaDetalhes() {
         dispatch(fetchPizzas())
     }, [dispatch])
 
-    const [disabled, setDisabled] = useState(false);
-
-
-
-
     const { pizzas } = useSelector(state => state.pizzas);
     const pizza = pizzas.find((pizza) => pizza.id === id);
 
+    const [disabled, setDisabled] = useState(false);
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
     const [note, setNote] = useState('');
@@ -44,13 +40,10 @@ function PizzaDetalhes() {
     useEffect(() => {
         if (pizza) {
             const { valorP, valorF } = pizza;
-
             // Convertendo os valores para centavos
             const valorFCents = valorF / 100;
             const valorPCents = valorP / 100;
-
             let calculatedValue;
-
             if (sizeF && umSabor) {
                 // Caso 1: Tamanho Família com um sabor
                 calculatedValue = valorFCents * 100;
@@ -68,10 +61,8 @@ function PizzaDetalhes() {
                 const media = (valorPCents + segundoValorP) / 2;
                 calculatedValue = media * 100;
             } else {
-                // Caso padrão: outros cenários
                 calculatedValue = 0;
             }
-
             // Calculando o valor total com base na quantidade e formatando a saída
             const totalValue = (calculatedValue * qnt).toFixed(2).replace(".", ",");
             setValorTotal(totalValue);
@@ -131,7 +122,7 @@ function PizzaDetalhes() {
     };
 
     if (!pizza) {
-        return <Loading />
+        return <DetalhesPlaceholder />
     }
     return (
         <>
@@ -179,9 +170,10 @@ function PizzaDetalhes() {
 
             </div>
             <ButtonAddFixo
-                disabled={disabled}
-                handleAddToCart={handleAddToCart}
+                handleFunc={handleAddToCart}
                 qnt={qnt}
+                disabled={disabled}
+                text={"Adicionar ao carrinho"}
             />
         </>
     )

@@ -29,6 +29,9 @@ function InfoGeral({ pedido }) {
             <span className="flex gap-2">
                 <p className="font-semibold">Telefone: </p>{pedido.telefone}
             </span>
+            <span className="flex gap-2">
+                <p className="font-semibold">Pagamento: </p>{pedido.pagamento}
+            </span>
             <hr />
 
 

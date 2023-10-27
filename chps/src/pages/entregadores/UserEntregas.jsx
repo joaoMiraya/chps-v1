@@ -35,14 +35,27 @@ function UserEntregas() {
 
                     return (
                         <div key={entrega.numero_pedido} className="flex flex-col">
-                            <div className="bg-gray-300 rounded-s-full shadow-md flex items-center">
-                                <div className="flex">
-                                    <span className="w-[2rem] flex justify-center shadow-xl items-center font-semibold h-[2rem] rounded-full bg-gray-200 text-lg">
-                                        {i + 1}
+                            <div className="bg-gray-100 py-2 rounded-xl shadow-md flex flex-col justify-center">
+                                <span className="w-[2rem] h-[2rem] bg-gray-500 text-gray-200 flex justify-center self-start ml-2 shadow-xl items-center font-semibold rounded-full text-lg">
+                                    {i + 1}
+                                </span>
+                                <div className="px-4">
+                                    <span className="flex justify-between items-center gap-4">
+                                        <p className="font-semibold">Cliente:</p>
+                                        <p>{entrega.nome}</p>
                                     </span>
-                                    <span className="flex items-center gap-4">
-                                        <p className="ml-2">{entrega.nome}</p>
-                                        <p>{entrega.rua + ', ' + entrega.numero_casa}</p>
+
+                                    <span className="flex justify-between items-center gap-4">
+                                        <p className="font-semibold selg">Total:</p>
+                                        <p> R${entrega.total}</p>
+                                    </span>
+                                    <span className="flex justify-between items-center gap-4">
+                                        <p className="font-semibold">Pagamento:</p>
+                                        <p> {entrega.pagamento}</p>
+                                    </span>
+                                    <span className="flex justify-between items-center gap-4">
+                                        <p className="font-semibold">Endereço:</p>
+                                        <p> {entrega.rua + ', ' + entrega.numero_casa}</p>
                                     </span>
                                 </div>
                             </div>

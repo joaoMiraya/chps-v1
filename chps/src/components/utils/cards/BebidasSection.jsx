@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineCheck } from 'react-icons/ai';
-import { fetchBebidas } from "../../../services/redux/items/bebidasSlice";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchBebidas } from "@services/redux/items/bebidasSlice";
 
 function BebidasSection() {
     const dispatch = useDispatch();

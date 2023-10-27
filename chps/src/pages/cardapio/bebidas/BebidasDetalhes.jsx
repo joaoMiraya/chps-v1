@@ -9,7 +9,7 @@ import { addToCart } from "@services/redux/cart/cartSlice";
 const Loading = lazy(() => import("@components/partials/Loading"));
 const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
 const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
-const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
+const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
 
 
 
@@ -105,7 +105,7 @@ function BebidasDetalhes() {
                 </div>
 
             </div>
-            <ButtonAddFixo handleAddToCart={handleAddToCart} qnt={qnt} />
+            <ButtonAddFixo text={"Adicionar ao carrinho"} handleFunc={handleAddToCart} qnt={qnt} />
 
         </>
     )

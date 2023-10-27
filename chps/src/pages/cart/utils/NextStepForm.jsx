@@ -24,6 +24,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [disabled, setDisabled] = useState(false);
     const [retirar, setRetirar] = useState(false);
     const [selected, setSelected] = useState(false);
     const [autoEnd, setAutoEnd] = useState(false);
@@ -78,38 +79,50 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
     };
 
     const handleSubmitOrder = async () => {
+        setDisabled(true)
         const user = (isAnonymous || !isLogged ? '' : await getUser());
         const endress = (bairro, rua, nome).length > 3 && tel.length >= 10;
-        const retirada = (nome.length > 3 && tel.length >= 10);
-        if (retirar) {      //CASO FOR RETIRADA
-            if (retirada) {
-                let order = {
-                    itens: cartItems,
-                    numero_pedido: numberGenerator(),
-                    nome: nome,
-                    uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                    telefone: tel,
-                    total: total.toFixed(2).replace('.', ','),
-                    pagamento: 'Cartão',
-                    data: getDate(),
-                    hora_pedido: getHours(),
+        const retirarInfo = (nome.length > 3 && tel.length >= 10);
+        let order = {
+            itens: cartItems,
+            numero_pedido: numberGenerator(),
+            nome: nome,
+            uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
+            telefone: tel,
+            total: total.toFixed(2).replace('.', ','),
+            data: getDate(),
+            hora_pedido: getHours(),
+        }
+        //CASO FOR RETIRADA
+        if (retirar) {
+            if (retirarInfo) {
+                order = {
+                    ...order,
                     retirar: true
                 }
                 dispatch(setPedidos(order))
                 dispatch(clearCart())
                 toast.success('Pedido enviado com sucesso!');
                 setTimeout(() => {
-                    navigate('/perfil')
+                    navigate('/perfil');
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }, 3000);
             } else {
-                toast.error("Preencha os campos obrigatórios!")
+                setDisabled(false);
+                toast.error("Preencha os campos obrigatórios!");
+                navigator.vibrate(200);
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             }
-        } else {
+        } else { //CASO ENTREGAR
             if (!endress || numero < 1) {
+                setDisabled(false);
+                navigator.vibrate(200);
                 toast.error("Preencha os campos obrigatórios!")
                 window.scrollTo({
                     top: 0,
@@ -117,68 +130,64 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                 });
             } else {
                 if (selected) { //CASO O PAGAMENTO FOR CARTÃO
-                    let order = {
-                        itens: cartItems,
-                        numero_pedido: numberGenerator(),
-                        nome: nome,
-                        uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                        telefone: tel,
+                    order = {
+                        ...order,
                         bairro: bairro,
                         rua: rua,
                         numero_casa: numero,
                         referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                        total: total.toFixed(2).replace('.', ','),
                         pagamento: 'Cartão',
                         status: 50,
-                        data: getDate(),
-                        hora_pedido: getHours()
                     }
                     dispatch(setPedidos(order))
                     dispatch(clearCart())
                     toast.success('Pedido enviado com sucesso!')
                     setTimeout(() => {
-                        navigate('/perfil')
+                        navigate('/perfil');
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
                     }, 3000);
 
                 } else {    //SE NÃO O PAGAMENTO SERA  DINHEIRO
                     if (troco.length >= 2) {
                         if (troco > total) {
                             const trocoTo = `Troco para ${troco}`;
-                            let order = {
-                                itens: cartItems,
-                                numero_pedido: numberGenerator(),
-                                nome: nome,
-                                uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-                                telefone: telFormater(tel),
+                            order = {
+                                ...order,
                                 bairro: bairro,
                                 rua: rua,
                                 numero_casa: numero,
                                 referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                                total: total.toFixed(2).replace('.', ','),
                                 pagamento: trocoTo,
-                                status: 50,
-                                data: getDate(),
-                                hora_pedido: getHours()
+                                status: 50
                             }
-
                             dispatch(clearCart())
                             dispatch(setPedidos(order))
                             toast.success('Pedido enviado com sucesso!')
                             setTimeout(() => {
-                                navigate('/perfil')
+                                navigate('/perfil');
+                                window.scrollTo({
+                                    top: 0,
+                                    behavior: 'smooth'
+                                });
                             }, 3000);
                         } else {   //CASO O TROCO FOR MENOR QUE O VALOR TOTAL
+                            setDisabled(false);
                             navigator.vibrate(200);
-                            toast.error("O troco deve ser maior que o valor total!")
+                            toast.error("O troco deve ser maior que o valor total!");
                         }
                     } else {
+                        setDisabled(false);
                         navigator.vibrate(200);
-                        toast.error("Informe o troco")
+                        toast.error("Informe o troco");
                     }
                 }
             }
         }
     };
+
 
     return (
 
@@ -203,6 +212,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         type="text"
                         onChange={(e) => setNome(e.target.value)}
                         value={nome}
+                        placeholder='Digite o seu nome'
                     />
                     <label className="text-gray-400 ml-4" htmlFor="tel">Seu telefone</label>
                     <input
@@ -216,7 +226,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                         value={tel}
                         placeholder='Digite com DDD e sem espaços'
                     />
-                    <div className={`${retirar ? 'hidden' : 'flex'}  flex-col `}>
+                    <div className={`${retirar ? 'hidden' : 'flex'}  flex-col`}>
                         <label className="text-gray-400 ml-4" htmlFor="bairro">Bairro</label>
                         <input
                             aria-label="Insira seu bairro"
@@ -273,8 +283,12 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
             </form>
             <div className=" flex justify-around items-center my-4">
                 <button onClick={handleBackStep} aria-label='Voltar' tabIndex={0} className={` py-2 px-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>Voltar</button>
-                <button disabled={!appOnline} onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className={`${appOnline ? '' : 'opacity-60'} hover:scale-105 py-2 px-6 font-semibold bg-green-600 text-white rounded-lg drop-shadow-md`}>
-                    Finalizar
+                <button disabled={disabled} onClick={handleSubmitOrder} aria-label='Finalizar o pedido' tabIndex={0} className={`${!disabled ? '' : 'opacity-60'} hover:scale-105 py-2 px-6 font-semibold bg-green-600 text-white rounded-lg drop-shadow-md`}>
+                    {disabled ?
+                        <div className="spinner-border h-6 w-6" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div> :
+                        'Finalizar'}
                 </button>
             </div>
             <span className={`${appOnline ? 'hidden' : 'flex'} justify-center text-red-400`}>Abriremos às 18:00 horas</span>

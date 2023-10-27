@@ -18,7 +18,11 @@ function Cart() {
         setNextStep(true)
     };
     const handleBackStep = () => {
-        setNextStep(false)
+        setNextStep(false);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     useEffect(() => {
@@ -40,7 +44,7 @@ function Cart() {
             position: "top-left"
         });
     };
-    
+
     return (
 
 

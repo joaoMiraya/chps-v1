@@ -6,12 +6,13 @@ import { ToastContainer } from "react-toastify";
 import { fetchPratos } from "@services/redux/items/pratosSlice";
 import { addToCart } from "@services/redux/cart/cartSlice";
 
-const Loading = lazy(() => import("@components/partials/Loading"));
+const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
+const DetalhesPlaceholder = lazy(() => import("@components/utils/cards/DetalhesPlaceholder"));
 const Note = lazy(() => import("@components/utils/Note"));
 const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
 const AcrescimoSection = lazy(() => import("@components/utils/cards/AcrescimoSection"));
 const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
-const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
+
 
 function PratoDetalhes() {
 
@@ -93,7 +94,7 @@ function PratoDetalhes() {
 
 
     if (!prato) {
-        return <Loading />
+        return <DetalhesPlaceholder />
     }
     return (
         <>
@@ -126,7 +127,7 @@ function PratoDetalhes() {
                 </div>
 
             </div>
-            <ButtonAddFixo handleAddToCart={handleAddToCart} qnt={qnt} />
+            <ButtonAddFixo text={"Adicionar ao carrinho"} handleFunc={handleAddToCart} qnt={qnt} />
 
         </>
     )

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { db } from '../../firebase/firebase';
+import { auth, db } from '../../firebase/firebase';
 import { set, ref, get, getDatabase, push, update, remove } from 'firebase/database';
-import { addDoc, collection, where } from 'firebase/firestore';
+import { addDoc, collection, where, query, getDocs, orderBy, limit } from 'firebase/firestore';
 
 
 
@@ -52,6 +52,28 @@ export const fetchPedidosAndamento = createAsyncThunk(
             });
 
             return pedidos;
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+//RECUPERA OS PEDIDOS FEITO PELO USUARIO
+export const fetchPedidosFeitos = createAsyncThunk(
+    'pedidos/PedidosFeitos',
+    async (_, { rejectWithValue }) => {
+        try {
+            const user = auth.currentUser;
+            const pedidosRef = collection(db, "pedidos");
+            const q = query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
+            const querySnapshot = await getDocs(q);
+            let data = [];
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                data = doc.data;
+            });
+            return data;
         } catch (error) {
             console.error(error.message);
             return rejectWithValue(error.message);

@@ -42,48 +42,48 @@ function MesaItems() {
     return (
 
 
-        <div className="flex items-center flex-col">
-            <div className="mt-16 shadow-xl w-[20rem] rounded-lg ">
-                <h1 className="text-2xl font-semibold text-center">{`Pedidos da Mesa ${id}`}</h1>
-                <div className="flex flex-col items-center  gap-4 h-full mt-4">
-                    <div className={`${mesa >= 0 ? 'block' : 'hidden'}`}>
-                        <MesaPlaceholder id={id} />
-                    </div>
+        <div className="flex items-center flex-col pt-16 h-screen">
 
-                    <div className={`flex flex-col`}>
-                        <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
-                            {mesa.map((mesaPedido) => {
-                                const { idPedido, classe } = mesaPedido;
-                                return (
-                                    <div className='relative' key={idPedido}>
-                                        <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/mesas/${id + '/' + classe + '/' + idPedido}`}>
-                                            <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
-                                                <p>{mesaPedido.qnt + ' ' + mesaPedido.nome}</p>
-                                                <p>R$ {(mesaPedido.valor).replace(".", ",")}</p>
-                                            </div>
-                                        </Link>
-                                        <div className='flex justify-end'>
-                                            <span tabIndex={0} aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(mesaPedido)} className='underline text-red-400'>Remover</span>
+            <h1 className="text-2xl font-semibold text-center">{`Pedidos da Mesa ${id}`}</h1>
+            <div className="flex flex-col items-center  gap-4 h-full mt-4">
+                <div className={`${mesa >= 0 ? 'block' : 'hidden'}`}>
+                    <MesaPlaceholder id={id} />
+                </div>
+
+                <div className={`flex flex-col`}>
+                    <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
+                        {mesa.map((mesaPedido) => {
+                            const { idPedido, classe } = mesaPedido;
+                            return (
+                                <div className='relative' key={idPedido}>
+                                    <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/mesas/${id + '/' + classe + '/' + idPedido}`}>
+                                        <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
+                                            <p>{mesaPedido.qnt + ' ' + mesaPedido.nome}</p>
+                                            <p>R$ {(mesaPedido.valor).replace(".", ",")}</p>
                                         </div>
+                                    </Link>
+                                    <div className='flex justify-end'>
+                                        <span tabIndex={0} aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(mesaPedido)} className='underline text-red-400'>Remover</span>
                                     </div>
-                                )
-                            })}
-                        </div>
-                        <div className={`${mesa >= 0 ? 'hidden' : 'flex'} justify-end w-full my-12`} >
-                            <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
-                        </div>
+                                </div>
+                            )
+                        })}
                     </div>
-                    <div className={`${mesa >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 `}>
-                        {/* Adicionar o redux para enviar o pedido ao realtiem database */}
-                        <Link to={`/mesas/${id}/pedido`} tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-orange-600 text-white rounded-lg drop-shadow-md hover:scale-105`}>
-                            Pedir Mais
-                        </Link>
-                        <button aria-label='Avançar com o pedido' tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
-                            Finalizar
-                        </button>
+                    <div className={`${mesa >= 0 ? 'hidden' : 'flex'} justify-end w-full my-12`} >
+                        <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
                     </div>
                 </div>
+                <div className={`${mesa >= 0 ? 'hidden' : 'flex'} w-full justify-evenly mb-4 `}>
+                    {/* Adicionar o redux para enviar o pedido ao realtiem database */}
+                    <Link to={`/mesas/${id}/pedido`} tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-orange-600 text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                        Pedir Mais
+                    </Link>
+                    <button aria-label='Avançar com o pedido' tabIndex={0} className={`flex py-2 px-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                        Enviar
+                    </button>
+                </div>
             </div>
+
         </div >
     )
 }

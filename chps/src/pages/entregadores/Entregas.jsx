@@ -21,7 +21,7 @@ function Entregas() {
     //PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
     const entregasOnCourse = getEntregasOnCourse(pedidos);
 
-    
+
     const [userEntregas, setUserEntregas] = useState(false);
     const [userUID, setUserUID] = useState('');
 
@@ -47,7 +47,9 @@ function Entregas() {
                         <AiFillCaretRight size={25} />
                     </Link>
                 </div>
-                <SearchEntregas entregas={pedidos} />
+                <div className="px-12">
+                    <SearchEntregas entregas={pedidos} />
+                </div>
                 <div className="flex justify-center flex-wrap gap-4 px-12">
                     {entregasAwaiting?.map((entrega) => {
                         return (

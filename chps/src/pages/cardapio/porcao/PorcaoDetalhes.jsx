@@ -11,8 +11,8 @@ const PorcaoToggle = lazy(() => import("./utils/PorcaoToggle"));
 
 const BebidasSection = lazy(() => import("@components/utils/cards/BebidasSection"));
 const IncresDecresBtn = lazy(() => import("@components/utils/buttons/IncresDecresBtn"));
-const Loading = lazy(() => import("@components/partials/Loading"));
-const ButtonAddFixo = lazy(() => import("@components/utils/cards/detalhes/ButtonAddFixo"));
+const DetalhesPlaceholder = lazy(() => import("@components/utils/cards/DetalhesPlaceholder"));
+const ButtonAddFixo = lazy(() => import("@components/utils/buttons/ButtonAddFixo"));
 
 
 function PorcaoDetalhes() {
@@ -59,7 +59,7 @@ function PorcaoDetalhes() {
 
 
     if (!porcao) {
-        return <Loading />
+        return <DetalhesPlaceholder />
     }
     return (
         <>
@@ -89,7 +89,7 @@ function PorcaoDetalhes() {
                 </div>
 
             </div>
-            <ButtonAddFixo handleAddToCart={handleAddToCart} qnt={qnt} />
+            <ButtonAddFixo text={"Adicionar ao carrinho"} handleFunc={handleAddToCart} qnt={qnt} />
         </>
     )
 }

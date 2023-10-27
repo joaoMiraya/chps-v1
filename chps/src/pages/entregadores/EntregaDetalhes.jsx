@@ -32,11 +32,12 @@ function EntregaDetalhes() {
 
         <>
             <GoBackBtn />
-            <div className="px-6 flex flex-col mt-12">
+            <div className="px-6 flex flex-col py-12">
                 <Mapa address={address} />
                 <div className="my-6">
                     <ul className="text-xl flex flex-col gap-2">
                         <li>Cliente: {entrega?.nome}</li>
+                        <hr />
                         {entrega?.itens.map((item, i) => {
                             return (
                                 <li key={i}>
@@ -44,6 +45,12 @@ function EntregaDetalhes() {
                                 </li>
                             )
                         })}
+                        <hr />
+                        <li className="flex justify-between">
+                            <span>Total: R${entrega?.total}</span>
+                            <span className="font-semibold">{entrega?.pagamento}</span>
+                        </li>
+                        <hr />
                     </ul>
                 </div>
                 <h2 className="text-2xl text-center ">{address}</h2>

@@ -5,7 +5,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
 
-const Loading = lazy(() => import("@components/partials/Loading"));
+const MenuPlaceholder = lazy(() => import("../MenuPlaceholder"));
 
 function Lanches() {
 
@@ -16,10 +16,6 @@ function Lanches() {
         dispatch(fetchLanches());
     }, [dispatch]);
 
-    if (!lanches) {
-        return <Loading />
-    }
-
     const categorias = {};
     lanches.forEach(lanche => {
         if (!categorias[lanche.categoria]) {
@@ -27,6 +23,10 @@ function Lanches() {
         }
         categorias[lanche.categoria].push(lanche);
     });
+
+    if (!lanches) {
+        return <MenuPlaceholder />
+    }
 
     return (
         <div className="overflow-x-hidden">

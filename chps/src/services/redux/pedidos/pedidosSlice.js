@@ -58,9 +58,10 @@ export const fetchPedidosAndamento = createAsyncThunk(
         }
     }
 );
+
 //RECUPERA OS PEDIDOS FEITO PELO USUARIO
 export const fetchPedidosFeitos = createAsyncThunk(
-    'pedidos/PedidosFeitos',
+    'pedidos/pedidos_user',
     async (_, { rejectWithValue }) => {
         try {
             const user = auth.currentUser;
@@ -70,8 +71,8 @@ export const fetchPedidosFeitos = createAsyncThunk(
             let data = [];
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-                data = doc.data;
+                /* console.log(doc.id, " => ", doc.data()); */
+                data.push(doc.data());
             });
             return data;
         } catch (error) {
@@ -194,6 +195,7 @@ const initialState = {
     pedidos: [],
     pedidos_impressos: sessionStorage.getItem("PedidoImpresso") ? sessionStorage.getItem("PedidoImpresso") : [],
     pedidos_entrega: [],
+    pedidos_user: [],
 };
 
 const pedidosSlice = createSlice({
@@ -222,7 +224,13 @@ const pedidosSlice = createSlice({
             })
             .addCase(fetchPedidosAndamento.rejected, (action) => {
                 console.error(action.error);
-            });
+            })
+            .addCase(fetchPedidosFeitos.fulfilled, (state, action) => {
+                state.pedidos_user = action.payload;
+            })
+            .addCase(fetchPedidosFeitos.rejected, (action) => {
+                console.error(action.error);
+            })
     },
 });
 

@@ -1,6 +1,8 @@
 import { lazy, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
+
+const PedidosFeitos = lazy(() => import("./comps/PedidosFeitos"));
 const Pedidos = lazy(() => import("./comps/Pedidos"));
 const Capa = lazy(() => import("./comps/Capa"));
 const PerfilPhoto = lazy(() => import("./comps/PerfilPhoto"));
@@ -34,6 +36,9 @@ function Profile() {
                 </div>
                 <section className="pt-16 flex justify-center">
                     <Pedidos />
+                </section>
+                <section className="pt-16 px-4 flex justify-center">
+                    <PedidosFeitos />
                 </section>
                 <section className="mt-4">
                     <FormEndPerfil />

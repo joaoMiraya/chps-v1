@@ -12,7 +12,7 @@ function PedidosFeitos() {
     }, [dispatch]);
 
     const { pedidos_user } = useSelector(state => state.pedidos);
-    
+
 
     return (
         <>
@@ -23,14 +23,19 @@ function PedidosFeitos() {
                     const id = order.numero_pedido
 
                     return (
-                        <ul key={id} className="flex flex-col bg-stone-100 drop-shadow-md rounded-full ">
+                        <ul key={id} className="flex flex-col bg-stone-100 drop-shadow-md rounded-xl ">
                             <li className="py-2 px-6 flex flex-col ">
                                 <span className="text-center font-semibold">Data: {order.data}</span>
                                 <span>
-                                    {order.itens.map((item) => {
+                                    {order.itens.map((item, i) => {
                                         return (
-                                            <ul key={item.id} className="">
-                                                <li className="">{item.nome}</li>
+                                            <ul key={i} className="">
+                                                <li className="">{item.qnt + ' ' + item.nome}</li>
+                                                {item.acrescimos?.map((acr) => {
+                                                    return (
+                                                        <li key={acr.id}>+ {acr.nome}</li>
+                                                    )
+                                                })}
                                             </ul>
                                         )
                                     })}
@@ -39,7 +44,7 @@ function PedidosFeitos() {
                         </ul>
                     )
                 })}
-                <p className="text-center mt-4">Esses são os seus 3 últimos pedidos feitos pelo app</p>
+                <p className="text-center mt-4">Esses foram os seus 3 últimos pedidos feitos pelo app</p>
             </div>
         </>
     )

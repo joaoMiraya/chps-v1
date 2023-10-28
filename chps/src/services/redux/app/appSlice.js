@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { database } from '../../firebase/firebase';
+import { database, db } from '../../firebase/firebase';
 import { set, ref, get } from 'firebase/database';
+import { addDoc, collection } from 'firebase/firestore';
 
 export const fetchWaitTime = createAsyncThunk(
     'app/fetchWaitTime',
@@ -15,6 +16,25 @@ export const fetchWaitTime = createAsyncThunk(
             const tempoEntregaData = tempoEntregaSnapshot.val();
             const tempoRetirarData = tempoRetirarSnapshot.val();
             return { tempo_entrega: tempoEntregaData, tempo_retirar: tempoRetirarData };
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const addNpsDoc = createAsyncThunk(
+    'app/nps',
+    async ({ Nota, Motivo, Uid, Data, Question }, { rejectWithValue }) => {
+        try {
+            //SALVA O NPS NO FIRESTORE DB
+            const docRef = await addDoc(collection(db, "nps"), {
+                nota: Nota,
+                pergunta: Question,
+                motivo: Motivo,
+                uid: Uid,
+                data: Data,
+            });
         } catch (error) {
             console.error(error.message);
             return rejectWithValue(error.message);

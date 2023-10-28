@@ -51,6 +51,7 @@ function FormFinal() {
                             className="bg-transparent border-b-2 border-solid border-[#292929] "
                             type="email"
                             name="email"
+                            autoComplete='email'
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}

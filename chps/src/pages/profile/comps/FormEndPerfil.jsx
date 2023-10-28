@@ -131,7 +131,7 @@ function FormEndPerfil() {
 
 
                     <div className="flex flex-row-reverse gap-4 my-4">
-                        <label htmlFor="confirmCity">Você está em Álvares Machado ou proximidades?</label>
+                        <label htmlFor="confirmCity">Você mora em Álvares Machado ou proximidades?</label>
                         <input
                             type="checkbox"
                             name="confirmCity"

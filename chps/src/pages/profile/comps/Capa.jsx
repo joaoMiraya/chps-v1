@@ -48,6 +48,7 @@ function Capa() {
                                 className="opacity-0  cursor-pointer"
                                 type="radio"
                                 name={`color${cor}`}
+                                id={`color${cor}`}
                                 value={cor}
                             />
                         </label>

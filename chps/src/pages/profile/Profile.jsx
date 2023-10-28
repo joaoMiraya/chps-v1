@@ -1,5 +1,6 @@
 import { lazy, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import NpsComp from "../../components/nps/NpsComp";
 
 
 const PedidosFeitos = lazy(() => import("./comps/PedidosFeitos"));
@@ -24,6 +25,7 @@ function Profile() {
         }
     }, [user]);
 
+
     return (
         <div className=" flex flex-col items-center ">
             <div className="flex w-full justify-end p-4">
@@ -36,6 +38,9 @@ function Profile() {
                 </div>
                 <section className="pt-16 flex justify-center">
                     <Pedidos />
+                </section>
+                <section className={`${Cookies.get("Nps") ? 'hidden' : 'flex'} pt-6 flex justify-center`}>
+                    <NpsComp />
                 </section>
                 <section className="pt-16 px-4 flex justify-center">
                     <PedidosFeitos />

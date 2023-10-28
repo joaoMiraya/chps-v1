@@ -19,7 +19,7 @@ function Pedidos() {
         dispatch(fetchPedidosAndamento());
         const fetchOrders = () => {
             setTimeout(() => {
-                const { uid } = auth.currentUser;
+                const { uid } = auth?.currentUser;
                 const pedidosFiltrados = pedidos?.filter((pedido) => pedido.uid == uid);
                 setUserOrder(pedidosFiltrados);
             }, 500);

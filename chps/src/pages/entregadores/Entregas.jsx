@@ -14,12 +14,12 @@ function Entregas() {
         dispatch(fetchPedidosAndamento());
     }, [dispatch]);
 
-    const { pedidos } = useSelector(state => state.pedidos);
+    const { pedidos_entrega } = useSelector(state => state.pedidos);
 
     //PEGA TODAS AS ENTREGAS COM O STATUS DE AGUARDANDO
-    const entregasAwaiting = getEntregasAwaiting(pedidos);
+    const entregasAwaiting = getEntregasAwaiting(pedidos_entrega);
     //PEGA TODAS AS ENTREGAS COM O STATUS DE EM ENTREGA
-    const entregasOnCourse = getEntregasOnCourse(pedidos);
+    const entregasOnCourse = getEntregasOnCourse(pedidos_entrega);
 
 
     const [userEntregas, setUserEntregas] = useState(false);
@@ -48,7 +48,7 @@ function Entregas() {
                     </Link>
                 </div>
                 <div className="px-12">
-                    <SearchEntregas entregas={pedidos} />
+                    <SearchEntregas entregas={pedidos_entrega} />
                 </div>
                 <div className="flex justify-center flex-wrap gap-4 px-12">
                     {entregasAwaiting?.map((entrega) => {

@@ -1,9 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { createBebida } from '../../../../../services/redux/items/bebidasSlice';
 import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
 import { toast } from 'react-toastify';
+
+import { storage } from '@services/firebase/firebase';
+import { capitalizeFirstLetter } from '@javascript/main';
+import { createBebida } from '@services/redux/items/bebidasSlice';
 
 
 
@@ -35,7 +37,7 @@ function AddBebida() {
                 caminhoImagem: pathImageBebida,
                 nome: nomeBebida,
                 classe: 'bebida',
-                categoria: categoryBebida,
+                categoria: capitalizeFirstLetter(categoryBebida),
                 valor: valorBebida
             };
             dispatch(createBebida(values));

@@ -11,19 +11,23 @@ export const getHours = () => {
     const options = { hour: '2-digit', minute: '2-digit' };
     return date.toLocaleString('pt-BR', options);
 };
-
+/* GERA NUMERO ALEATORIO */
 export const numberGenerator = () => {
     const numeroAleatorio = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
     return numeroAleatorio + Date.now();
 };
-
+/* FORMATA O PADRÃO DO CELULAR */
 export const telFormater = (tel) => {
-    const numberClean = tel.replace(/\s/g, "");
-    const regex = /^(\d{2})(\d{5})(\d{4})$/;
-    const match = numberClean.match(regex);
-    if (match) {
-        return `(${match[1]}) ${match[2]}-${match[3]}`;
-    } else {
-        return numberClean;
-    }
+    const numberClean = tel.toString().replace(/\D/g, "");
+    const phone = `(${numberClean.slice(0, 2)}) ${numberClean.slice(2, 7)}-${numberClean.slice(7)}`;
+    return phone;
+};
+/* FORMATA A STRING PARA FORMATO DE CAPITAL */
+export const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+/* FORMATA A STRING PARA NUMBER FLOAT */
+export const converterStringToFloat = (str) => {
+    let formated = str.replace(',', '.');
+    return parseFloat(formated)
 };

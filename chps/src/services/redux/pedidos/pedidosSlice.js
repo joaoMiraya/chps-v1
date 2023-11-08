@@ -195,6 +195,7 @@ const initialState = {
     pedidos: [],
     pedidos_impressos: sessionStorage.getItem("PedidoImpresso") ? sessionStorage.getItem("PedidoImpresso") : [],
     pedidos_entrega: [],
+    pedidos_mesa: [],
     pedidos_user: [],
 };
 
@@ -211,6 +212,15 @@ const pedidosSlice = createSlice({
                 ...action.payload
             });
         },
+        setPedidosMesa(state, action) {
+            state.pedidos_mesa = action.payload;
+            const db = getDatabase();
+            const orderListRef = ref(db, 'pedidos-andamento');
+            const newOrderRef = push(orderListRef);
+            set(newOrderRef, {
+                ...action.payload
+            });
+        },
         setPedidosImpressos(state, action) {
             state.pedidos_impressos = action.payload;
             sessionStorage.setItem("PedidosImpressos", action.payload)
@@ -220,6 +230,10 @@ const pedidosSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPedidosAndamento.fulfilled, (state, action) => {
+                const pedidosMesa = action.payload.filter(pedido => pedido.hasOwnProperty('numero_mesa'));
+                const pedidosEntrega = action.payload.filter(pedido => !pedido.hasOwnProperty('numero_mesa'));
+                state.pedidos_mesa = pedidosMesa;
+                state.pedidos_entrega = pedidosEntrega;
                 state.pedidos = action.payload;
             })
             .addCase(fetchPedidosAndamento.rejected, (action) => {

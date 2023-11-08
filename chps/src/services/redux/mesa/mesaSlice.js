@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     mesaItems: localStorage.getItem("mesaItems") ? JSON.parse(localStorage.getItem("mesaItems")) : [],
-    };
+};
 
 const mesaSlice = createSlice({
     name: "mesa",
@@ -12,7 +12,7 @@ const mesaSlice = createSlice({
     reducers: {
         addToMesa(state, action) {
             const tempProduct = { ...action.payload }
-                    state.mesaItems.push(tempProduct);
+            state.mesaItems.push(tempProduct);
             toast.success(`${action.payload.nome} adicionado na mesa ${tempProduct.numero_mesa}`, {
                 position: "top-left"
             });
@@ -49,7 +49,7 @@ const mesaSlice = createSlice({
             )
             state.mesaItems = nextmesaItems;
             localStorage.setItem("mesaItems", JSON.stringify(state.mesaItems))
-            toast.error(`${action.payload.nome} removido do carrinho`, {
+            toast.error(`${action.payload.nome} removido da mesa ${action.payload.numero_mesa}`, {
                 position: "top-left"
             });
         },
@@ -67,13 +67,20 @@ const mesaSlice = createSlice({
                     (cartItem) => cartItem.id !== action.payload.id
                 );
                 state.mesaItems = nextMesaItems;
-                toast.error(`${action.payload.nome} removido do carrinho`, {
+                toast.error(`${action.payload.nome} removido da mesa ${action.payload.numero_mesa}`, {
                     position: "top-left"
                 });
             }
             localStorage.setItem("mesaItems", JSON.stringify(state.mesaItems))
         },
-          },
+        clearMesa(state, action) {
+            const clearMesaItem = state.mesaItems.filter(
+                mesaItem => mesaItem.numero_mesa !== action.payload.numero_mesa
+            );
+            state.mesaItems = clearMesaItem;
+            localStorage.setItem("mesaItems", JSON.stringify(state.mesaItems))
+        },
+    },
 });
 
 export const { addToMesa, removeFromMesa, decreaseMesa, editItemInMesa, clearMesa } = mesaSlice.actions;

@@ -19,7 +19,7 @@ function Qualidades() {
                     <div className="rounded-full border-4 border-gray-300 border-solid  p-2">
                         <CiBeerMugFull size={30} />
                     </div>
-                    <p className='text-center'> Cerveja e Chopp trincando para maiores</p>
+                    <p className='text-center'> Cerveja e Chopp gelado para maiores</p>
                 </div>
                 <hr />
                 <div className='flex items-center'>

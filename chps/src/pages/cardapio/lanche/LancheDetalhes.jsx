@@ -99,31 +99,35 @@ function LancheDetalhes() {
         <>
             <ToastContainer position="top-right" autoClose={3000} />
             <div className="p-4 w-full overflow-hidden">
-
-                <div className="my-4 flex flex-col gap-2">
-                    <div>
-                        <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
-                        <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                <main>
+                    <div className="my-4 flex flex-col gap-2">
+                        <div>
+                            <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
+                            <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                        </div>
+                        <div className=" self-end flex gap-2">
+                            <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/lanches"}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>
+                        </div>
                     </div>
-                    <div className=" self-end flex gap-2">
-                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/lanches"}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>
+                    <div className="">
+                        <img src={lanche.imagem} alt={lanche.nome} />
                     </div>
-                </div>
-                <div className="">
-                    <img src={lanche.imagem} alt={lanche.nome} />
-                </div>
-                <p className="text-center">
-                    {lanche.ingredientes}
-                </p>
-                <div className="flex flex-col items-center my-4 ">
+                    <p className="text-center">
+                        {lanche.ingredientes}
+                    </p>
+                </main>
+                <section className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <AcrescimoSection
                         selectedAcrescimos={selectedAcrescimos}
                         handleSelectAcrescimo={handleSelectAcrescimo}
                     />
-                    <Note setNote={setNote} note={note} />
+                </section>
 
-                </div>
+                <section>
+                    <Note setNote={setNote} note={note} />
+                </section>
+
                 <section className="py-6">
                     <BebidasSection />
                 </section>

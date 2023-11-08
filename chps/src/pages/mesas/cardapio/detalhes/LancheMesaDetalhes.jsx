@@ -69,6 +69,7 @@ function LancheMesaDetalhes() {
     const handleTableOrder = () => {
         let values = {
             id: cat,
+            url_image: lanche.imagem,
             idPedido: cat + Date.now(),
             nome: lanche.nome,
             classe: lanche.classe,

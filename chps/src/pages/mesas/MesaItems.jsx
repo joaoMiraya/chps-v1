@@ -2,15 +2,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { lazy, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { MdOutlineFastfood } from 'react-icons/md';
 
-import { removeFromMesa, clearMesa, decreaseMesa } from '@services/redux/mesa/mesaSlice';
+import { getUser } from '@services/redux/users/usersSlice';
+import { removeFromMesa } from '@services/redux/mesa/mesaSlice';
+import { getDate, getHours, numberGenerator } from '@javascript/main';
+import { setPedidosMesa, submitOrder } from '../../services/redux/pedidos/pedidosSlice';
+import { clearMesa } from '../../services/redux/mesa/mesaSlice';
+import { toast } from 'react-toastify';
 
 
 const MesaPlaceholder = lazy(() => import("@components/utils/cards/MesaPlaceholder"));
 
 function MesaItems() {
 
+    const dispatch = useDispatch();
     const { id } = useParams();
 
     const [total, setTotal] = useState(0);
@@ -27,23 +33,36 @@ function MesaItems() {
         setTotal(initialTotal);
     }, [mesa]);
 
-    const dispatch = useDispatch();
 
-    const handleDeleteFromCart = (cartItem) => {
-        dispatch(removeFromMesa(cartItem))
+    const handleDeleteFromCart = (mesaPedido) => {
+        dispatch(removeFromMesa(mesaPedido))
     };
-    const handleclearCart = () => {
-        dispatch(clearMesa())
-        toast.error(`Pedidos da mesa ${id} zerados`, {
-            position: "top-left"
-        });
+
+    const handleSetOrder = () => {
+        let order = {
+            itens: mesaItems,
+            numero_pedido: numberGenerator(),
+            numero_mesa: id,
+            atendente: getUser(),
+            total: total.toFixed(2).replace('.', ','),
+            data: getDate(),
+            hora_pedido: getHours(),
+        }
+        dispatch(setPedidosMesa(order));
+        dispatch(clearMesa(order));
+        toast.success(`Pedido da mesa ${id} enviado com sucesso!`);
+        window.location.reload();
     };
 
     return (
 
 
-        <div className="flex items-center flex-col pt-16 h-screen">
-
+        <div className="flex items-center flex-col h-screen">
+            <div className='flex justify-end w-full pr-6 py-6'>
+                <Link to={`pedidos`} className='shadow-inner border-[1px] border-solid bg-red-900 border-red-600 hover:scale-95  p-2 rounded-full text-white'>
+                    <MdOutlineFastfood size={30} />
+                </Link>
+            </div>
             <h1 className="text-2xl font-semibold text-center">{`Pedidos da Mesa ${id}`}</h1>
             <div className="flex flex-col items-center  gap-4 h-full mt-4">
                 <div className={`${mesa >= 0 ? 'block' : 'hidden'}`}>
@@ -74,11 +93,11 @@ function MesaItems() {
                     </div>
                 </div>
                 <div className={`${mesa >= 0 ? 'hidden' : 'flex'} w-full justify-evenly mb-4 `}>
-                    {/* Adicionar o redux para enviar o pedido ao realtiem database */}
-                    <Link to={`/mesas/${id}/pedido`} tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-orange-600 text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                    <Link to={`/mesas/${id}/pedir`} tabIndex={0} className={`flex py-2 px-6 mr-6 font-semibold bg-orange-600 text-white rounded-lg drop-shadow-md hover:scale-105`}>
                         Pedir Mais
                     </Link>
-                    <button aria-label='Avançar com o pedido' tabIndex={0} className={`flex py-2 px-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                    {/* Adicionar o redux para enviar o pedido ao realtiem database */}
+                    <button onClick={() => handleSetOrder()} aria-label='Avançar com o pedido' tabIndex={0} className={`flex py-2 px-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
                         Enviar
                     </button>
                 </div>

@@ -213,8 +213,8 @@ function Cadastro() {
                         tabIndex={0}
                         aria-label='Botão para fazer o registro'
                         type="submit"
-                        className={`bg-[#D4AA3C] py-3 w-full font-bold text-xl my-4 ${formState.isSubmitting ? 'opacity-70' : ''} `}
-                        disabled={formState.isSubmitting}
+                        className={`bg-[#D4AA3C] py-3 w-full font-bold text-xl my-4 ${submiting ? 'opacity-70' : ''} `}
+                        disabled={submiting}
                     >
                         {submiting ?
                             <div className="spinner-border h-6 w-6" role="status">

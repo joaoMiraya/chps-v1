@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import { lazy, useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { fetchBebidas } from "../../../../services/redux/items/bebidasSlice";
-import { db, storage } from "../../../../services/firebase/firebase";
+import { fetchBebidas } from "@services/redux/items/bebidasSlice";
+import { db, storage } from "@services/firebase/firebase";
 
-const EditBebida = lazy(() => import("./utils/editBebidas"));
-const Loading = lazy(() => import("../../../../components/partials/Loading"));
+
+const EditBebida = lazy(() => import("./utils/EditBebidas"));
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function BebidasDashDetail() {
 

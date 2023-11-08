@@ -60,27 +60,27 @@ function NpsComp() {
     return (
 
         <>
-            <div className="flex flex-col items-center justify-center">
-                <h2 className=" font-semibold text-center py-4">Qual a chance de você recomendar o Chapa's para a sua familia e amigos?!</h2>
-                <div className="flex gap-1 shadow-inner bg-stone-200 p-2 rounded-full">
+            <div className="px-6">
+                <h2 className=" font-semibold text-center text-lg my-4">Qual a chance de você recomendar o Chapa's para a sua familia e amigos?!</h2>
+                <div className="flex gap-2 flex-wrap justify-center shadow-inner bg-stone-200 py-2 px-10 rounded-full">
                     {nota.map((number) => {
                         return (
-                            <span key={number} className={`${selected === number ? 'bg-red-200' : 'bg-white'}  hover:scale-110 w-[1.7rem]  h-[1.7rem] flex justify-center items-center font-semibold border-solid border-2 text-stone-600 border-red-300 rounded-full relative`}>
+                            <span key={number} className={`${selected === number ? 'border-green-200' : 'border-gray-300'} bg-white hover:scale-110 w-[2rem]  h-[2rem] flex justify-center items-center font-semibold border-solid border-2 text-gray-600  rounded-full relative`}>
                                 <label htmlFor={`nota${number}`}>{number}</label>
                                 <input onClick={() => handleSetNote(number)} className="absolute cursor-pointer opacity-0" type="radio" name={`nota`} id={`nota${number}`} value={number} />
                             </span>
                         )
                     })}
                 </div>
-                <div className={`${!comp ? 'hidden' : 'flex'} px-6`}>
+                <div className={`${!comp ? 'hidden' : 'block'} px-6`}>
                     <form onSubmit={(e) => handleSubmitNps(e)} >
                         <div className="flex flex-col mt-4">
-                            <label className="font-bold text-red-400 text-center" htmlFor="tip">{question}</label>
+                            <label className="font-bold text-red-400 text-center mb-2" htmlFor="tip">{question}</label>
                             <textarea
                                 className="bg-stone-100 p-2 rounded-xl shadow-md"
                                 name="tip"
                                 id="tip"
-                                cols="30"
+                                cols="10"
                                 rows="5" placeholder="Deixe aqui sua opinião"
                                 onChange={(e) => setOpnion(e.target.value)}
                                 value={opnion}
@@ -102,3 +102,6 @@ function NpsComp() {
 }
 
 export default NpsComp;
+
+
+

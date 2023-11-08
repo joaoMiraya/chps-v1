@@ -1,9 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { createLanche } from '../../../../../services/redux/items/lanchesSlice';
 import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
 import { toast } from 'react-toastify';
+
+import { capitalizeFirstLetter } from '@javascript/main';
+import { storage } from '@services/firebase/firebase';
+import { createLanche } from '@services/redux/items/lanchesSlice';
 
 
 
@@ -18,6 +20,7 @@ function AddLanche() {
     const [categoryLanche, setCategoryLanche] = useState('');
     const [ingreLanche, setIngreLanche] = useState('');
     const [valorLanche, setValorLanche] = useState('');
+    
 
     const resetForm = () => {
         setImageLanche('');
@@ -26,7 +29,7 @@ function AddLanche() {
         setIngreLanche('');
         setValorLanche('');
     };
-    
+
     //FAZ O DISPATCH DOS VALORES PARA O REDUX SALVAR NO FIRESTORE
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,7 +39,7 @@ function AddLanche() {
                 imagem: imageLanche,
                 caminhoImagem: pathImageLanche,
                 nome: nomeLanche,
-                categoria: categoryLanche,
+                categoria: capitalizeFirstLetter(categoryLanche),
                 classe: "lanche",
                 ingredientes: ingreLanche,
                 valor: valorLanche

@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { editBebida } from '../../../../../services/redux/items/bebidasSlice';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
+
+import { editBebida } from '@services/redux/items/bebidasSlice';
+import { storage } from '@services/firebase/firebase';
+import { capitalizeFirstLetter } from '@javascript/main';
 
 
 function EditBebida({ id }) {
@@ -42,7 +44,7 @@ function EditBebida({ id }) {
                 caminhoImagem: editPathImageBebida,
                 nome: editNomeBebida,
                 classe: "bebida",
-                categoria: editCategoryBebida,
+                categoria: capitalizeFirstLetter(editCategoryBebida),
                 valor: editValorBebida
             };
             dispatch(editBebida(values));

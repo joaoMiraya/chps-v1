@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
+import { storage } from '@services/firebase/firebase';
 import { toast } from 'react-toastify';
-import { createPorcoes } from '../../../../../services/redux/items/porcoesSlice';
+import { createPorcoes } from '@services/redux/items/porcoesSlice';
 
 
 

@@ -1,10 +1,10 @@
 import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchPratos } from "../../../../services/redux/items/pratosSlice";
+import { fetchPratos } from "@services/redux/items/pratosSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 
-const Loading = lazy(() => import("../../../../components/partials/Loading"));
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function PratosDashComp() {
 

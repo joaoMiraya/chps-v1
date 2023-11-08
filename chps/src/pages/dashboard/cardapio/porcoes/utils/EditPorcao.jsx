@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
-import { editPorcoes } from '../../../../../services/redux/items/porcoesSlice';
+import { storage } from '@services/firebase/firebase';
+import { editPorcoes } from '@services/redux/items/porcoesSlice';
 
 
 function EditPorcoes({ id }) {

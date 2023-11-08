@@ -30,13 +30,13 @@ function UserEntregas() {
 
         <>
             <h2 className="text-2xl font-semibold text-center mt-6">Suas entregas</h2>
-            <div className="flex flex-col gap-4 p-12">
+            <div className="flex flex-col gap-4 px-6">
                 {userEntregas?.map((entrega, i) => {
 
                     return (
                         <div key={entrega.numero_pedido} className="flex flex-col">
                             <div className="bg-gray-100 py-2 rounded-xl shadow-md flex flex-col justify-center">
-                                <span className="w-[2rem] h-[2rem] bg-gray-500 text-gray-200 flex justify-center self-start ml-2 shadow-xl items-center font-semibold rounded-full text-lg">
+                                <span className="w-[2rem] h-[2rem] bg-red-900 text-gray-200 flex justify-center self-start ml-2 shadow-xl items-center font-semibold rounded-full text-lg">
                                     {i + 1}
                                 </span>
                                 <div className="px-4">
@@ -47,11 +47,11 @@ function UserEntregas() {
 
                                     <span className="flex justify-between items-center gap-4">
                                         <p className="font-semibold selg">Total:</p>
-                                        <p> R${entrega.total}</p>
+                                        <p> R$ {entrega.total}</p>
                                     </span>
                                     <span className="flex justify-between items-center gap-4">
                                         <p className="font-semibold">Pagamento:</p>
-                                        <p> {entrega.pagamento}</p>
+                                        <p className="whitespace-nowrap"> {entrega.pagamento}</p>
                                     </span>
                                     <span className="flex justify-between items-center gap-4">
                                         <p className="font-semibold">Endereço:</p>

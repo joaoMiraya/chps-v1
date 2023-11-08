@@ -101,6 +101,7 @@ function MesaLancheDetalhes() {
     const handleSaveChanges = () => {
         let values = {
             id: lanche.id,
+            url_image: lanche.imagem,
             idPedido: cat,
             nome: lanche.nome,
             classe: lanche.classe,
@@ -141,7 +142,7 @@ function MesaLancheDetalhes() {
                         <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
                         <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
                     </div>
-                  {/*   <div className=" self-end flex gap-2 mt-2">
+                    {/*   <div className=" self-end flex gap-2 mt-2">
                         <Link className="underline" to={"/mesas"}>{('Mesas >')}</Link><span className="text-gray-400">{lanche.nome}</span>
                     </div> */}
                 </div>

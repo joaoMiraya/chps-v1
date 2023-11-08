@@ -8,7 +8,7 @@ import { getUser } from "@services/redux/users/usersSlice";
 import { setPedidos } from "@services/redux/pedidos/pedidosSlice";
 import { getDate, getHours, numberGenerator } from "@javascript/main";
 import { clearCart } from "@services/redux/cart/cartSlice";
-import { telFormater } from '../../../javascript/main';
+import { converterStringToFloat, telFormater } from '../../../javascript/main';
 import ToggleRetirada from './ToggleRetirada';
 
 const FormaDePagamento = lazy(() => import("./FormaDePagamento"));
@@ -152,8 +152,9 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
 
                 } else {    //SE NÃO O PAGAMENTO SERA  DINHEIRO
                     if (troco.length >= 2) {
-                        if (troco > total) {
-                            const trocoTo = `Troco para ${troco}`;
+                        const trocoFormated = converterStringToFloat(troco);
+                        if (trocoFormated > total) {
+                            const trocoTo = `Troco para ${trocoFormated}`;
                             order = {
                                 ...order,
                                 bairro: bairro,

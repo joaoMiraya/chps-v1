@@ -100,6 +100,7 @@ import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes
 import PorcaoMesa from '../pages/mesas/cardapio/PorcaoMesa';
 import PratosMesa from '../pages/mesas/cardapio/PratosMesa';
 import MesaLancheDetalhes from '../pages/mesas/detalhes/MesaLancheDetalhes';
+import MesaPedidos from '../pages/mesas/comps/MesaPedidos';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -148,8 +149,9 @@ root.render(
 
             <Route path='/mesas' element={<Mesas />} />
             <Route path='/mesas/:id' element={<MesaDetalhe />} />
+            <Route path='/mesas/:id/pedidos' element={<MesaPedidos />} />
             <Route path='/mesas/:id/lanche/:cat' element={<MesaLancheDetalhes />} />
-            <Route path='/mesas/:id/pedido' element={<MesaPedir />} />
+            <Route path='/mesas/:id/pedir' element={<MesaPedir />} />
 
             <Route path='/mesas/:id/pedido/lanches' element={<LancheMesa />} />
             <Route path='/mesas/:id/pedido/lanches/:cat' element={<LancheMesaDetalhes />} />

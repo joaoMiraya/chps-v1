@@ -13,10 +13,9 @@ function PedidosFeitos() {
 
     const { pedidos_user } = useSelector(state => state.pedidos);
 
-
     return (
         <>
-            <div className={`${pedidos_user.length > 0 ? 'flex' : 'hidden'} bg-stone-200 gap-2 p-4 flex-col w-full rounded-md shadow-md`}>
+            <div className={`${pedidos_user.length > 0 ? 'flex' : 'hidden'} bg-orange-200/60 gap-2 p-4 flex-col w-full rounded-md shadow-md`}>
                 <h3 className="font-semibold pb-4 text-xl text-center">Seus últimos pedidos</h3>
                 {pedidos_user?.map((pedido) => {
                     const order = pedido.pedido
@@ -44,7 +43,7 @@ function PedidosFeitos() {
                         </ul>
                     )
                 })}
-                <p className="text-center mt-4">Esses foram os seus 3 últimos pedidos feitos pelo app</p>
+                <p className="text-center mt-4">{`Esses foram os seus ${pedidos_user?.length} últimos pedidos feitos pelo App do Chapa's`}</p>
             </div>
         </>
     )

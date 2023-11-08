@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
 import { toast } from 'react-toastify';
-import { createPratos } from '../../../../../services/redux/items/pratosSlice';
+import { storage } from '@services/firebase/firebase';
+import { createPratos } from '@services/redux/items/pratosSlice';
 
 
 

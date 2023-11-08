@@ -65,28 +65,31 @@ function PorcaoDetalhes() {
         <>
             <ToastContainer position="top-right" autoClose={3000} />
             <div className="p-4 w-full overflow-hidden">
+                
+                <main>
+                    <div className="my-4 flex flex-col gap-2">
+                        <div>
+                            <h1 className="text-3xl font-semibold">{porcao.nome}</h1>
+                            <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
+                        </div>
+                        <div className=" self-end flex gap-2">
+                            <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/porcoes"}>{('porcoes >')}</Link><span className="text-gray-400">{porcao.nome}</span>
+                        </div>
+                    </div>
+                    <div className="">
+                        <img src={porcao.imagem} alt={porcao.nome} />
+                    </div>
+                    <p aria-label="Ingredientes" className="text-center">
+                        {porcao.ingredientes}
+                    </p>
+                    <PorcaoToggle inteira={inteira} setInteira={setInteira} />
+                </main>
 
-                <div className="my-4 flex flex-col gap-2">
-                    <div>
-                        <h1 className="text-3xl font-semibold">{porcao.nome}</h1>
-                        <span aria-label="Sub-valor">Sub-total: {String(valorTotal).replace(".", ",")}</span>
-                    </div>
-                    <div className=" self-end flex gap-2">
-                        <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/porcoes"}>{('porcoes >')}</Link><span className="text-gray-400">{porcao.nome}</span>
-                    </div>
-                </div>
-                <div className="">
-                    <img src={porcao.imagem} alt={porcao.nome} />
-                </div>
-                <p aria-label="Ingredientes" className="text-center">
-                    {porcao.ingredientes}
-                </p>
-                <PorcaoToggle inteira={inteira} setInteira={setInteira} />
-                <div className="flex flex-col items-center my-4 ">
+                <section className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <Note setNote={setNote} note={note} />
                     <BebidasSection />
-                </div>
+                </section>
 
             </div>
             <ButtonAddFixo text={"Adicionar ao carrinho"} handleFunc={handleAddToCart} qnt={qnt} />

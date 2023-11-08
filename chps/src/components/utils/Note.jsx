@@ -8,8 +8,8 @@ function Note({ setNote, note }) {
     };
     return (
 
-        <div className="mt-6 flex flex-col items-center gap-4 px-6">
-            <h2 className="text-xl font-semibold  text-center">Gostaria de adicionar uma nota ao pedido?</h2>
+        <div className="my-6 flex flex-col items-center gap-4">
+            <h2 className="text-xl font-semibold  text-center">Gostaria de adicionar alguma exigência ao pedido?</h2>
             <textarea
                 className="bg-gray-200 rounded-md shadow-md p-2"
                 name="notaPedido"

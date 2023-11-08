@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { editLanche } from '../../../../../services/redux/items/lanchesSlice';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../../services/firebase/firebase';
+
+import { storage } from '@services/firebase/firebase';
+import { editLanche } from '@services/redux/items/lanchesSlice';
+import { capitalizeFirstLetter } from '@javascript/main';
 
 
 function EditLanche({ id }) {
@@ -44,7 +46,7 @@ function EditLanche({ id }) {
                 caminhoImagem: editPathImageLanche,
                 nome: editNomeLanche,
                 classe: "lanche",
-                categoria: editCategoryLanche,
+                categoria: capitalizeFirstLetter(editCategoryLanche),
                 ingredientes: editIngreLanche,
                 valor: editValorLanche
             };

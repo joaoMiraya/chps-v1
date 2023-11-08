@@ -1,9 +1,9 @@
 import { lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchPizzas } from "../../../../services/redux/items/pizzasSlice";
+import { fetchPizzas } from "@services/redux/items/pizzasSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const Loading = lazy(() => import("../../../../components/partials/Loading"));
+const Loading = lazy(() => import("@components/partials/Loading"));
 
 function Pizzas() {
 

@@ -11,7 +11,6 @@ function Mapa({ address }) {
         address: PropTypes.string
     };
 
-    const [markers, setMarkers] = useState([]);
     const [position, setPosition] = useState([0, 0]);
     const [isSetting, setIsSetting] = useState(true);
 
@@ -26,7 +25,10 @@ function Mapa({ address }) {
                     setIsSetting(false)
                 }
             } catch (error) {
+                setIsSetting(false)
                 console.error("Error fetching coordinates:", error);
+            } finally {
+                setIsSetting(false)
             }
         }
         fetchCoordinates();

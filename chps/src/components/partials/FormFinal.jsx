@@ -81,7 +81,7 @@ function FormFinal() {
                             >
                             </textarea>
                         </div>
-                        <button type="submit" aria-label="Botão para enviar sua sugestão" className="bg-[#DB0007] font-bold text-xl text-white py-2 ">Enviar</button>
+                        <button type="submit" aria-label="Botão para enviar sua sugestão" className="bg-[#DB0007] rounded-full shadow-md font-bold text-xl text-white py-2 ">Enviar</button>
                     </div>
                 </form>
 

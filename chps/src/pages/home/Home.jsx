@@ -27,8 +27,13 @@ function Home() {
 
     return (
         isLogged ? <HomeLogged /> :
-            <div>
+            <div className='px-4'>
                 <PedidoRapido />
+                <div className='flex justify-between items-center my-2'>
+                    <span className='w-full bg-[#292929] h-[1px]'></span>
+                    <p className='px-4 font-light'>Ou</p>
+                    <span className='w-full bg-[#292929]  h-[1px]'></span>
+                </div>
                 <LoginComp
                     handleShowPassword={handleShowPassword}
                     showPass={showPass}

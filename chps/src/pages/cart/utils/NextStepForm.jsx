@@ -89,7 +89,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
             nome: nome,
             uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
             telefone: tel,
-            total: total.toFixed(2).replace('.', ','),
+            total: total.toFixed(2),
             data: getDate(),
             hora_pedido: getHours(),
         }
@@ -154,14 +154,13 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
                     if (troco.length >= 2) {
                         const trocoFormated = converterStringToFloat(troco);
                         if (trocoFormated > total) {
-                            const trocoTo = `Troco para ${trocoFormated}`;
                             order = {
                                 ...order,
                                 bairro: bairro,
                                 rua: rua,
                                 numero_casa: numero,
                                 referencia: referencia.length > 3 ? referencia : 'Sem referência',
-                                pagamento: trocoTo,
+                                pagamento: trocoFormated,
                                 status: 50
                             }
                             dispatch(clearCart())

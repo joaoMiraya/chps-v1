@@ -38,12 +38,13 @@ function MesaItems() {
         dispatch(removeFromMesa(mesaPedido))
     };
 
-    const handleSetOrder = () => {
+    const handleSetOrder = async () => {
         let order = {
             itens: mesaItems,
             numero_pedido: numberGenerator(),
             numero_mesa: id,
-            atendente: getUser(),
+            mesa: true,
+            atendente: await getUser(),
             total: total.toFixed(2).replace('.', ','),
             data: getDate(),
             hora_pedido: getHours(),
@@ -51,7 +52,9 @@ function MesaItems() {
         dispatch(setPedidosMesa(order));
         dispatch(clearMesa(order));
         toast.success(`Pedido da mesa ${id} enviado com sucesso!`);
-        window.location.reload();
+        setInterval(() => {
+            window.location.reload();
+        }, 1000)
     };
 
     return (

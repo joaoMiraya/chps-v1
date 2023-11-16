@@ -183,10 +183,11 @@ export const getRetiradas = (pedidos) => {
     } else return false
 };
 
-//PEGA TODAS OS PEDIDOS DAS MESAS
+//PEGA TODAS OS PEDIDOS DAS MESAS -- REVISAR FUNÇÃO
 export const getPedidosMesa = (pedidos) => {
     const pedidosFiltred = pedidos.filter(pedido => pedido.mesa === true);
     if (pedidosFiltred) {
+        console.log(pedidosFiltred);
         return pedidosFiltred
     } else return false
 };
@@ -196,6 +197,7 @@ const initialState = {
     pedidos_impressos: sessionStorage.getItem("PedidoImpresso") ? sessionStorage.getItem("PedidoImpresso") : [],
     pedidos_entrega: [],
     pedidos_mesa: [],
+    pedidos_retirar: [],
     pedidos_user: [],
 };
 
@@ -216,10 +218,11 @@ const pedidosSlice = createSlice({
             state.pedidos_mesa = action.payload;
             const db = getDatabase();
             const orderListRef = ref(db, 'pedidos-andamento');
-            const newOrderRef = push(orderListRef);
-            set(newOrderRef, {
-                ...action.payload
-            });
+            console.log(action.payload);
+            /*       const newOrderRef = push(orderListRef);
+                  set(newOrderRef, {
+                      ...action.payload
+                  }); */
         },
         setPedidosImpressos(state, action) {
             state.pedidos_impressos = action.payload;
@@ -232,8 +235,10 @@ const pedidosSlice = createSlice({
             .addCase(fetchPedidosAndamento.fulfilled, (state, action) => {
                 const pedidosMesa = action.payload.filter(pedido => pedido.hasOwnProperty('numero_mesa'));
                 const pedidosEntrega = action.payload.filter(pedido => !pedido.hasOwnProperty('numero_mesa'));
+                const pedidosRetirar = action.payload.filter(pedido => pedido.retirar === true);
                 state.pedidos_mesa = pedidosMesa;
                 state.pedidos_entrega = pedidosEntrega;
+                state.pedidos_retirar = pedidosRetirar;
                 state.pedidos = action.payload;
             })
             .addCase(fetchPedidosAndamento.rejected, (action) => {

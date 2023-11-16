@@ -64,7 +64,22 @@ function PedidoDetalhes() {
 
                     <span className="flex justify-between items-center">
                         <h2 className="text-2xl font-semibold text-start">Total:</h2>
-                        <p className="font-semibold">R$ {pedido.total}</p>
+                        <p className="font-semibold">R$ {pedido.total.replace('.', ',')}</p>
+                    </span>
+
+                    <span className="flex justify-between">
+                        <p className="font-semibold">Pagamento:</p>
+                        {typeof pedido.pagamento != 'number'
+                            ?
+                            <p className="font-semibold">{pedido.pagamento}</p>
+                            :
+                            < p className="font-semibold">{`R$ ${pedido.pagamento.toFixed(2).replace('.', ',')}`}</p>
+                        }
+                    </span>
+
+                    <span className={`${typeof pedido.pagamento != 'number' ? 'hidden' : 'flex'}  justify-between`}>
+                        <p className="font-semibold">Troco:</p>
+                        <p className="font-semibold">{`R$ ${(pedido.pagamento - pedido.total).toFixed(2).toString().replace('.', ',')}`}</p>
                     </span>
 
                     <div className="mt-4 flex justify-between">
@@ -81,7 +96,7 @@ function PedidoDetalhes() {
                     <h2 className="font-semibold">Descreva o motivo do cancelamento:</h2>
                     <CancelPedido pedido={pedido} />
                 </div>
-            </div>
+            </div >
         </>
     )
 }

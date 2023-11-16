@@ -7,7 +7,7 @@ function FiltroPedidos({ setOrderConfig }) {
 
     return (
         <>
-            <div className="flex flex-col items-start self-start bg-gray-200 p-2 rounded-lg shadow-inner">
+            <div className="flex flex-col items-start self-start bg-gray-200 p-2 shadow-inner">
                 <h2 className='text-xl font-semibold'>Filtre os pedidos</h2>
                 <span className="flex flex-row-reverse justify-start items-center gap-2 ">
                     <label className="cursor-pointer" htmlFor="entregas">Entregas</label>

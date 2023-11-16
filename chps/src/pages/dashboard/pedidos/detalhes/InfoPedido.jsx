@@ -10,8 +10,8 @@ function InfoPedido({ pedido }) {
         <>
             <h2 className="text-2xl font-semibold text-center my-2">Pedido:</h2>
             <ul>
-                {pedido.itens.map((item) => (
-                    <div key={item.id} className="flex justify-between border-b-[1px] border-solid border-gray-300">
+                {pedido.itens.map((item, i) => (
+                    <div key={i} className="flex justify-between border-b-[1px] border-solid border-gray-300">
                         <div className="flex flex-col">
                             <li>{item.qnt + ' ' + item.nome}</li>
                             <li>{item.tamanho ? 'Tamanho: ' + item.tamanho : ''}</li>

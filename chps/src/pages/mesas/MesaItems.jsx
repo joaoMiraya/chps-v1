@@ -7,7 +7,7 @@ import { MdOutlineFastfood } from 'react-icons/md';
 import { getUser } from '@services/redux/users/usersSlice';
 import { removeFromMesa } from '@services/redux/mesa/mesaSlice';
 import { getDate, getHours, numberGenerator } from '@javascript/main';
-import { setPedidosMesa, submitOrder } from '../../services/redux/pedidos/pedidosSlice';
+import { setPedidosMesa } from '../../services/redux/pedidos/pedidosSlice';
 import { clearMesa } from '../../services/redux/mesa/mesaSlice';
 import { toast } from 'react-toastify';
 

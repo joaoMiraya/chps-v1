@@ -34,7 +34,7 @@ function SearchItems({ items, cat }) {
     return (
 
         <>
-            <div className='flex justify-center pt-12'>
+            <div className='flex justify-center pt-6'>
                 <input
                     className='pl-2 rounded-l-md shadow-md'
                     type="search"

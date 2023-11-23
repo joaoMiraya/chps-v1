@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { auth, db } from '../../firebase/firebase';
-import { set, ref, get, getDatabase, push, update, remove } from 'firebase/database';
+import { set, ref, get, getDatabase, push, update, remove, child } from 'firebase/database';
 import { addDoc, collection, where, query, getDocs, orderBy, limit } from 'firebase/firestore';
 
 
@@ -138,6 +138,29 @@ export const setOnCourse = createAsyncThunk(
     }
 );
 
+//ATUALIZA A MESA COM O NOVO PEDIDO
+export const updateOrderMesa = createAsyncThunk(
+    'pedidos/mesa-update',
+    async ({ Key, Order }, { rejectWithValue }) => {
+        const db = getDatabase();
+        const updateOrderKey = push(child(ref(db), 'pedidos-andamento')).key;
+        try {
+            const updates = {};
+            updates['/pedidos-andamento/' + updateOrderKey] = Order;
+            /*     const dbRef = ref(db, `pedidos-andamento/${Key}`);
+    
+                const updates = {
+                    ...Order[0],
+                } */
+            return update(ref(db), updates);
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+
+    }
+);
+
 //REMOVE A ENTREGA DE A CAMINHO (75 -> 50)
 export const removeOnCourse = createAsyncThunk(
     'pedidos/removeOnCourse',
@@ -187,7 +210,6 @@ export const getRetiradas = (pedidos) => {
 export const getPedidosMesa = (pedidos) => {
     const pedidosFiltred = pedidos.filter(pedido => pedido.mesa === true);
     if (pedidosFiltred) {
-        console.log(pedidosFiltred);
         return pedidosFiltred
     } else return false
 };
@@ -219,10 +241,10 @@ const pedidosSlice = createSlice({
             const db = getDatabase();
             const orderListRef = ref(db, 'pedidos-andamento');
             console.log(action.payload);
-            /*       const newOrderRef = push(orderListRef);
-                  set(newOrderRef, {
-                      ...action.payload
-                  }); */
+            const newOrderRef = push(orderListRef);
+            set(newOrderRef, {
+                ...action.payload
+            });
         },
         setPedidosImpressos(state, action) {
             state.pedidos_impressos = action.payload;

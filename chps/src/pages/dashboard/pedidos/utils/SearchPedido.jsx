@@ -32,7 +32,7 @@ function SearchPedido({ order }) {
     return (
         <div >
             <form onSubmit={(e) => handleSearchOrder(e)}>
-                <div className="flex shadow-md my-4 items-center border-[1px] border-solid border-gray-300 rounded-xl">
+                <div className="flex shadow-md max-w-[20rem] my-4 items-center border-[1px] border-solid border-gray-300 rounded-xl">
                     <input value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         className="min-w-[16rem] pl-2 w-full"

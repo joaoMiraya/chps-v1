@@ -18,12 +18,12 @@ function MesaPedidos() {
     }, [dispatch]);
 
     const { pedidos_mesa } = useSelector(state => state.pedidos);
-    const pedido = pedidos_mesa?.filter(pedido => pedido.numero_mesa == id)
+    const pedido = pedidos_mesa?.filter(pedido => pedido.numero_mesa == id);
 
 
     if (!pedido) {
         return (<EntregaPlaceholder />)
-    }
+    };
     return (
         <>
             {pedido?.length > 0 ? <div className="px-6 min-h-screen">

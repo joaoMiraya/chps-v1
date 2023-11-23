@@ -1,32 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { lazy } from "react";
-import { fetchPedidosAndamento } from "@services/redux/pedidos/pedidosSlice";
-import { getEntregasAwaiting, getRetiradas, getPedidosMesa } from "@services/redux/pedidos/pedidosSlice";
-import SearchPedido from "./utils/SearchPedido";
 
-const FiltroPedidos = lazy(() => import("./utils/FiltroPedidos"));
+import { getEntregasAwaiting, getRetiradas } from "@services/redux/pedidos/pedidosSlice";
+
+const SearchPedido = lazy(() => import("./utils/SearchPedido"));
 const PedidosComp = lazy(() => import("./utils/PedidosComp"));
 
 function PedidosAndamento({ orderConfig }) {
 
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchPedidosAndamento());
-    }, [dispatch]);
-
-    const { pedidos } = useSelector((state) => state.pedidos);
-    const { pedidos_mesa } = useSelector(state => state.pedidos)
+    const { pedidos, pedidos_mesa } = useSelector((state) => state.pedidos);
 
     const [order, setOrder] = useState([]);
-
-    const fetchData = async () => {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        dispatch(fetchPedidosAndamento());
-    };
-    fetchData();
-
 
     useEffect(() => {
         switch (orderConfig) {
@@ -43,9 +29,6 @@ function PedidosAndamento({ orderConfig }) {
                 break;
         }
     }, [orderConfig]);
-
-
-
 
     return (
         <>

@@ -1,30 +1,44 @@
-import { lazy, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import FiltroPedidos from './pedidos/utils/FiltroPedidos';
-import Logo from '../../components/partials/Logo';
+import Logo from '@components/partials/Logo';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPedidosAndamento } from '@services/redux/pedidos/pedidosSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AddWaitTime = lazy(() => import("./utils/AddWaitTime"))
 const PedidosAndamento = lazy(() => import("./pedidos/PedidosAndamento"))
 
-{/*     <button className="btn btn-primary bg-black border-none max-w-[16rem]" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Definir tempo</button>
-
-    <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div className="offcanvas-header">
-            <h5 className="offcanvas-title font-semibold text-2xl text-center" id="offcanvasScrollingLabel">Genrencie a aplicação</h5>
-            <button type="button" className="btn-close " data-bs-dismiss="offcanvas" aria-label="Close">X</button>
-        </div>
-        <div className="offcanvas-body">
-            <AddTempoEntrega />
-            <AddTempoRetirar />
-        </div>
-    </div> */}
-{/*    <div className="flex flex-col items-center w-full">
-        <PedidosAndamento />
-    </div> */}
-
 function Dashboard() {
 
     const [orderConfig, setOrderConfig] = useState(0);
+    const [numberOpt, setNumberOpt] = useState(0);
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchPedidosAndamento());
+    }, [dispatch]);
+
+    const fetchData = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        dispatch(fetchPedidosAndamento());
+    };
+    fetchData();
+
+    const { pedidos_mesa } = useSelector((state) => state.pedidos);
+
+    const getUniqueTableNumbers = () => {
+        const numbers = pedidos_mesa.map((pedido) => pedido.numero_mesa);
+        const uniqueNumbers = numbers.filter((numero, index, self) => {
+            return self.indexOf(numero) === index;
+        });
+        return uniqueNumbers;
+    };
+
+    const handleNavigateToCloseAccount = () => {
+        navigate(`encerrar-mesa/${numberOpt}`)
+    };
 
     return (
 
@@ -36,6 +50,29 @@ function Dashboard() {
                 <AddWaitTime />
                 <span className='my-4'>
                     <FiltroPedidos setOrderConfig={setOrderConfig} />
+                </span>
+                <span className={`${orderConfig === 2 ? 'flex' : 'hidden'} flex-col justify-center`}>
+                    <h3 className='text-center text-xl font-semibold text-white  bg-gradient-to-tr from-red-800 to bg-orange-300 '>Encerrar mesa</h3>
+                    <p className='text-center'>Selecione a mesa que deseja encerrar</p>
+                    <div className='flex py-6 justify-center gap-6'>
+                        <select
+                            className='min-w-[4rem] cursor-pointer'
+                            onChange={(e) => setNumberOpt(e.target.value)}
+                            value={numberOpt}
+                            name="numero_mesa"
+                            id="numero_mesa"
+                        >
+                            <option value={'undefined'}>Selecione</option>
+                            {getUniqueTableNumbers()?.map((mesa) => {
+                                return (
+                                    <option key={mesa} value={mesa}>{mesa}</option>
+                                )
+                            })}
+
+                        </select>
+                        <button onClick={() => handleNavigateToCloseAccount()} className='cursor-pointer hover:scale-105 shadow-md bg-gradient-to-tr from-red-800 to bg-orange-300 rounded-lg text-white font-semibold p-2'>Encerrar</button>
+                    </div>
+                    <hr />
                 </span>
             </aside>
             <div className='px-12 w-full'>

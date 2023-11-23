@@ -48,7 +48,7 @@ function PedidoDetalhes() {
             }
         });
     };
-    const pedidoEncontrado = pedidos_impressos.includes(id);
+    const pedidoImpresso = pedidos_impressos.includes(id);
 
     if (!pedido) {
         return <Loading />
@@ -59,7 +59,8 @@ function PedidoDetalhes() {
 
                 <div className="shadow-xl flex flex-col p-6 rounded-lg">
                     <InfoGeral pedido={pedido} />
-                    <Endereço pedido={pedido} />
+                    {pedido.mesa ? '' : <Endereço pedido={pedido} />}
+
                     <InfoPedido pedido={pedido} />
 
                     <span className="flex justify-between items-center">
@@ -67,7 +68,7 @@ function PedidoDetalhes() {
                         <p className="font-semibold">R$ {pedido.total.replace('.', ',')}</p>
                     </span>
 
-                    <span className="flex justify-between">
+                    <span className={`${pedido.mesa === true ? 'hidden' : 'flex'} justify-between`}>
                         <p className="font-semibold">Pagamento:</p>
                         {typeof pedido.pagamento != 'number'
                             ?
@@ -83,8 +84,8 @@ function PedidoDetalhes() {
                     </span>
 
                     <div className="mt-4 flex justify-between">
-                        <button onClick={() => handlePrintOrder(pedido)} className={` ${pedidoEncontrado ? 'bg-yellow-600' : 'bg-green-500'}  shadow-xl py-2 px-4 rounded-md hover:scale-105 cursor-pointer`}>
-                            {pedidoEncontrado ? '2° Via' : 'Imprimir'}
+                        <button onClick={() => handlePrintOrder(pedido)} className={` ${pedidoImpresso ? 'bg-yellow-600' : 'bg-green-500'}  shadow-xl py-2 px-4 rounded-md hover:scale-105 cursor-pointer`}>
+                            {pedidoImpresso ? '2° Via' : 'Imprimir'}
                         </button>
                         <button onClick={handleOpenModal} className={`bg-red-900  shadow-xl py-2 px-4 rounded-md hover:scale-105 text-white cursor-pointer`}>
                             {openModal ? "Voltar" : "Cancelar"}

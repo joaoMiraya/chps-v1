@@ -101,6 +101,7 @@ import PorcaoMesa from '../pages/mesas/cardapio/PorcaoMesa';
 import PratosMesa from '../pages/mesas/cardapio/PratosMesa';
 import MesaLancheDetalhes from '../pages/mesas/detalhes/MesaLancheDetalhes';
 import MesaPedidos from '../pages/mesas/comps/MesaPedidos';
+import EncerrarMesa from '../pages/dashboard/pedidos/encerrar-mesa/EncerrarMesa';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -116,6 +117,8 @@ root.render(
           {/* DASHBOARD ROUTES */}
           <Route path='/dashboard' element={<AdminRoute> <DashApp /> </AdminRoute>}>
             <Route path='/dashboard' element={<Dashboard />} />
+
+            <Route path='/dashboard/encerrar-mesa/:id' element={<EncerrarMesa />} />
 
             <Route path='/dashboard/pedidos/:id' element={<PedidoDetalhes />} />
 

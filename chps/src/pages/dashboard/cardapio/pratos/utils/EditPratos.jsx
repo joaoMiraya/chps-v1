@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@services/firebase/firebase';
 import { editLanche } from '@services/redux/items/lanchesSlice';
+import { converterStringToFloat } from '@javascript/main';
 
 
 function EditPratos({ id }) {
@@ -43,7 +44,7 @@ function EditPratos({ id }) {
                 nome: editNomePrato,
                 classe: "pratos",
                 ingredientes: editIngrePrato,
-                valor: editValorPrato
+                valor: converterStringToFloat(editValorPrato)
             };
             dispatch(editLanche(values));
             setSubmitting(false);

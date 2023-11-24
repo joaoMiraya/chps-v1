@@ -11,7 +11,7 @@ export const submitOrder = createAsyncThunk(
     async ({ Order, Time, Key }, { rejectWithValue }) => {
         try {
             //SALVA O PEDIDO FINALIZADO NO FIRESTORE DB
-            const docRef = await addDoc(collection(db, "pedidos"), {
+            await addDoc(collection(db, "pedidos"), {
                 pedido: Order,
                 hora_finalizado: Time
             });
@@ -103,7 +103,7 @@ export const addCancelOrder = createAsyncThunk(
     async ({ Reason, Order, Time }, { rejectWithValue }) => {
         try {
             //SALVA O CANCELAMENTO NO FIRESTORE DB
-            const docRef = await addDoc(collection(db, "cancelamentos"), {
+            await addDoc(collection(db, "cancelamentos"), {
                 motivo: Reason,
                 pedido: Order,
                 hora_cancelamento: Time
@@ -141,7 +141,7 @@ export const setOnCourse = createAsyncThunk(
 //ATUALIZA A MESA COM O NOVO PEDIDO
 export const updateOrderMesa = createAsyncThunk(
     'pedidos/mesa-update',
-    async ({ Key, Order }, { rejectWithValue }) => {
+    async ({ /* Key, */ Order }, { rejectWithValue }) => {
         const db = getDatabase();
         const updateOrderKey = push(child(ref(db), 'pedidos-andamento')).key;
         try {
@@ -255,8 +255,8 @@ const pedidosSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPedidosAndamento.fulfilled, (state, action) => {
-                const pedidosMesa = action.payload.filter(pedido => pedido.hasOwnProperty('numero_mesa'));
-                const pedidosEntrega = action.payload.filter(pedido => !pedido.hasOwnProperty('numero_mesa'));
+                const pedidosMesa = action.payload.filter(pedido => pedido.mesa === true);
+                const pedidosEntrega = action.payload.filter(pedido => !('numero_mesa' in pedido));
                 const pedidosRetirar = action.payload.filter(pedido => pedido.retirar === true);
                 state.pedidos_mesa = pedidosMesa;
                 state.pedidos_entrega = pedidosEntrega;

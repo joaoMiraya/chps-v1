@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../../services/firebase/firebase';
+import { converterStringToFloat } from '../../../../../javascript/main';
 
 
 function EditPizza({ id }) {
@@ -45,8 +46,8 @@ function EditPizza({ id }) {
                 nome: editNomePizza,
                 classe: "pizza",
                 ingredientes: editIngrePizza,
-                valorP: editValorPizzaP,
-                valorF: editValorPizzaF
+                valorP: converterStringToFloat(editValorPizzaP),
+                valorF: converterStringToFloat(editValorPizzaF)
             };
             dispatch(editPizza(values));
             setSubmitting(false);

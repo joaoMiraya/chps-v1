@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { toast } from 'react-toastify';
 
-import { capitalizeFirstLetter } from '@javascript/main';
+import { capitalizeFirstLetter, converterStringToFloat } from '@javascript/main';
 import { storage } from '@services/firebase/firebase';
 import { createLanche } from '@services/redux/items/lanchesSlice';
+
 
 
 
@@ -20,7 +21,7 @@ function AddLanche() {
     const [categoryLanche, setCategoryLanche] = useState('');
     const [ingreLanche, setIngreLanche] = useState('');
     const [valorLanche, setValorLanche] = useState('');
-    
+
 
     const resetForm = () => {
         setImageLanche('');
@@ -42,7 +43,7 @@ function AddLanche() {
                 categoria: capitalizeFirstLetter(categoryLanche),
                 classe: "lanche",
                 ingredientes: ingreLanche,
-                valor: valorLanche
+                valor: converterStringToFloat(valorLanche)
             };
             dispatch(createLanche(values));
             setSubmiting(false)

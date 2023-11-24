@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { auth, db } from "../../firebase/firebase";
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { deleteUser } from 'firebase/auth';
 
 export const fetchUsers = createAsyncThunk(
     'users/fetch',
@@ -146,7 +147,7 @@ const usersSlice = createSlice({
                 state.error = action.payload
                 console.log(action.payload);
             })
-            .addCase(addEndress.fulfilled, (state, action) => {
+            .addCase(addEndress.fulfilled, (state) => {
                 state.success = true
             })
             .addCase(addEndress.rejected, (state, action) => {

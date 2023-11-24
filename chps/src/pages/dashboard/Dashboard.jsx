@@ -4,6 +4,7 @@ import Logo from '@components/partials/Logo';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPedidosAndamento } from '@services/redux/pedidos/pedidosSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AddWaitTime = lazy(() => import("./utils/AddWaitTime"))
 const PedidosAndamento = lazy(() => import("./pedidos/PedidosAndamento"))
@@ -30,6 +31,7 @@ function Dashboard() {
 
     const getUniqueTableNumbers = () => {
         const numbers = pedidos_mesa.map((pedido) => pedido.numero_mesa);
+        numbers.sort((a, b) => a - b);
         const uniqueNumbers = numbers.filter((numero, index, self) => {
             return self.indexOf(numero) === index;
         });
@@ -37,7 +39,11 @@ function Dashboard() {
     };
 
     const handleNavigateToCloseAccount = () => {
-        navigate(`encerrar-mesa/${numberOpt}`)
+        if (numberOpt === 0) {
+            toast.error("Selecione uma mesa")
+        } else {
+            navigate(`encerrar-mesa/${numberOpt}`)
+        }
     };
 
     return (

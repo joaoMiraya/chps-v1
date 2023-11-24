@@ -1,29 +1,18 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchPedidosAndamento } from "../../../services/redux/pedidos/pedidosSlice";
 import CardItemMesa from "../utils/CardItemMesa";
-import { fetchLanches } from "../../../services/redux/items/lanchesSlice";
-import PedidosPlaceholder from "../../profile/comps/PedidosPlaceholder";
 import EntregaPlaceholder from "../../entregadores/utils/EntregaPlaceholder";
 
 function MesaPedidos() {
 
     const { id } = useParams();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchPedidosAndamento());
-        dispatch(fetchLanches());
-    }, [dispatch]);
 
     const { pedidos_mesa } = useSelector(state => state.pedidos);
     const pedido = pedidos_mesa?.filter(pedido => pedido.numero_mesa == id);
 
-
     if (!pedido) {
         return (<EntregaPlaceholder />)
-    };
+    }
     return (
         <>
             {pedido?.length > 0 ? <div className="px-6 min-h-screen">

@@ -4,6 +4,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@services/firebase/firebase';
 import { toast } from 'react-toastify';
 import { createPorcoes } from '@services/redux/items/porcoesSlice';
+import { converterStringToFloat } from '@javascript/main';
 
 
 
@@ -39,8 +40,8 @@ function AddPorcoes() {
                 nome: nomePorcoes,
                 classe: "porcao",
                 ingredientes: ingrePorcoes,
-                valorM: valorPorcoesM,
-                valorI: valorPorcoesI
+                valorM: converterStringToFloat(valorPorcoesM),
+                valorI: converterStringToFloat(valorPorcoesI)
             };
             dispatch(createPorcoes(values));
             setSubmiting(false)

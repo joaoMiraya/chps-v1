@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { lazy, useEffect, useState } from 'react';
 import { MdOutlineFastfood } from 'react-icons/md';
-
-import { getUser } from '@services/redux/users/usersSlice';
-import { removeFromMesa } from '@services/redux/mesa/mesaSlice';
-import { getDate, getHours, numberGenerator } from '@javascript/main';
-import { fetchPedidosAndamento, setPedidosMesa, updateOrderMesa } from '../../services/redux/pedidos/pedidosSlice';
-import { clearMesa } from '../../services/redux/mesa/mesaSlice';
 import { toast } from 'react-toastify';
 
+import { getUser } from '@services/redux/users/usersSlice';
+import { removeFromMesa, clearMesa } from '@services/redux/mesa/mesaSlice';
+import { getDate, getHours, numberGenerator } from '@javascript/main';
+import { setPedidosMesa } from '@services/redux/pedidos/pedidosSlice';
 
 const MesaPlaceholder = lazy(() => import("@components/utils/cards/MesaPlaceholder"));
 
@@ -20,25 +18,19 @@ function MesaItems() {
     const { id } = useParams();
 
     const [total, setTotal] = useState(0);
+
     const { mesaItems } = useSelector((state) => state.mesa);
     const mesa = mesaItems?.filter((mesa) => mesa.numero_mesa === id);
 
 
     useEffect(() => {
-        dispatch(fetchPedidosAndamento());
         // Calcula o total inicial
         const initialTotal = mesa.reduce((accumulator, cartItem) => {
             return accumulator + parseFloat(cartItem.valor);
         }, 0);
         setTotal(initialTotal);
-    }, [mesa, dispatch]);
+    }, [mesa]);
 
-    const { pedidos_mesa } = useSelector(state => state.pedidos);
-
-    //VERIFICAR SE HÁ ALGUM PEDIDO NA MESA
-    const checkIfHasOrder = () => {
-        return pedidos_mesa.find(pedido => pedido.numero_mesa == id);
-    };
 
     const handleDeleteFromCart = (mesaPedido) => {
         dispatch(removeFromMesa(mesaPedido))
@@ -49,30 +41,22 @@ function MesaItems() {
             itens: mesa,
             numero_mesa: id,
             mesa: true,
-            total: total.toFixed(2),
+            total: total,
             numero_pedido: await numberGenerator(),
             atendente: await getUser(),
             data: await getDate(),
             hora_pedido: await getHours(),
         };
-        const hasOrder = checkIfHasOrder();
-        console.log(mesa);
-        if (hasOrder != undefined) {
-            try {
-                console.log('xxt');
-                dispatch(updateOrderMesa({ Order: order, Key: hasOrder.key }))
-            } catch (err) {
-                console.log(err);
-            }
-        } else {
+        try {
             dispatch(setPedidosMesa(order));
+        } catch (err) {
+            console.log(err);
         }
-
-        /* dispatch(clearMesa(order)); */
+        dispatch(clearMesa(order));
         toast.success(`Pedido da mesa ${id} enviado com sucesso!`);
-        /*   setInterval(() => {
-              window.location.reload();
-          }, 1000) */
+        setInterval(() => {
+            window.location.reload();
+        }, 300)
     };
 
     return (

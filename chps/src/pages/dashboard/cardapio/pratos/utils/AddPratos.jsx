@@ -4,6 +4,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { toast } from 'react-toastify';
 import { storage } from '@services/firebase/firebase';
 import { createPratos } from '@services/redux/items/pratosSlice';
+import { converterStringToFloat } from '@javascript/main';
 
 
 
@@ -39,7 +40,7 @@ function AddPratos() {
                 categoria: categoryPratos,
                 classe: "pratos",
                 ingredientes: ingrePratos,
-                valor: valorPratos
+                valor: converterStringToFloat(valorPratos)
             };
             dispatch(createPratos(values));
             setSubmiting(false)

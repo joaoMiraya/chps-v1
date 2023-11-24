@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { lazy } from "react";
+import { PropTypes } from 'prop-types';
 
 import { getEntregasAwaiting, getRetiradas } from "@services/redux/pedidos/pedidosSlice";
 
@@ -8,7 +9,9 @@ const SearchPedido = lazy(() => import("./utils/SearchPedido"));
 const PedidosComp = lazy(() => import("./utils/PedidosComp"));
 
 function PedidosAndamento({ orderConfig }) {
-
+    PedidosAndamento.propTypes = {
+        orderConfig: PropTypes.number.isRequired
+    };
 
     const { pedidos, pedidos_mesa } = useSelector((state) => state.pedidos);
 
@@ -28,7 +31,7 @@ function PedidosAndamento({ orderConfig }) {
             default:
                 break;
         }
-    }, [orderConfig]);
+    }, [orderConfig, pedidos, pedidos_mesa]);
 
     return (
         <>

@@ -6,7 +6,8 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage
 
 import { storage } from '@services/firebase/firebase';
 import { editLanche } from '@services/redux/items/lanchesSlice';
-import { capitalizeFirstLetter } from '@javascript/main';
+import { capitalizeFirstLetter, converterStringToFloat } from '@javascript/main';
+
 
 
 function EditLanche({ id }) {
@@ -48,7 +49,7 @@ function EditLanche({ id }) {
                 classe: "lanche",
                 categoria: capitalizeFirstLetter(editCategoryLanche),
                 ingredientes: editIngreLanche,
-                valor: editValorLanche
+                valor: converterStringToFloat(editValorLanche)
             };
             dispatch(editLanche(values));
             setSubmitting(false);

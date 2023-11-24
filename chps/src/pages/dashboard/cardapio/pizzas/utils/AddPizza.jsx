@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../../services/firebase/firebase';
 import { toast } from 'react-toastify';
+import { converterStringToFloat } from '../../../../../javascript/main';
 
 
 
@@ -38,8 +39,8 @@ function AddPizza() {
                 nome: nomePizza,
                 classe: 'pizza',
                 ingredientes: ingrePizza,
-                valorP: valorPizzaP,
-                valorF: valorPizzaF
+                valorP: converterStringToFloat(valorPizzaP),
+                valorF: converterStringToFloat(valorPizzaF)
             };
             dispatch(createPizza(values));
             setSubmiting(false)

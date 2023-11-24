@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@services/firebase/firebase';
 import { editPorcoes } from '@services/redux/items/porcoesSlice';
+import { converterStringToFloat } from '@javascript/main';
 
 
 function EditPorcoes({ id }) {
@@ -45,8 +46,8 @@ function EditPorcoes({ id }) {
                 nome: editNomePorcao,
                 classe: "porcao",
                 ingredientes: editIngrePorcao,
-                valorM: editValorPorcaoM,
-                valorI: editValorPorcaoI
+                valorM: converterStringToFloat(editValorPorcaoM),
+                valorI: converterStringToFloat(editValorPorcaoI)
             };
             dispatch(editPorcoes(values));
             setSubmitting(false);

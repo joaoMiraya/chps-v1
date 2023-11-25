@@ -34,7 +34,7 @@ function Lanches() {
                 <div key={categoria}>
                     <div className="flex justify-between items-end">
                         <h1 className="text-3xl font-semibold pl-8 mt-6">{categoria}</h1>
-                        <span className="flex items-center mr-6  z-40">
+                        <span className="flex items-center mr-6 ">
                             <Link aria-label={`Ver todos os lanches de ${categoria}`} tabIndex={0} to={`/menu/lanches/ver-todos/${(categoria)}`} className="text-end font-semibold">Ver todos</Link>
                             <AiOutlineArrowRight />
                         </span>

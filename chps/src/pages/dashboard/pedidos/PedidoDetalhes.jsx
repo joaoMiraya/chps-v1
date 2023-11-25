@@ -65,7 +65,7 @@ function PedidoDetalhes() {
 
                     <span className="flex justify-between items-center">
                         <h2 className="text-2xl font-semibold text-start">Total:</h2>
-                        <p className="font-semibold">R$ {pedido.total.replace('.', ',')}</p>
+                        <p className="font-semibold">R$ {(pedido.total).toFixed(2).replace('.', ',')}</p>
                     </span>
 
                     <span className={`${pedido.mesa === true ? 'hidden' : 'flex'} justify-between`}>

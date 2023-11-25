@@ -21,7 +21,7 @@ function InfoPedido({ pedido }) {
                                 </span>
                             ))}
                         </div>
-                        <li >R$ {item.valor}</li>
+                        <li >R$ {(item.valor).replace(".", ",")}</li>
                     </div>
 
                 ))}

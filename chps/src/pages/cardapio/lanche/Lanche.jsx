@@ -5,10 +5,7 @@ const Lanches = lazy(() => import("./Lanches"));
 function Lanche() {
 
     return (
-        <div>
-
-            <h1>lanches</h1>
-
+        <div className="py-20">
             <Lanches />
         </div>
     )

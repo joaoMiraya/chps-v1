@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { auth, googleProvider, db } from "../../firebase/firebase";
-import { GoogleAuthProvider, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
-const getAdm = (email) => {
+const getAdm = async (email) => {
     const emailAdm = import.meta.env.VITE_ADM_EMAIL;
     if (email == emailAdm) {
         Cookies.set("isAdm", true)
@@ -21,9 +21,9 @@ const getAdm = (email) => {
 const verifyAuth = () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            getAdm(user.email);
-            const { accessToken, uid } = auth.currentUser;
+            getAdm(user.email)
             const usersRef = collection(db, "usuarios");
+            const { accessToken, uid } = auth.currentUser;
             const q = query(usersRef, where("uid", "==", uid));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
@@ -175,7 +175,7 @@ const authSlice = createSlice({
                 let message = "Email ou senha inválidos"
                 state.error = message
             })
-            .addCase(userAnonymous.fulfilled, (state, action) => {
+            .addCase(userAnonymous.fulfilled, (state) => {
                 state.isAnonymous = true
                 state.error = null
                 state.success = true

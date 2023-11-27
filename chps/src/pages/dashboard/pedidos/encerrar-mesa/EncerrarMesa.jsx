@@ -23,6 +23,10 @@ function EncerrarMesa() {
         setTotal(subtotal);
     }, [pedido]);
 
+    /* const handlePayAccount = (value) => {
+
+    }; */
+
     return (
 
         <>

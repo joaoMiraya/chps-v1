@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "chapas-lanches"
-  }
+  },
+  "targets": {
+    "chapas-lanches": {
+      "hosting": {
+        "chapas-lanches": [
+          "chps-database"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

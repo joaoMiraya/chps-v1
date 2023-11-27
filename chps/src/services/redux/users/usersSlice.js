@@ -79,6 +79,24 @@ export const setUserRole = createAsyncThunk(
         }
     }
 );
+export const setUserAdmin = createAsyncThunk(
+    'users/adm',
+    async (id, { rejectWithValue }) => {
+        try {
+            const userRef = doc(db, 'usuarios', id);
+            await setDoc(userRef, {
+                admin: true,
+            }, { merge: true });
+            toast.dark(`Usuario definido como administrador`)
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message)
+            } else {
+                return rejectWithValue(error.message)
+            }
+        }
+    }
+);
 
 export const addEndress = createAsyncThunk(
     'users/endress',

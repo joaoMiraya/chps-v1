@@ -55,7 +55,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>Chapa's Lanches - Álvares Machado</title>
+        <title>Chapas Lanches - Álvares Machado</title>
         <meta name="description"
           content="Faça pedidos no Chapa's Lanches direto do seu celular. Entregamos em Álvares Machado e regiões proximas. Deliciosos lanches, hambúrgueres artesanais, pizzas e mais, entregues na sua porta. Peça agora e saboreie nossas opções de dar água na boca!" />
         <meta name="keywords"

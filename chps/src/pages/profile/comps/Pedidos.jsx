@@ -18,14 +18,14 @@ function Pedidos() {
     useEffect(() => {
         dispatch(fetchPedidosAndamento());
         const fetchOrders = () => {
-            setTimeout(() => {
-                const { uid } = auth?.currentUser;
+            setTimeout(async () => {
+                const { uid } = await auth.currentUser;
                 const pedidosFiltrados = pedidos?.filter((pedido) => pedido.uid == uid);
                 setUserOrder(pedidosFiltrados);
             }, 500);
         };
         fetchOrders();
-    }, [pedidos]);
+    }, [pedidos, dispatch]);
 
 
 

@@ -40,10 +40,10 @@ function AddLanche() {
                 imagem: imageLanche,
                 caminhoImagem: pathImageLanche,
                 nome: nomeLanche,
-                categoria: capitalizeFirstLetter(categoryLanche),
+                categoria: await capitalizeFirstLetter(categoryLanche),
                 classe: "lanche",
                 ingredientes: ingreLanche,
-                valor: converterStringToFloat(valorLanche)
+                valor: await converterStringToFloat(valorLanche)
             };
             dispatch(createLanche(values));
             setSubmiting(false)

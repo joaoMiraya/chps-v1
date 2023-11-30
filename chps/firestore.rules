@@ -1,8 +1,48 @@
-rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+      match /usuarios {
+        allow create, write: if true;
+    }  
+        match /usuarios/{userId} {
+      allow read, create, write, update, delete: if request.auth != null && request.auth.uid == get(/databases/$(database)/documents/usuarios/$(userId)).data.uid || get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+     allow create, write;
+    }    
+      	match /pedidos/{orderId} {
+      allow read: if request.auth != null && request.auth.uid == get(/databases/$(database)/documents/pedidos/$(orderId)).data.pedido.uid || get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow delete, create, update: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+    }
+  	  	match /cancelamentos/{document=**} {
+          allow read, delete, create, update: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+    }
+        	match /nps/{document=**} {
+            allow delete, update: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+    				allow create, read: if request.auth != null;
+    }
+  	  
+       match /bebidas/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
+    }
+         match /lanches/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
+    }
+        match /pizzas/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
+    }
+         match /porcoes/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
+    }
+         match /pratos/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
+    }
+         match /acrescimos/{document=**} {
+      allow update,create, delete: if request.auth != null && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.admin == true;
+      allow read;
     }
   }
 }

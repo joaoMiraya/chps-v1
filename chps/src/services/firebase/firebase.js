@@ -21,7 +21,6 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_APP_ID,
     measurementId: import.meta.env.VITE_MEASUREMENT_ID,
     databaseURL: "https://chps-database-default-rtdb.firebaseio.com/",
-
 };
 
 const app = initializeApp(firebaseConfig);

@@ -29,5 +29,5 @@ export const capitalizeFirstLetter = (string) => {
 /* FORMATA A STRING PARA NUMBER FLOAT */
 export const converterStringToFloat = (str) => {
     let formated = str.replace(',', '.');
-    return parseFloat(formated)
+    return parseFloat(formated).toFixed(2)
 };

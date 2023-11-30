@@ -26,7 +26,7 @@ function EncerrarMesa() {
     /* const handlePayAccount = (value) => {
 
     }; */
-
+    console.log(pedido);
     return (
 
         <>

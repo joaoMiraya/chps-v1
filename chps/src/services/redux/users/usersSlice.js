@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { auth, db } from "../../firebase/firebase";
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { deleteUser } from 'firebase/auth';
+import { deleteUser, getAuth } from 'firebase/auth';
 
 export const fetchUsers = createAsyncThunk(
     'users/fetch',
@@ -51,6 +51,7 @@ export const getMotoboys = createAsyncThunk(
 //PEGAR O USUARIO ATUAL NO FIRESTORE
 export const getUser = async () => {
     const { uid } = auth.currentUser;
+    
     let user = [];
     const usersRef = collection(db, "usuarios");
     const q = query(usersRef, where("uid", "==", uid));
@@ -79,6 +80,7 @@ export const setUserRole = createAsyncThunk(
         }
     }
 );
+//REPONSAVEL POR DEFINIR O USUARIO COMO ADMIN NO FIRESTORE
 export const setUserAdmin = createAsyncThunk(
     'users/adm',
     async (id, { rejectWithValue }) => {
@@ -125,6 +127,7 @@ export const addEndress = createAsyncThunk(
 export const deleteUserAccount = createAsyncThunk(
     'users/delete',
     async (_, { rejectWithValue }) => {
+        const auth = getAuth();
         const user = auth.currentUser;
         try {
             await deleteUser(user);

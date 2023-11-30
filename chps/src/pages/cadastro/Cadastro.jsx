@@ -20,7 +20,7 @@ const schema = yup.object().shape({
     confirmEmailRegister: yup.string().email("Insira um e-mail válido").required("Campo obrigatório").oneOf([yup.ref("emailRegister"), null], "Email estão diferentes"),
     passwordRegister: yup.string().min(8, 'Sua senha deve conter no minímo 8 caracteres').max(32).required("Campo obrigatório").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{6,15}$/, " A senha dever conter: 1 letra grande 1 pequena e 1 número"),
     confirmPasswordRegister: yup.string().required("Campo obrigatório").oneOf([yup.ref("passwordRegister"), null], "Senhas estão diferentes"),
-    tel: yup.string("Apenas números são permitidos").min(11, "Seu telefone tem poucos digítos").max(12, "Seu telefone tem muitos números").required("Campo obrigatório"),
+    tel: yup.string("Apenas números são permitidos").min(11, "Seu telefone tem poucos digítos").max(11, "Seu telefone tem muitos números").required("Campo obrigatório"),
 });
 
 function Cadastro() {
@@ -43,7 +43,6 @@ function Cadastro() {
 
     const { register,
         handleSubmit,
-        formState,
         reset,
         formState: { errors },
     } = useForm({
@@ -58,8 +57,8 @@ function Cadastro() {
                 Name: data.nameRegister,
                 Email: data.emailRegister,
                 Password: data.passwordRegister,
-                Tel: telFormater({ tel: data.tel }),
-                Date: getDate()
+                Tel: await telFormater(data.tel),
+                Date: await getDate()
             };
             // Faça a chamada assíncrona para criar o usuário
             dispatch(userRegister(values));

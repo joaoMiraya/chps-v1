@@ -40,24 +40,27 @@ function EditLanche({ id }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
+        const valueFormated = await converterStringToFloat(editValorLanche);
+        const categoryFormated = await capitalizeFirstLetter(editCategoryLanche);
         try {
             const values = {
-                id: id, // Replace with the lanche ID you want to edit
+                id: id,
                 imagem: editImageLanche,
                 caminhoImagem: editPathImageLanche,
                 nome: editNomeLanche,
                 classe: "lanche",
-                categoria: capitalizeFirstLetter(editCategoryLanche),
+                categoria: categoryFormated,
                 ingredientes: editIngreLanche,
-                valor: converterStringToFloat(editValorLanche)
+                valor: valueFormated
             };
             dispatch(editLanche(values));
-            setSubmitting(false);
-            resetForm();
+             setSubmitting(false);
+             resetForm();
         } catch (error) {
             toast.error("Ocorreu um erro ao editar o lanche: " + error);
         }
     };
+
     //FUNÇÃO RESPOSAVEL PELA EXCLUSÃO DA IMAGEM ANTIGA E UPLOAD DA IMAGEM NOVA... 
     const handleImageChange = async (e) => {
         const oldImageRef = ref(storage, caminhoImagem);

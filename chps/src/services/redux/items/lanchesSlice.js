@@ -36,7 +36,7 @@ export const editLanche = createAsyncThunk(
     async ({ id, imagem, caminhoImagem, nome, categoria, classe, ingredientes, valor }, { rejectWithValue }) => {
         try {
             const lancheRef = doc(db, "lanches", id);
-            await updateDoc(lancheRef, {
+            updateDoc(lancheRef, {
                 imagem: imagem,
                 caminhoImagem: caminhoImagem,
                 nome: nome,

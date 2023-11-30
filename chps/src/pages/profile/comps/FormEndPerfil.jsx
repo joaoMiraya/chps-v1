@@ -7,8 +7,8 @@ import * as yup from "yup";
 import Cookies from "js-cookie";
 import { deleteDoc, doc } from "firebase/firestore";
 
-import { deleteUserAccount, fetchUsers, addEndress } from "../../../services/redux/users/usersSlice";
-import { db } from "../../../services/firebase/firebase";
+import { deleteUserAccount, fetchUsers, addEndress } from "@services/redux/users/usersSlice";
+import { db } from "@services/firebase/firebase";
 
 
 const schema = yup.object().shape({
@@ -25,7 +25,7 @@ function FormEndPerfil() {
 
     useEffect(() => {
         dispatch(fetchUsers());
-    }, []);
+    }, [dispatch]);
 
     const user = JSON.parse(Cookies.get("User"));
     const { users } = useSelector(state => state.users);
@@ -65,12 +65,16 @@ function FormEndPerfil() {
 
     //RESPONSÁVEL POR EXCLUIR OS DADOS DO USUARIO NO FIRESTORE E DISPACHAR A FUNÇÃO PARA EXCLUIR A AUTENTICAÇÃO
     const handleDeleteAccount = async () => {
-        await deleteDoc(doc(db, "usuarios", id));
-        dispatch(deleteUserAccount())
-        setTimeout(() => {
-            navigate("/")
-            window.location.reload();
-        }, 2500)
+        try {
+            await deleteDoc(doc(db, "usuarios", id));
+            dispatch(deleteUserAccount())
+            setTimeout(() => {
+                navigate("/")
+                window.location.reload();
+            }, 2500)
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -158,7 +162,7 @@ function FormEndPerfil() {
             </form>
 
             <div className="mt-12 self-end text-gray-400">
-                <button onClick={handleDeleteAccount} className="underline cursor-pointer">Excluir conta</button>
+                <button onClick={() => handleDeleteAccount()} className="underline cursor-pointer">Excluir conta</button>
             </div>
 
         </div>

@@ -53,18 +53,18 @@ export const fetchPedidosAndamento = createAsyncThunk(
 
             return pedidos;
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
             return rejectWithValue(error.message);
         }
     }
 );
 
-//RECUPERA OS PEDIDOS FEITO PELO USUARIO
+//RECUPERA OS 3 ULTIMOS PEDIDOS FEITO PELO USUARIO
 export const fetchPedidosFeitos = createAsyncThunk(
     'pedidos/pedidos_user',
     async (_, { rejectWithValue }) => {
+        const user = auth.currentUser;
         try {
-            const user = auth.currentUser;
             const pedidosRef = collection(db, "pedidos");
             const q = query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
             const querySnapshot = await getDocs(q);
@@ -138,7 +138,7 @@ export const setOnCourse = createAsyncThunk(
     }
 );
 
-//ATUALIZA A MESA COM O NOVO PEDIDO
+//ATUALIZA A MESA COM O NOVO PEDIDO -- REVISAR!!!!
 export const updateOrderMesa = createAsyncThunk(
     'pedidos/mesa-update',
     async ({ /* Key, */ Order }, { rejectWithValue }) => {
@@ -173,6 +173,8 @@ export const removeOnCourse = createAsyncThunk(
                 ...rest,
                 status: 50,
             }
+            let trash = { status, motoboy }
+            console.log(`Itens removidos ${trash}`);
             return update(dbRef, updates)
         } catch (error) {
             console.error(error.message);

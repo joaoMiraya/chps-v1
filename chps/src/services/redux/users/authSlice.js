@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 
+
 //FUNÇÃO PARA VERIFICAR SE O USUARIO É ADM
 const getAdm = async (email) => {
     const emailAdm = import.meta.env.VITE_ADM_EMAIL;

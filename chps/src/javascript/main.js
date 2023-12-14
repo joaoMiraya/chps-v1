@@ -28,6 +28,14 @@ export const capitalizeFirstLetter = (string) => {
 }
 /* FORMATA A STRING PARA NUMBER FLOAT */
 export const converterStringToFloat = (str) => {
-    let formated = str.replace(',', '.');
-    return parseFloat(formated).toFixed(2)
+    if (typeof str == 'number') {
+        return str
+    } else {
+        if (str.includes(',')) {
+            let formatted = str.replace(',', '.');
+            return Number(formatted);
+        } else {
+            return Number(str);
+        }
+    }
 };

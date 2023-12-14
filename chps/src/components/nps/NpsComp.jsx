@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 function NpsComp() {
 
-    const [nota, setNota] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    const nota = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [comp, setComp] = useState(false);
     const [question, setQuestion] = useState('');
     const [selected, setSelected] = useState(null);
@@ -54,14 +54,13 @@ function NpsComp() {
         Cookies.set("Nps", true, { expires: 90 })
         setSubmiting(false);
         setQuestion('');
-        window.location.reload();
     };
 
     return (
 
         <>
             <div className="px-6">
-                <h2 className=" font-semibold text-center text-lg my-4">Qual a chance de você recomendar o Chapa's para a sua familia e amigos?!</h2>
+                <h2 className=" font-semibold text-center text-lg my-4">Qual a chance de você recomendar o Chapas para a sua familia e amigos?!</h2>
                 <div className="flex gap-2 flex-wrap justify-center shadow-inner bg-stone-200 py-2 px-10 rounded-full">
                     {nota.map((number) => {
                         return (

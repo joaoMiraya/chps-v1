@@ -31,7 +31,7 @@ export const addNpsDoc = createAsyncThunk(
             const docRef = await addDoc(collection(db, "nps"), {
                 nota: Nota,
                 pergunta: Question,
-                motivo: Motivo,
+                resposta: Motivo,
                 uid: Uid,
                 data: Data,
             });

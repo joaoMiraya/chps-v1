@@ -28,8 +28,9 @@ function LancheDetalhes() {
 
     const { acrescimos } = useSelector(state => state.acrescimos);
 
-    //RESPONSAVEL POR CAPTURAR O ACRESCIMO SELECIONADO
-    const [selectedAcrescimos, setSelectedAcrescimos] = useState([]);
+        const [selectedAcrescimos, setSelectedAcrescimos] = useState([]);
+
+    //RESPONSÁVEL POR ADICIONAR OS ACRESCIMOS
     const handleSelectAcrescimo = (acrescimoId) => {
         setSelectedAcrescimos(prevSelected => {
             if (prevSelected.includes(acrescimoId)) {

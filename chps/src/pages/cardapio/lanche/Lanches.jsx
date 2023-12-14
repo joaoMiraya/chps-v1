@@ -50,7 +50,7 @@ function Lanches() {
                                         </div>
                                         <div className="flex flex-col gap-2 mt-2">
                                             <h2 className="text-start">{lanche.nome}</h2>
-                                            <p className="font-semibold text-sm">R${(lanche.valor)}</p>
+                                            <p className="font-semibold text-sm">R${Number(lanche.valor).toFixed(2).replace('.', ',')}</p>
                                         </div>
                                     </Link>
                                 </div>

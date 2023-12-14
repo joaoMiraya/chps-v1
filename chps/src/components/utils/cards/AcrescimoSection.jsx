@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from "react";
-import { fetchAcrescimo } from "../../../services/redux/items/acrescimosSlice";
+import { fetchAcrescimo } from "@services/redux/items/acrescimosSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function AcrescimoSection({ handleSelectAcrescimo, selectedAcrescimos }) {
@@ -12,7 +12,6 @@ function AcrescimoSection({ handleSelectAcrescimo, selectedAcrescimos }) {
 
 
     const { acrescimos } = useSelector(state => state.acrescimos);
-
 
 
     useEffect(() => {

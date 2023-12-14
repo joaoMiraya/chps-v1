@@ -63,10 +63,10 @@ export const fetchPedidosAndamento = createAsyncThunk(
 export const fetchPedidosFeitos = createAsyncThunk(
     'pedidos/pedidos_user',
     async (_, { rejectWithValue }) => {
-        const user = auth.currentUser;
         try {
+            const user = auth.currentUser;
             const pedidosRef = collection(db, "pedidos");
-            const q = query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
+            const q =  query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
             const querySnapshot = await getDocs(q);
             let data = [];
             querySnapshot.forEach((doc) => {

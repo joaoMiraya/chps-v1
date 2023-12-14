@@ -8,7 +8,7 @@ function Mesas() {
 
     for (let i = 1; i <= nMesas; i++) {
         mesas.push(i);
-    };
+    }
 
     return (
         <>

@@ -64,11 +64,11 @@ function MesaItems() {
 
         <div className="flex items-center flex-col h-screen">
             <div className='flex justify-end w-full pr-6 py-6'>
-                <Link to={`pedidos`} className='shadow-inner border-[1px] border-solid bg-red-900 border-red-600 hover:scale-95  p-2 rounded-full text-white'>
-                    <MdOutlineFastfood size={30} />
+                <Link to={`pedidos`} className='shadow-inner flex gap-2 items-center font-semibold bg-red-900 hover:scale-95  p-2 rounded-full text-white'>
+                  Pedidos  <MdOutlineFastfood size={30} />
                 </Link>
             </div>
-            <h1 className="text-2xl font-semibold text-center">{`Pedidos da Mesa ${id}`}</h1>
+            <h1 className="text-2xl font-semibold text-center">Pedidos Anotados</h1>
             <div className="flex flex-col items-center  gap-4 h-full mt-4">
                 <div className={`${mesa >= 0 ? 'block' : 'hidden'}`}>
                     <MesaPlaceholder id={id} />

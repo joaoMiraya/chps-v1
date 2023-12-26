@@ -212,7 +212,7 @@ function Cadastro() {
                         tabIndex={0}
                         aria-label='Botão para fazer o registro'
                         type="submit"
-                        className={`bg-[#D4AA3C] py-3 w-full font-bold text-xl my-4 ${submiting ? 'opacity-70' : ''} `}
+                        className={`bg-[#FFBC0D] shadow-md rounded-md py-3 font-bold text-xl my-4 ${submiting ? 'opacity-70' : ''} `}
                         disabled={submiting}
                     >
                         {submiting ?

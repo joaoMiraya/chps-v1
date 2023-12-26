@@ -1,4 +1,4 @@
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,14 +14,16 @@ function Pizzas() {
     useEffect(() => {
         dispatch(fetchPizzas())
     }, [dispatch])
+    
+    const memoizedPizzas = useMemo(() => pizzas, [pizzas]);
 
-    if (!pizzas) {
+    if (!memoizedPizzas) {
         return <Loading />
     }
     return (
 
         <div className="flex justify-center flex-wrap gap-4">
-            {pizzas.map((pizza) => {
+            {memoizedPizzas.map((pizza) => {
 
                 return (
                     <Link aria-label={pizza.nome} tabIndex={0} to={`/menu/pizzas/${pizza.id}`} key={pizza.id} className=" w-[10rem] cursor-pointer">

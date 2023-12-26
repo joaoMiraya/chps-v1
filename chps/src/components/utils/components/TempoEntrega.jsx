@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MotoboySvg from "../../../assets/MotoboySvg";
 import { AiOutlineClose, AiOutlineFieldTime } from 'react-icons/ai';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWaitTime } from "../../../services/redux/app/appSlice";
 
 function TempoEntrega() {
 
 
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
-
     const { tempoEntregar, tempoRetirar, appOnline } = useSelector(state => state.app);
+
+    useEffect(() => {
+        if (open) {
+            dispatch(fetchWaitTime())
+        }
+    }, [open, dispatch])
 
     return (
 

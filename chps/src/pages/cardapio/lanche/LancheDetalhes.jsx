@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
+import { fetchAcrescimo } from '@services/redux/items/acrescimosSlice';
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
 import { addToCart } from "@services/redux/cart/cartSlice";
 
@@ -19,8 +20,11 @@ function LancheDetalhes() {
     const dispatch = useDispatch();
     const [note, setNote] = useState('');
 
+
     useEffect(() => {
         dispatch(fetchLanches());
+        dispatch(fetchAcrescimo());
+
     }, [dispatch]);
 
     const { lanches } = useSelector(state => state.lanches);
@@ -28,22 +32,21 @@ function LancheDetalhes() {
 
     const { acrescimos } = useSelector(state => state.acrescimos);
 
-        const [selectedAcrescimos, setSelectedAcrescimos] = useState([]);
-
-    //RESPONSÁVEL POR ADICIONAR OS ACRESCIMOS
-    const handleSelectAcrescimo = (acrescimoId) => {
-        setSelectedAcrescimos(prevSelected => {
-            if (prevSelected.includes(acrescimoId)) {
-                return prevSelected.filter(id => id !== acrescimoId);
-            } else {
-                return [...prevSelected, acrescimoId];
-            }
-        });
-    };
-
-
+    const [selectedAcrescimos, setSelectedAcrescimos] = useState([]);
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
+
+    const [quantities, setQuantities] = useState({});
+
+    
+    useEffect(() => {
+        let result
+        for (let i = 0; i < acrescimos.lenght; i++) {
+            result = acrescimos.find((acr) => acr.id == quantities[i]);
+        }
+        console.log(result);
+    }, [quantities, acrescimos]);
+
 
     //      RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DO LANCHE
     useEffect(() => {
@@ -120,8 +123,9 @@ function LancheDetalhes() {
                 <section className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <AcrescimoSection
-                        selectedAcrescimos={selectedAcrescimos}
-                        handleSelectAcrescimo={handleSelectAcrescimo}
+                        setQuantities={setQuantities}
+                        quantities={quantities}
+                        acrescimos={acrescimos}
                     />
                 </section>
 

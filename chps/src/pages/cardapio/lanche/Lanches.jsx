@@ -1,4 +1,4 @@
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineArrowRight } from 'react-icons/ai';
@@ -16,13 +16,16 @@ function Lanches() {
         dispatch(fetchLanches());
     }, [dispatch]);
 
-    const categorias = {};
-    lanches.forEach(lanche => {
-        if (!categorias[lanche.categoria]) {
-            categorias[lanche.categoria] = [];
-        }
-        categorias[lanche.categoria].push(lanche);
-    });
+    const categorias = useMemo(() => {
+        const categoriasObj = {};
+        lanches.forEach(lanche => {
+            if (!categoriasObj[lanche.categoria]) {
+                categoriasObj[lanche.categoria] = [];
+            }
+            categoriasObj[lanche.categoria].push(lanche);
+        });
+        return categoriasObj;
+    }, [lanches]);
 
     if (!lanches) {
         return <MenuPlaceholder />

@@ -3,7 +3,7 @@ import { lazy, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchWaitTime, setAppOnline } from './services/redux/app/appSlice';
+import { setAppOnline } from './services/redux/app/appSlice';
 import { useDispatch } from 'react-redux';
 
 const Header = lazy(() => import("./components/partials/Header"));
@@ -31,16 +31,11 @@ function App() {
   const dispatch = useDispatch();
 
   //RESPONSAVEL POR DEFINIR SE O APP ESTÁ ONLINE/OFFLINE DE ACORDO COM A HORA
+  const dataAtual = new Date();
+  const horaAtual = dataAtual.getHours();
   useEffect(() => {
-    const dataAtual = new Date();
-    const horaAtual = dataAtual.getHours();
     if (horaAtual < 18) {
       setInterval(async () => {
-        try {
-          dispatch(fetchWaitTime());
-        } catch (err) {
-          console.log(err);
-        }
         try {
           dispatch(setAppOnline(true));
         } catch (err) {
@@ -50,7 +45,7 @@ function App() {
     } else {
       dispatch(setAppOnline(false));
     }
-  }, [dispatch]);
+  }, [dispatch, horaAtual]);
 
   return (
     <>

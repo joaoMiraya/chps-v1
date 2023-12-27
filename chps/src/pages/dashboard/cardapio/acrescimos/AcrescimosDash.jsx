@@ -1,10 +1,9 @@
 import { lazy } from "react";
 
-const AcrescimosForDetail = lazy(() => import("./AcrescimosForDash"));
+const AcrescimosForDash = lazy(() => import("./AcrescimosForDash"));
 const AcrescimosAdd = lazy(() => import("./AcrescimosAdd"));
 
 function AcrescimosDash() {
-
 
     return (
 
@@ -22,7 +21,7 @@ function AcrescimosDash() {
             </div>
             <div className="flex flex-col w-full">
                 <h1 className="text-2xl font-semibold text-center">Acréscimos do Cardápio</h1>
-                <AcrescimosForDetail />
+                <AcrescimosForDash />
             </div>
         </div>
     )

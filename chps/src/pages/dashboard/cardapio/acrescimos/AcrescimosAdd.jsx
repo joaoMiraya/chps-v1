@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { createAcrescimo } from '../../../../services/redux/items/acrescimosSlice';
+import { createAcrescimo } from '@services/redux/items/acrescimosSlice';
+import { converterStringToFloat } from '@javascript/main';
 
 
 function AcrescimosAdd() {
@@ -25,7 +26,7 @@ function AcrescimosAdd() {
         try {
             const values = {
                 nome: nomeAcrescimo,
-                valor: valorAcrescimo
+                valor: converterStringToFloat(valorAcrescimo)
             };
             dispatch(createAcrescimo(values));
             setSubmiting(false)

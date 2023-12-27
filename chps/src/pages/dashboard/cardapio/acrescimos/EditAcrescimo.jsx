@@ -6,6 +6,7 @@ import { fetchAcrescimo, editAcrescimo } from '../../../../services/redux/items/
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../services/firebase/firebase";
+import { converterStringToFloat } from "../../../../javascript/main";
 
 const Loading = lazy(() => import("../../../../components/partials/Loading"));
 
@@ -29,9 +30,9 @@ function EditAcrescimos() {
         setSubmitting(true);
         try {
             const values = {
-                id: id, // Replace with the lanche ID you want to edit
+                id: id,
                 nome: nomeAcrEdit,
-                valor: valorAcrEdit
+                valor: converterStringToFloat(valorAcrEdit)
             };
             dispatch(editAcrescimo(values));
             setSubmitting(false);
@@ -69,7 +70,7 @@ function EditAcrescimos() {
 
                         <label htmlFor="valorAcrEdit">Altere o valor do Acréscimo</label>
                         <input className="border-b-[1px] border-solid border-gray-300 "
-                            type="number"
+                            type="string"
                             name="valorAcrEdit"
                             id="valorAcrEdit"
                             onChange={(e) => setValorAcrEdit(e.target.value)}
@@ -82,7 +83,7 @@ function EditAcrescimos() {
             <div className="flex flex-col items-center justify-center w-1/2 mt-6">
                 <div className="flex flex-col p-8 border-[1px] border-solid border-gray-200 min-w-[16rem]">
                     <p className="font-semibold">{acrescimo.nome}</p>
-                    <p className="font-semibold">R$ {acrescimo.valor}</p>
+                    <p className="font-semibold">R$  {Number(acrescimo.valor).toFixed(2).replace('.', ',')}</p>
                 </div>
                 <button onClick={handleDeleteLanche} className="bg-[#DB0007] py-2 min-w-[16rem] font-semibold text-white mt-2">Excluir</button>
             </div>

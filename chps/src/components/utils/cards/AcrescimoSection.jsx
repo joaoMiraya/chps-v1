@@ -24,9 +24,11 @@ function AcrescimoSection({ quantities, setQuantities, acrescimos }) {
     };
 
     const handleIncrease = (acrescimoId) => {
+
+
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
-            [acrescimoId]: (prevQuantities[acrescimoId] || 0) + 1,
+            [acrescimoId]: (prevQuantities[acrescimoId] || 0) + 1
         }));
     };
 
@@ -43,7 +45,7 @@ function AcrescimoSection({ quantities, setQuantities, acrescimos }) {
                     >
                         <span className="flex flex-col">
                             <p className="font-semibold">{acrescimo.nome}</p>
-                            <p className="text-green-400 font-semibold">R$ {acrescimo.valor}</p>
+                            <p className="text-green-400 font-semibold">R${Number(acrescimo.valor).toFixed(2).replace('.', ',')} </p>
                         </span>
 
                         <div className=" border-[1px] border-solid border-gray-400 gap-4 flex px-2 py-[3px] rounded-2xl">

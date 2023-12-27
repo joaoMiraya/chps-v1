@@ -35,34 +35,40 @@ function LancheDetalhes() {
     const [selectedAcrescimos, setSelectedAcrescimos] = useState([]);
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
-
     const [quantities, setQuantities] = useState({});
 
-    
+
+    //REPONSÁVEL POR VERIFICAR SE POSSUI ACRESCIMOS
     useEffect(() => {
-        let result
-        for (let i = 0; i < acrescimos.lenght; i++) {
-            result = acrescimos.find((acr) => acr.id == quantities[i]);
+        let result = [];
+        for (let i = 0; i < Object.keys(quantities).length; i++) {
+            const quantityId = Object.keys(quantities)[i];
+            const foundAcrescimo = acrescimos.find(elemento => elemento.id === quantityId);
+            if (foundAcrescimo) {
+                const newObjct = {
+                    ...foundAcrescimo,
+                    qntd: quantities[quantityId]
+                }
+                result.push(newObjct);
+            }
         }
-        console.log(result);
+        setSelectedAcrescimos(result);
     }, [quantities, acrescimos]);
 
 
     //      RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DO LANCHE
     useEffect(() => {
         if (selectedAcrescimos && lanche) {
-            const selectedAcrescimosTotalValueInCents = selectedAcrescimos.reduce((totalValue, acrescimoId) => {
-                const acrescimo = acrescimos.find(acrescimo => acrescimo.id === acrescimoId);
-                if (acrescimo) {
-                    return totalValue + Math.round(acrescimo.valor * 100); // Convertendo para centavos
-                }
-                return totalValue;
-            }, 0);
-            const valorLancheInCents = Math.round(lanche.valor * 100); // Convertendo para centavos
+            let valorTotalAcr = 0;
+            for (let i = 0; i < selectedAcrescimos.length; i++) {
+                valorTotalAcr += selectedAcrescimos[i].valor * selectedAcrescimos[i].qntd;
+            }
+            const selectedAcrescimosTotalValueInCents = Math.round(valorTotalAcr * 100); // Convertendo o valor dos acrescimos para centavos
+            const valorLancheInCents = Math.round(lanche.valor * 100); // Convertendo o valor do lanche para centavos
             const valorTotalInCents = valorLancheInCents + selectedAcrescimosTotalValueInCents;
-            const valorTotal = (valorTotalInCents / 100);
+            const valorTotal = (valorTotalInCents / 100); // Convertendo o valor total para reais
             const valorFinal = valorTotal * qnt
-            setValorTotal(valorFinal.toFixed(2))
+            setValorTotal(valorFinal)
 
         }
     }, [lanche, acrescimos, selectedAcrescimos, qnt]);
@@ -80,14 +86,9 @@ function LancheDetalhes() {
         };
 
         if (selectedAcrescimos && selectedAcrescimos.length > 0) {
-            const selectedAcrecimoObjects = selectedAcrescimos.map(selectedId => {
-                const acrescimo = acrescimos.find(acrescimo => acrescimo.id === selectedId);
-                return acrescimo;
-            });
-
             values = {
                 ...values,
-                acrescimos: selectedAcrecimoObjects
+                acrescimos: selectedAcrescimos
             };
         }
 
@@ -107,7 +108,7 @@ function LancheDetalhes() {
                     <div className="my-4 flex flex-col gap-2">
                         <div>
                             <h1 className="text-3xl font-semibold">{lanche.nome}</h1>
-                            <span>Sub-total: {String(valorTotal).replace(/\./g, ',')}</span>
+                            <span>Sub-total: {Number(valorTotal).toFixed(2).replace('.', ',')} </span>
                         </div>
                         <div className=" self-end flex gap-2">
                             <Link className="underline" to={"/menu"}>{('menu >')}</Link><Link className="underline" to={"/menu/lanches"}>{('lanches >')}</Link><span className="text-gray-400">{lanche.nome}</span>

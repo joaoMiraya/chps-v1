@@ -15,7 +15,7 @@ function AcrescimosForDash() {
         dispatch(fetchAcrescimo());
     }, [dispatch]);
 
-    console.log(acrescimos);
+
     return (
 
         <div className="flex justify-center gap-4 mt-6 flex-wrap">
@@ -26,9 +26,9 @@ function AcrescimosForDash() {
                         <Link to={`/dashboard/acrescimos/${acrescimo.id}`}>
                             <div className="flex flex-col items-center justify-between">
                                 <p className="font-semibold">{acrescimo.nome}</p>
-                                <p className="font-semibold">Valor: {(acrescimo.valor).replace('.', ',')}</p>
+                                <p className="font-semibold">Valor: {Number(acrescimo.valor).toFixed(2).replace('.', ',')} </p>
                             </div>
-                            
+
                         </Link>
                     </div>
                 )

@@ -25,10 +25,12 @@ function Cart() {
         });
     };
 
+    console.log(total);
+
     useEffect(() => {
         // Calcula o total inicial
         const initialTotal = cartItems.reduce((accumulator, cartItem) => {
-            return accumulator + parseFloat(cartItem.valor.replace(',', '.'));
+            return accumulator + cartItem.valor;
         }, 0);
         setTotal(initialTotal);
     }, [cartItems]);
@@ -71,7 +73,7 @@ function Cart() {
                                         <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/carrinho/${classe + '/' + idPedido}`}>
                                             <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
                                                 <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
-                                                <p>R$ {(cartItem.valor).replace(".", ",")}</p>
+                                                <p>R$ {Number(cartItem.valor).toFixed(2).replace('.', ',')}</p>
                                             </div>
                                         </Link>
                                         <div className='flex justify-end'>
@@ -83,11 +85,14 @@ function Cart() {
                         </div>
                         <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} justify-between w-full my-12`} >
                             <span onClick={handleclearCart} aria-label='Limpar o carrinho' tabIndex={0} className='underline cursor-pointer text-gray-400'>Limpar Carrinho</span>
-                            <span className={`font-semibold `}>Total: R$ {(total).toFixed(2).replace(".", ",")}</span>
+                            <span className={`font-semibold `}>Total: R$ {Number(total).toFixed(2).replace('.', ',')}</span>
                         </div>
                     </div>
                     <div className={`${cartItems >= 0 ? 'hidden' : 'flex'} w-full justify-end mb-4 `}>
-                        <button onClick={handleNextStep} aria-label='Avançar com o pedido' tabIndex={0} className={`${nextStep ? 'hidden' : 'flex'} py-2 px-6 mr-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
+                        <button onClick={handleNextStep}
+                            aria-label='Avançar com o pedido'
+                            tabIndex={0}
+                            className={`${nextStep ? 'hidden' : 'flex'} py-2 px-6 mr-6 font-semibold bg-[#292929] text-white rounded-lg drop-shadow-md hover:scale-105`}>
                             Avançar
                         </button>
                     </div>

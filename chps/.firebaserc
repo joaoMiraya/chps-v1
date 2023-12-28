@@ -1,11 +1,11 @@
 {
   "projects": {
-    "default": "chapas-lanches"
+    "default": "chps-database"
   },
   "targets": {
-    "chapas-lanches": {
+    "chps-database": {
       "hosting": {
-        "chapas-lanches": [
+        "chps-database": [
           "chps-database"
         ]
       }

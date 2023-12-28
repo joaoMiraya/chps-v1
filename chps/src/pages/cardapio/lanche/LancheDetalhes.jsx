@@ -24,7 +24,6 @@ function LancheDetalhes() {
     useEffect(() => {
         dispatch(fetchLanches());
         dispatch(fetchAcrescimo());
-
     }, [dispatch]);
 
     const { lanches } = useSelector(state => state.lanches);
@@ -37,7 +36,7 @@ function LancheDetalhes() {
     const [qnt, setQnt] = useState(1);
     const [quantities, setQuantities] = useState({});
 
-
+console.log(quantities);
     //REPONSÁVEL POR VERIFICAR SE POSSUI ACRESCIMOS
     useEffect(() => {
         let result = [];
@@ -74,6 +73,7 @@ function LancheDetalhes() {
     }, [lanche, acrescimos, selectedAcrescimos, qnt]);
 
 
+
     const handleAddToCart = () => {
         let values = {
             id: id,
@@ -84,7 +84,6 @@ function LancheDetalhes() {
             qnt: qnt,
             nota: note.length < 3 ? 'Sem exigências' : note
         };
-
         if (selectedAcrescimos && selectedAcrescimos.length > 0) {
             values = {
                 ...values,

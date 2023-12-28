@@ -88,7 +88,7 @@ function NextStepForm({ handleBackStep, cartItems, total }) {
             numero_pedido: numberGenerator(),
             nome: nome,
             uid: isAnonymous || !isLogged ? 'Usuario anônimo' : user.uid,
-            telefone: tel,
+            telefone: telFormater(tel),
             total: total.toFixed(2),
             data: getDate(),
             hora_pedido: getHours(),

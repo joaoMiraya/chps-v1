@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 import { fetchLanches } from "@services/redux/items/lanchesSlice";
 import { editItemInCart } from "@services/redux/cart/cartSlice";
+import { fetchAcrescimo } from "@services/redux/items/acrescimosSlice";
 
 const SaveBtn = lazy(() => import("./utils/SaveBtn"));
 const Note = lazy(() => import("@components/utils/Note"));
@@ -22,15 +23,17 @@ function CartLancheDetalhes() {
     const [valorTotal, setValorTotal] = useState(0);
     const [qnt, setQnt] = useState(1);
     const [note, setNote] = useState('');
+    const [quantities, setQuantities] = useState({});
 
-
-    const { lanches } = useSelector(state => state.lanches);
-    const lanche = lanches.find((lanche) => lanche.id === itemInCart?.id)
 
     useEffect(() => {
         dispatch(fetchLanches());
+        dispatch(fetchAcrescimo());
     }, [dispatch]);
 
+    const { acrescimos } = useSelector(state => state.acrescimos);
+    const { lanches } = useSelector(state => state.lanches);
+    const lanche = lanches.find((lanche) => lanche.id === itemInCart?.id)
 
     //RESPONSÁVEL POR ENCONTRAR O ITEM DO PEDIDO E SETAR SUAS INFORMAÇÕES
     useEffect(() => {
@@ -49,13 +52,12 @@ function CartLancheDetalhes() {
         fetchCartItems();
     }, [id]);
 
-
     //RESPONSAVEL POR VERIFICAR SE O ITEM POSSUI ACRESCIMOS OU NÃO
     useEffect(() => {
         if (itemInCart) {
             const { acrescimos } = itemInCart;
             if (acrescimos) {
-                const acrescimoIds = itemInCart.acrescimos.map(acrescimo => acrescimo.id);
+                const acrescimoIds = acrescimos.map(acrescimo => acrescimo.id);
                 setSelectedAcrescimos(acrescimoIds);
             } else return
         } else {
@@ -63,18 +65,18 @@ function CartLancheDetalhes() {
         }
     }, [itemInCart]);
 
-    const { acrescimos } = useSelector(state => state.acrescimos);
+console.log(itemInCart);
 
     //RESPONSAVEL POR CAPTURAR O ACRESCIMO SELECIONADO
-    const handleSelectAcrescimo = (acrescimoId) => {
-        setSelectedAcrescimos(prevSelected => {
-            if (prevSelected.includes(acrescimoId)) {
-                return prevSelected.filter(id => id !== acrescimoId);
-            } else {
-                return [...prevSelected, acrescimoId];
-            }
-        });
-    };
+    /*     const handleSelectAcrescimo = (acrescimoId) => {
+            setSelectedAcrescimos(prevSelected => {
+                if (prevSelected.includes(acrescimoId)) {
+                    return prevSelected.filter(id => id !== acrescimoId);
+                } else {
+                    return [...prevSelected, acrescimoId];
+                }
+            });
+        }; */
 
     //RESPONSAVEL POR VERIFICAR E ATUALIZAR O PREÇO FINAL DO ITEM
     useEffect(() => {
@@ -150,8 +152,9 @@ function CartLancheDetalhes() {
                 <div className="flex flex-col items-center my-4 ">
                     <IncresDecresBtn qnt={qnt} setQnt={setQnt} />
                     <AcrescimoSection
-                        selectedAcrescimos={selectedAcrescimos}
-                        handleSelectAcrescimo={handleSelectAcrescimo}
+                        setQuantities={setQuantities}
+                        quantities={quantities}
+                        acrescimos={acrescimos}
                     />
                     <Note setNote={setNote} note={note} />
                 </div>

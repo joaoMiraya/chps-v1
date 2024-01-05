@@ -6,6 +6,7 @@ import CardItemMesa from "../utils/CardItemMesa";
 import SearchItems from "../utils/SearchItems";
 
 
+
 function PizzaMesa() {
 
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function PizzaMesa() {
     return (
 
         <>
+            
             <SearchItems items={pizzas} cat={"pizzas"} />
             <div className='flex flex-col items-center pt-12 px-6 '>
                 <div className='flex flex-wrap gap-2'>

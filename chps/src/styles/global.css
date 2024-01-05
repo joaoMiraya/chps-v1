@@ -144,3 +144,6 @@ textarea {
     background: linear-gradient(180deg, #C55300, #ED724E, #D4AA3C, #FFB44D);
 }
 
+.active {
+    background: linear-gradient(180deg, #C55300, #ED724E, #D4AA3C, #FFB44D);
+}

@@ -36,7 +36,7 @@ function LancheDetalhes() {
     const [qnt, setQnt] = useState(1);
     const [quantities, setQuantities] = useState({});
 
-console.log(quantities);
+
     //REPONSÁVEL POR VERIFICAR SE POSSUI ACRESCIMOS
     useEffect(() => {
         let result = [];

@@ -45,7 +45,6 @@ function PratosDashDetail() {
     };
 
 
-
     if (!prato) {
         return <Loading />
     }
@@ -64,7 +63,7 @@ function PratosDashDetail() {
                 <p>{prato.ingredientes}</p>
                 <div className="flex justify-around w-full">
                     <p className="font-semibold">Valor:</p>
-                    <p>R${prato.valor}</p>
+                    <p>R${Number(prato.valor).toFixed(2).replace(".", ',')}</p>
                 </div>
                 <button onClick={handleDeletePrato} className="bg-[#DB0007] w-4/5 mt-6 hover:opacity-75 text-white font-semibold py-2 rounded-md">
                     Excluir Prato

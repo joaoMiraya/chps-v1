@@ -31,7 +31,7 @@ function LanchesDashComp() {
                             </div>
                             <div className="flex justify-between mt-4">
                                 <p className="font-semibold">valor:</p>
-                                <p>R${lanche.valor}</p>
+                                <p>R${Number(lanche.valor).toFixed(2).replace(".", ",")}</p>
                             </div>
                         </Link>
                     </div>

@@ -65,7 +65,7 @@ function CartLancheDetalhes() {
         }
     }, [itemInCart]);
 
-console.log(itemInCart);
+
 
     //RESPONSAVEL POR CAPTURAR O ACRESCIMO SELECIONADO
     /*     const handleSelectAcrescimo = (acrescimoId) => {

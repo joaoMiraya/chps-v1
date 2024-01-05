@@ -15,7 +15,7 @@ function LancheMesa() {
 
     useEffect(() => {
         dispatch(fetchLanches())
-    }, []);
+    }, [dispatch]);
 
     const [category, setCategory] = useState('Hamburguer');
 

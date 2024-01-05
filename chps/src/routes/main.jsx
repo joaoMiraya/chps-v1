@@ -74,11 +74,6 @@ import BebidasDetalhes from '@bebidas/BebidasDetalhes';
 
 //CARRINHO ROUTES
 import Cart from '../pages/cart/Cart';
-import CartLancheDetalhes from '../pages/cart/detalhes/CartLancheDetalhes';
-import CartPizzaDetalhes from '../pages/cart/detalhes/CartPizzaDetalhes';
-import CartPorcaoDetalhes from '../pages/cart/detalhes/CartPorcaoDetalhes';
-import CartBebidasDetalhes from '../pages/cart/detalhes/CartBebidasDetalhes';
-import CartPratosDetalhes from '../pages/cart/detalhes/CartPratosDetalhes';
 
 //GARÇONS ROUTES
 import Mesas from '../pages/mesas/Mesas';
@@ -87,21 +82,22 @@ import LancheMesa from '../pages/mesas/cardapio/LancheMesa';
 import PizzaMesa from '../pages/mesas/cardapio/PizzaMesa';
 import WaiterApp from '../pages/mesas/WaiterApp';
 import WaiterRoute from './WaiterRoute';
-import LancheMesaDetalhes from '../pages/mesas/cardapio/detalhes/LancheMesaDetalhes';
+
 import MesaPedir from '../pages/mesas/MesaPedir';
+import PorcaoMesa from '../pages/mesas/cardapio/PorcaoMesa';
+import PratosMesa from '../pages/mesas/cardapio/PratosMesa';
+import MesaPedidos from '../pages/mesas/comps/MesaPedidos';
+import EncerrarMesa from '../pages/dashboard/pedidos/encerrar-mesa/EncerrarMesa';
+import LancheMesaDetalhes from '../pages/mesas/cardapio/detalhes/LancheMesaDetalhes';
 
 //ENTREGADORES ROUTES
 import MotoboyRoute from './MotoboyRoute';
 import EntregaApp from '../pages/entregadores/EntregaApp';
 import Entregas from '../pages/entregadores/Entregas';
 import EntregaDetalhes from '../pages/entregadores/EntregaDetalhes';
-import UserEntregas from '../pages/entregadores/UserEntregas';
 import EntregaMotoDetalhes from '../pages/dashboard/entregas/EntregaMotoDetalhes';
-import PorcaoMesa from '../pages/mesas/cardapio/PorcaoMesa';
-import PratosMesa from '../pages/mesas/cardapio/PratosMesa';
-import MesaLancheDetalhes from '../pages/mesas/detalhes/MesaLancheDetalhes';
-import MesaPedidos from '../pages/mesas/comps/MesaPedidos';
-import EncerrarMesa from '../pages/dashboard/pedidos/encerrar-mesa/EncerrarMesa';
+import UserEntregas from '../pages/entregadores/UserEntregas';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -153,7 +149,6 @@ root.render(
             <Route path='/mesas' element={<Mesas />} />
             <Route path='/mesas/:id' element={<MesaDetalhe />} />
             <Route path='/mesas/:id/pedidos' element={<MesaPedidos />} />
-            <Route path='/mesas/:id/lanche/:cat' element={<MesaLancheDetalhes />} />
             <Route path='/mesas/:id/pedir' element={<MesaPedir />} />
 
             <Route path='/mesas/:id/pedido/lanches' element={<LancheMesa />} />
@@ -177,12 +172,6 @@ root.render(
           <Route path='/menu/porcoes/:id' element={<PorcaoDetalhes />} />
           <Route path='/menu/pratos/:id' element={<PratoDetalhes />} />
           <Route path='/menu/bebidas/:id' element={<BebidasDetalhes />} />
-          {/* DETALHES DOS ITENS NO CARRINHO */}
-          <Route path='/carrinho/lanche/:id' element={<CartLancheDetalhes />} />
-          <Route path='/carrinho/pizza/:id' element={<CartPizzaDetalhes />} />
-          <Route path='/carrinho/porcao/:id' element={<CartPorcaoDetalhes />} />
-          <Route path='/carrinho/pratos/:id' element={<CartPratosDetalhes />} />
-          <Route path='/carrinho/bebida/:id' element={<CartBebidasDetalhes />} />
 
           {/* APP ROUTES */}
           <Route path='/' element={<App />}>

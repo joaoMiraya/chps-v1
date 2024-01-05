@@ -43,8 +43,6 @@ function PorcoesDashDetail() {
         window.history.back();
     };
 
-
-
     if (!porcao) {
         return <Loading />
     }
@@ -63,8 +61,8 @@ function PorcoesDashDetail() {
                 <p>{porcao.ingredientes}</p>
                 <div className="flex justify-around w-full">
                     <p className="font-semibold">Valor:</p>
-                    <p>Meia R${porcao.valorM}</p>
-                    <p>Inteira R${porcao.valorI}</p>
+                    <p>Meia R${Number(porcao.valorM).toFixed(2).replace(".", ",")}</p>
+                    <p>Inteira R${Number(porcao.valorI).toFixed(2).replace(".", ",")}</p>
                 </div>
                 <button onClick={handleDeletePrato} className="bg-[#DB0007] w-4/5 mt-6 hover:opacity-75 text-white font-semibold py-2 rounded-md">
                     Excluir Porção

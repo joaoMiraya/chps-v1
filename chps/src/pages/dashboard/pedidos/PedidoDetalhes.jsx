@@ -65,7 +65,7 @@ function PedidoDetalhes() {
 
                     <span className="flex justify-between items-center">
                         <h2 className="text-2xl font-semibold text-start">Total:</h2>
-                        <p className="font-semibold">R$ {pedido.total.toFixed(2).replace(".", ",")}</p>
+                        <p className="font-semibold">R$ {Number(pedido.total).toFixed(2).replace(".", ",")}</p>
                     </span>
 
                     <span className={`${pedido.mesa === true ? 'hidden' : 'flex'} justify-between`}>
@@ -74,13 +74,13 @@ function PedidoDetalhes() {
                             ?
                             <p className="font-semibold">{pedido.pagamento}</p>
                             :
-                            < p className="font-semibold">{`R$ ${pedido.pagamento.toFixed(2).replace('.', ',')}`}</p>
+                            < p className="font-semibold">{`R$ ${Number(pedido.pagamento).toFixed(2).replace('.', ',')}`}</p>
                         }
                     </span>
 
                     <span className={`${typeof pedido.pagamento != 'number' ? 'hidden' : 'flex'}  justify-between`}>
                         <p className="font-semibold">Troco:</p>
-                        <p className="font-semibold">{`R$ ${(pedido.pagamento - pedido.total).toFixed(2).toString().replace('.', ',')}`}</p>
+                        <p className="font-semibold">{`R$ ${Number(pedido.pagamento - pedido.total).toFixed(2).replace('.', ',')}`}</p>
                     </span>
 
                     <div className="mt-4 flex justify-between">

@@ -31,11 +31,11 @@ function Pizzas() {
                             </div>
                             <div className="flex justify-between mt-4">
                                 <p className="font-semibold">Valor P:</p>
-                                <p>R${pizza.valorP}</p>
+                                <p>R${Number(pizza.valorP).toFixed(2).replace(".", ",")}</p>
                             </div>
                             <div className="flex justify-between mt-4">
                                 <p className="font-semibold">Valor F:</p>
-                                <p>R${pizza.valorF}</p>
+                                <p>R${Number(pizza.valorF).toFixed(2).replace(".", ",")}</p>
                             </div>
                         </Link>
                     </div>

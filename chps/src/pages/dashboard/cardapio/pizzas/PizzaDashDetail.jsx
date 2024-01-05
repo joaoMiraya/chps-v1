@@ -62,11 +62,11 @@ function PizzaDashDetail() {
                 <p>{pizza.ingredientes}</p>
                 <div className="flex justify-around w-full">
                     <p className="font-semibold">Valor Individual:</p>
-                    <p>R${pizza.valorP}</p>
+                    <p>R${Number(pizza.valorP).toFixed(2).replace(".", ",")}</p>
                 </div>
                 <div className="flex justify-around w-full">
                     <p className="font-semibold">Valor Família:</p>
-                    <p>R${pizza.valorF}</p>
+                    <p>R${Number(pizza.valorF).toFixed(2).replace(".", ",")}</p>
                 </div>
                 <button onClick={handleDeletePizza} className="bg-[#DB0007] w-4/5 mt-6 hover:opacity-75 text-white font-semibold py-2 rounded-md">
                     Excluir Pizza

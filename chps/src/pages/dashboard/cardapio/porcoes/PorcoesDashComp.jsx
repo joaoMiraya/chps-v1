@@ -13,7 +13,7 @@ function PorcoesDashComp() {
     useEffect(() => {
         dispatch(fetchPorcoes());
     }, [dispatch]);
-    console.log(porcoes);
+    
     if (!porcoes) {
         return <Loading />
     }
@@ -30,8 +30,8 @@ function PorcoesDashComp() {
                                 <p className="text-center">{porcao.ingredientes}</p>
                             </div>
                             <div className="flex justify-center mt-4">
-                                <p>Meia R${porcao.valorM}</p>
-                                <p>Inteira R${porcao.valorI}</p>
+                                <p>Meia R${Number(porcao.valorM).toFixed(2).replace(".", ",")}</p>
+                                <p>Inteira R${Number(porcao.valorI).toFixed(2).replace(".", ",")}</p>
                             </div>
                         </Link>
                     </div>

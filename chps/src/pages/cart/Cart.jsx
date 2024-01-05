@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import CartPlaceholder from './utils/CartPlaceholder';
 import { removeFromCart, clearCart } from '../../services/redux/cart/cartSlice';
-import { Link } from 'react-router-dom';
 import { lazy, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -24,8 +23,6 @@ function Cart() {
             behavior: 'smooth'
         });
     };
-
-    console.log(total);
 
     useEffect(() => {
         // Calcula o total inicial
@@ -65,19 +62,19 @@ function Cart() {
                         />
                     </div>
                     <div className={`${nextStep ? 'hidden' : 'flex'} flex-col`}>
-                        <div className='max-h-[15rem] border-b-2 border-solid border-gray-300 overflow-y-auto'>
+                        <div className='max-h-[15rem] min-h-[6rem] pt-6 border-b-2 border-solid border-gray-300 overflow-y-auto'>
                             {cartItems.map((cartItem) => {
-                                const { idPedido, classe } = cartItem;
+                                const { idPedido } = cartItem;
                                 return (
                                     <div className='relative' key={idPedido}>
-                                        <Link aria-label='Ver detalhes do item' tabIndex={0} to={`/carrinho/${classe + '/' + idPedido}`}>
-                                            <div className="w-[16rem] flex justify-between items-center rounded-lg h-[3rem] shadow-md p-2 border-solid border-[1px] border-gray-200">
-                                                <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
-                                                <p>R$ {Number(cartItem.valor).toFixed(2).replace('.', ',')}</p>
-                                            </div>
-                                        </Link>
-                                        <div className='flex justify-end'>
-                                            <span tabIndex={0} aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(cartItem)} className='underline text-red-400'>Remover</span>
+
+                                        <div className=' rounded-full w-6 h-6 flex justify-center items-center bg-red-400 absolute top-[-10px] right-0'>
+                                            <span className='text-white font-semibold' tabIndex={0} aria-label='Remover item do carrinho' onClick={() => handleDeleteFromCart(cartItem)}>X</span>
+                                        </div>
+
+                                        <div className="w-[16rem] h-[4rem] flex justify-between items-center rounded-lg shadow-md p-2 border-solid border-[1px] border-gray-200">
+                                            <p>{cartItem.qnt + ' ' + cartItem.nome}</p>
+                                            <p>R$ {Number(cartItem.valor).toFixed(2).replace('.', ',')}</p>
                                         </div>
                                     </div>
                                 )

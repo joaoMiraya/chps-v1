@@ -66,7 +66,7 @@ export const fetchPedidosFeitos = createAsyncThunk(
         try {
             const user = auth.currentUser;
             const pedidosRef = collection(db, "pedidos");
-            const q =  query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
+            const q = query(pedidosRef, where("pedido.uid", "==", user?.uid), orderBy("pedido.data", "desc"), limit(3));
             const querySnapshot = await getDocs(q);
             let data = [];
             querySnapshot.forEach((doc) => {
@@ -138,21 +138,28 @@ export const setOnCourse = createAsyncThunk(
     }
 );
 
-//ATUALIZA A MESA COM O NOVO PEDIDO -- REVISAR!!!!
-export const updateOrderMesa = createAsyncThunk(
-    'pedidos/mesa-update',
-    async ({ /* Key, */ Order }, { rejectWithValue }) => {
-        const db = getDatabase();
-        const updateOrderKey = push(child(ref(db), 'pedidos-andamento')).key;
+//ADICIONA O VALOR PARCIAL DO PAGAMENTO PARA SER DESCONTADO DO TOTAL
+export const setPartialPayment = createAsyncThunk(
+    'pedidos/partial-payment',
+    async ({ Key, Order, Value }, { rejectWithValue }) => {
         try {
-            const updates = {};
-            updates['/pedidos-andamento/' + updateOrderKey] = Order;
-            /*     const dbRef = ref(db, `pedidos-andamento/${Key}`);
-    
+            const db = getDatabase();
+            const dbRef = ref(db, `pedidos-andamento/${Key}`);
+            if ('pago' in Order) {
+                let soma = Order.pago + Value;
                 const updates = {
-                    ...Order[0],
-                } */
-            return update(ref(db), updates);
+                    ...Order,
+                    pago: soma,
+                }
+                return update(dbRef, updates)
+            } else {
+                const updates = {
+                    ...Order,
+                    pago: Value,
+                }
+                return update(dbRef, updates)
+            }
+
         } catch (error) {
             console.error(error.message);
             return rejectWithValue(error.message);
@@ -176,6 +183,29 @@ export const removeOnCourse = createAsyncThunk(
             let trash = { status, motoboy }
             console.log(`Itens removidos ${trash}`);
             return update(dbRef, updates)
+        } catch (error) {
+            console.error(error.message);
+            return rejectWithValue(error.message);
+        }
+
+    }
+);
+
+//ATUALIZA A MESA COM O NOVO PEDIDO -- REVISAR!!!!
+export const updateOrderMesa = createAsyncThunk(
+    'pedidos/mesa-update',
+    async ({ /* Key, */ Order }, { rejectWithValue }) => {
+        const db = getDatabase();
+        const updateOrderKey = push(child(ref(db), 'pedidos-andamento')).key;
+        try {
+            const updates = {};
+            updates['/pedidos-andamento/' + updateOrderKey] = Order;
+            /*     const dbRef = ref(db, `pedidos-andamento/${Key}`);
+    
+                const updates = {
+                    ...Order[0],
+                } */
+            return update(ref(db), updates);
         } catch (error) {
             console.error(error.message);
             return rejectWithValue(error.message);

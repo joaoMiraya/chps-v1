@@ -8,7 +8,6 @@ function AcrescimoSection({ quantities, setQuantities, acrescimos }) {
         acrescimos: PropTypes.array.isRequired,
     };
 
-
     const handleDecrease = (acrescimoId) => {
         setQuantities((prevQuantities) => {
             const updatedQuantities = {
@@ -24,8 +23,6 @@ function AcrescimoSection({ quantities, setQuantities, acrescimos }) {
     };
 
     const handleIncrease = (acrescimoId) => {
-
-
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
             [acrescimoId]: (prevQuantities[acrescimoId] || 0) + 1
